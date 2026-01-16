@@ -19,6 +19,7 @@
 
 # production
 /build
+/to_migrate_to_nextjs
 
 # misc
 .DS_Store
