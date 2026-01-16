@@ -1,5 +1,5 @@
 services:
-  postgres:
+  dokkao:
     image: postgres:16
     container_name: dokkao-app-postgres
     restart: unless-stopped
@@ -30,7 +30,7 @@ services:
       NEXTAUTH_URL: ${NEXTAUTH_URL}
       NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
     depends_on:
-      postgres:
+      dokkao:
         condition: service_healthy
     command: >
       sh -c "
