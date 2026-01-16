@@ -52,7 +52,6 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/generated ./lib/generated
 COPY --from=builder /app/prisma.config.ts ./prisma.config.ts
-COPY --from=builder /app/scripts ./scripts
 COPY package.json pnpm-lock.yaml ./
 
 # Instalar solo dependencias de producción
