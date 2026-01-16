@@ -110,10 +110,11 @@
 
 ### **Paso 3: Componentes Base con Shadcn**
 
-- [ ] Identificar componentes UI necesarios
-- [ ] Agregar vía MCP Shadcn
-- [ ] Aplicar glass styles personalizados
-- [ ] Crear variants necesarios
+- [x] Identificar componentes UI necesarios
+- [x] Agregar vía MCP Shadcn (sidebar, tooltip, skeleton, sheet)
+- [x] Aplicar glass styles personalizados
+- [x] Crear estructura de Kanban con fondo SVG
+- [ ] Crear variants necesarios adicionales
 
 ### **Paso 4: Features (Iterativo)**
 

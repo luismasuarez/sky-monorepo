@@ -53,7 +53,7 @@ export function AppSidebar() {
           ? [{ title: 'Equipos', icon: IconUsers, href: '/teams' }]
           : []
         ),
-        { title: 'Tareas', icon: IconChecklist, href: '/tasks' },
+        { title: 'Kanban', icon: IconChecklist, href: '/kanban' },
         { title: 'Bookmarks', icon: IconBookmark, href: '/bookmarks' },
         { title: 'Servidores', icon: IconServer, href: '/servers' },
       ],
