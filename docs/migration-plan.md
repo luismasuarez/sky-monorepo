@@ -102,11 +102,11 @@
 
 ### **Paso 2: Layout Shell**
 
-- [ ] app/layout.tsx (Provider tree)
-- [ ] Sidebar component (Client Component)
-- [ ] Dashboard layout structure
-- [ ] Theme provider
-- [ ] Navigation básica (sin rutas funcionales)
+- [x] app/layout.tsx (Provider tree)
+- [x] Sidebar component (Client Component)
+- [x] Dashboard layout structure
+- [x] Theme provider
+- [x] Navigation básica (sin rutas funcionales)
 
 ### **Paso 3: Componentes Base con Shadcn**
 
@@ -248,7 +248,7 @@ Para cada feature:
 
 - [x] Plan definido
 - [x] Setup base
-- [ ] Layout shell
+- [x] Layout shell
 - [ ] Primer feature migrado
 - [ ] Features restantes
 - [ ] Testing completo

@@ -118,10 +118,12 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: oklch(from var(--ring) l c h / 50%);
   }
   body {
-    @apply bg-background text-foreground;
+    background-color: var(--background);
+    color: var(--foreground);
   }
 }
 
@@ -135,43 +137,24 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   }
 
-  .backdrop-blur-glass {
-    backdrop-filter: blur(12px) saturate(180%);
-  }
-
-  .glass-light {
-    background: rgba(255, 255, 255, 0.70);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-  }
-
-  .glass-dark {
-    background: rgba(15, 23, 42, 0.70);
-    backdrop-filter: blur(10px);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.1);
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-
   .glass-panel {
-    @apply backdrop-blur-glass;
     background: oklch(from var(--card) l c h / 0.7);
+    backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid oklch(from var(--border) l c h / 0.3);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   }
 
   .glass-card {
-    @apply backdrop-blur-glass rounded-xl;
     background: oklch(from var(--card) l c h / 0.6);
+    backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid oklch(from var(--border) l c h / 0.2);
     box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+    border-radius: 0.75rem;
   }
 
   .glass-button {
-    @apply backdrop-blur-glass;
     background: oklch(from var(--primary) l c h / 0.8);
+    backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid oklch(from var(--primary) l c h / 0.5);
     transition: all 0.3s ease;
   }
@@ -182,8 +165,8 @@
   }
 
   .glass-input {
-    @apply backdrop-blur-glass;
     background: oklch(from var(--input) l c h / 0.5);
+    backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid oklch(from var(--border) l c h / 0.3);
   }
 
@@ -193,8 +176,8 @@
   }
 
   .glass-sidebar {
-    @apply backdrop-blur-glass;
     background: oklch(from var(--sidebar) l c h / 0.75);
+    backdrop-filter: blur(12px) saturate(180%);
     border-right: 1px solid oklch(from var(--sidebar-border) l c h / 0.3);
   }
 }
