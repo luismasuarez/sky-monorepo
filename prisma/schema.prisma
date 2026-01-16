@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../lib/generated/prisma"
@@ -14,18 +11,214 @@ datasource db {
   provider = "postgresql"
 }
 
+// ==================== USER ====================
+
 model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
-  name  String?
-  posts Post[]
+  id        String   @id @default(cuid())
+  email     String   @unique
+  fullName  String
+  avatarUrl String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  workspaceMembers    WorkspaceMember[]
+  projectMembers      ProjectMember[]
+  createdOrganizations Organization[]   @relation("CreatedOrganizations")
+  createdProjects     Project[]        @relation("CreatedProjects")
+  createdTasks        Task[]           @relation("CreatedTasks")
+  assignedTasks       Task[]           @relation("AssignedTasks")
+  personalWorkspaces  Workspace[]      @relation("PersonalWorkspaces")
+
+  @@index([email])
+  @@map("users")
 }
 
-model Post {
-  id        Int      @default(autoincrement()) @id
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+// ==================== ORGANIZATION ====================
+
+model Organization {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  logo        String?
+  plan        String   @default("starter") // 'starter' | 'professional' | 'enterprise'
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   String
+
+  // JSON fields for limits and features
+  limits      Json     @default("{\"maxWorkspaces\": 2, \"maxProjects\": 20, \"maxMembers\": 10, \"features\": {\"teams\": true, \"advancedReports\": false, \"sso\": false, \"customDomain\": false}}")
+
+  // Relations
+  creator     User       @relation("CreatedOrganizations", fields: [createdBy], references: [id])
+  workspaces  Workspace[]
+
+  @@index([slug])
+  @@index([createdBy])
+  @@map("organizations")
+}
+
+// ==================== WORKSPACE ====================
+
+model Workspace {
+  id             String   @id @default(cuid())
+  name           String
+  description    String?
+  organizationId String?
+  ownerUserId    String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  organization    Organization?     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  owner           User?             @relation("PersonalWorkspaces", fields: [ownerUserId], references: [id], onDelete: Cascade)
+  members         WorkspaceMember[]
+  projects        Project[]
+  teams           Team[]
+  tasks           Task[]
+
+  @@index([organizationId])
+  @@index([ownerUserId])
+  @@map("workspaces")
+}
+
+// ==================== WORKSPACE MEMBER ====================
+
+model WorkspaceMember {
+  id          String   @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        String   // 'owner' | 'admin' | 'member' | 'viewer'
+  status      String   @default("active") // 'active' | 'invited' | 'revoked'
+  invitedBy   String?
+  invitedAt   DateTime?
+  joinedAt    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  workspace   Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+  @@index([workspaceId])
+  @@index([userId])
+  @@index([status])
+  @@map("workspace_members")
+}
+
+// ==================== TEAM ====================
+
+model Team {
+  id          String   @id @default(cuid())
+  workspaceId String
+  name        String
+  description String?
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  workspace   Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  projects    Project[]
+
+  @@index([workspaceId])
+  @@map("teams")
+}
+
+// ==================== PROJECT ====================
+
+model Project {
+  id          String   @id @default(cuid())
+  workspaceId String
+  teamId      String?
+  name        String
+  description String?
+  status      String   @default("planning") // 'planning' | 'active' | 'on-hold' | 'completed' | 'archived'
+  priority    String   @default("medium")   // 'low' | 'medium' | 'high' | 'urgent'
+  startDate   DateTime?
+  dueDate     DateTime?
+  completedAt DateTime?
+  progress    Int      @default(0) // 0-100
+  tags        String[] @default([])
+  color       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   String
+
+  // Relations
+  workspace   Workspace       @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  team        Team?           @relation(fields: [teamId], references: [id], onDelete: SetNull)
+  creator     User            @relation("CreatedProjects", fields: [createdBy], references: [id])
+  members     ProjectMember[]
+  tasks       Task[]
+
+  @@index([workspaceId])
+  @@index([teamId])
+  @@index([status])
+  @@index([createdBy])
+  @@map("projects")
+}
+
+// ==================== PROJECT MEMBER ====================
+
+model ProjectMember {
+  id        String   @id @default(cuid())
+  projectId String
+  userId    String
+  role      String   // 'lead' | 'member' | 'viewer'
+  joinedAt  DateTime @default(now())
+
+  // Relations
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([projectId])
+  @@index([userId])
+  @@map("project_members")
+}
+
+// ==================== TASK ====================
+
+model Task {
+  id               String    @id @default(cuid())
+  projectId        String
+  workspaceId      String
+  teamId           String?
+  title            String
+  description      String?
+  status           String    @default("todo") // 'todo' | 'in-progress' | 'done'
+  priority         String    @default("medium") // 'low' | 'medium' | 'high'
+  assignedTo       String?
+  estimatedTime    BigInt?   // in milliseconds
+  startTime        DateTime?
+  completedTime    DateTime?
+  totalTime        BigInt?
+  pausedTime       BigInt?
+  isPaused         Boolean   @default(false)
+  lastPauseStart   DateTime?
+  isOvertime       Boolean   @default(false)
+  notificationSent Boolean   @default(false)
+  quoteAmount      Float?
+  tags             String[]  @default([])
+  dueDate          DateTime?
+  order            Int       @default(0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  createdBy        String
+
+  // Relations
+  project         Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  workspace       Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  creator         User      @relation("CreatedTasks", fields: [createdBy], references: [id])
+  assignee        User?     @relation("AssignedTasks", fields: [assignedTo], references: [id])
+
+  @@index([projectId])
+  @@index([workspaceId])
+  @@index([status])
+  @@index([assignedTo])
+  @@index([createdBy])
+  @@map("tasks")
 }

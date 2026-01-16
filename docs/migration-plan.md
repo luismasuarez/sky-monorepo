@@ -95,10 +95,10 @@
 
 ### **Paso 1: Setup Base**
 
-- [ ] Configurar Prisma (schema inicial)
-- [ ] Configurar React Query Provider
-- [ ] Migrar globals.css con estilos glass
-- [ ] Configurar variables de entorno
+- [x] Configurar Prisma (schema inicial)
+- [x] Configurar React Query Provider
+- [x] Migrar globals.css con estilos glass
+- [x] Configurar variables de entorno
 
 ### **Paso 2: Layout Shell**
 
@@ -247,7 +247,7 @@ Para cada feature:
 ## 🚦 Estado Actual
 
 - [x] Plan definido
-- [ ] Setup base
+- [x] Setup base
 - [ ] Layout shell
 - [ ] Primer feature migrado
 - [ ] Features restantes
