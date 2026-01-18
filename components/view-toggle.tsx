@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  IconBookmark,
-  IconChartBar,
-  IconLayoutKanban,
-  IconServer
-} from "@tabler/icons-react"
+import { IconChartBar, IconBookmark, IconLayoutKanban, IconServer } from "@tabler/icons-react"
 
 export type ViewType = "kanban" | "bookmarks" | "servers" | "metrics"
 
@@ -65,6 +60,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
             <div className="relative flex items-center">
               <IconLayoutKanban
                 className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 transition-all duration-200 flex-shrink-0 ${activeView === "kanban" ? "scale-110" : ""}`}
+                stroke={2}
               />
               <span className="hidden sm:inline">Kanban</span>
               <span className="sm:hidden">Tasks</span>
@@ -110,6 +106,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
           >
             <IconBookmark
               className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 transition-all duration-200 flex-shrink-0 ${activeView === "bookmarks" ? "scale-110" : ""}`}
+              stroke={2}
             />
             <span className="hidden sm:inline">Bookmarks</span>
             <span className="sm:hidden">Links</span>
@@ -128,6 +125,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
           >
             <IconServer
               className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 transition-all duration-200 flex-shrink-0 ${activeView === "servers" ? "scale-110" : ""}`}
+              stroke={2}
             />
             <span className="hidden sm:inline">Servers</span>
             <span className="sm:hidden">Servers</span>
@@ -146,6 +144,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
           >
             <IconChartBar
               className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 transition-all duration-200 flex-shrink-0 ${activeView === "metrics" ? "scale-110" : ""}`}
+              stroke={2}
             />
             <span className="hidden sm:inline">Metrics</span>
             <span className="sm:hidden">Stats</span>

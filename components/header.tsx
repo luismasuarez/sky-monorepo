@@ -5,7 +5,7 @@ import { SidebarTrigger } from '@/components/ui/sidebar'
 import useViewToggle from '@/hooks/useViewToggle'
 import Clock from './clock'
 import DashboardWidget from './dashboard-widget'
-import HeaderMenuControls from './header-menu-ontrols'
+import HeaderMenuControls from './header-menu-controls'
 import ViewToggle from './view-toggle'
 
 type HeaderProps = {
@@ -45,14 +45,12 @@ export function Header({ showLegacyMenu }: HeaderProps) {
 	}
 
 	return (
-		<header className="flex h-16 shrink-0 items-center gap-2 border-b glass-panel">
-			<div className="flex items-center gap-2 px-4">
-				<SidebarTrigger className="-ml-1" />
-				<Separator orientation="vertical" className="mr-2 h-4" />
-				{/* TODO: Aquí irán los selectores de Organization y Project */}
-				<div className="flex items-center gap-2">
-					<span className="text-sm text-muted-foreground">Workspace Selector</span>
-				</div>
+		<header className="glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 py-3 gap-2 w-full max-w-7xl mx-auto mt-4 mb-6">
+			<SidebarTrigger className="-ml-1" />
+			<Separator orientation="vertical" className="mr-2 h-4" />
+			{/* TODO: Aquí irán los selectores de Organization y Project */}
+			<div className="flex items-center gap-2 flex-1">
+				<span className="text-sm text-slate-700 dark:text-slate-200/80 font-semibold">Workspace Selector</span>
 			</div>
 		</header>
 	)
