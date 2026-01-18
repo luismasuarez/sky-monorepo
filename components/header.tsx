@@ -6,12 +6,7 @@ import DashboardWidget from './dashboard-widget'
 import HeaderMenuControls from './header-menu-controls'
 import ViewToggle from './view-toggle'
 
-type HeaderProps = {
-	showLegacyMenu?: boolean
-}
-
-
-export function Header({ showLegacyMenu }: HeaderProps) {
+export function Header() {
 	// Legacy layout es ahora el oficial
 	const { activeView, handleViewChange } = useViewToggle()
 
