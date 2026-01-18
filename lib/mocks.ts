@@ -25,12 +25,13 @@ export interface KanbanTaskMock {
   dueDate?: number;
   createdAt: number;
   updatedAt: number;
-  createdBy: string;
+	createdBy: string;
 }
 
 export interface KanbanMockData {
   todo: KanbanTaskMock[];
   inProgress: KanbanTaskMock[];
+  review: KanbanTaskMock[];
   done: KanbanTaskMock[];
 }
 
@@ -69,6 +70,7 @@ export const kanbanMockData: KanbanMockData = {
       createdBy: "user-1"
     }
   ],
+  review: [],
   done: [
     {
       id: "task-3",

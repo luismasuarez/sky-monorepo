@@ -6,10 +6,10 @@ import KanbanCard from "./kanban-card";
 export interface KanbanColumnProps {
   title: string;
   items: KanbanTaskMock[];
-  columnKey: "todo" | "inProgress" | "done";
+  columnKey: "todo" | "inProgress" | "review" | "done";
   indicatorColor: string;
-  onAddTask?: (column: "todo" | "inProgress" | "done") => void;
-  onEditTask?: (task: KanbanTaskMock, column: "todo" | "inProgress" | "done") => void;
+  onAddTask?: (column: "todo" | "inProgress" | "review" | "done") => void;
+  onEditTask?: (task: KanbanTaskMock, column: "todo" | "inProgress" | "review" | "done") => void;
 }
 
 export function KanbanColumn({

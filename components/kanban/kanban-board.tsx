@@ -10,7 +10,7 @@ export interface KanbanBoardProps {
 export function KanbanBoard({ kanbanData, onAddTask, onEditTask }: KanbanBoardProps) {
   return (
     <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 items-stretch w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-stretch w-full">
         <KanbanColumn
           title="To Do"
           items={kanbanData.todo}
@@ -24,6 +24,14 @@ export function KanbanBoard({ kanbanData, onAddTask, onEditTask }: KanbanBoardPr
           items={kanbanData.inProgress}
           columnKey="inProgress"
           indicatorColor="bg-yellow-400"
+          onAddTask={onAddTask}
+          onEditTask={onEditTask}
+        />
+        <KanbanColumn
+          title="Review"
+          items={kanbanData.review}
+          columnKey="review"
+          indicatorColor="bg-blue-400"
           onAddTask={onAddTask}
           onEditTask={onEditTask}
         />
