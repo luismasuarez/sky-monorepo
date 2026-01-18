@@ -42,7 +42,6 @@ export function AppSidebar() {
     {
       title: 'General',
       items: [
-        { title: 'Workspace', icon: IconStack2, href: '/workspace' },
         { title: 'Dashboard', icon: IconHome, href: '/' },
       ],
     },
