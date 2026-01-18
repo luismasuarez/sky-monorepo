@@ -1,6 +1,11 @@
 "use client"
 
-import { BarChart3, Bookmark, Kanban, Server } from "lucide-react"
+import {
+  IconBookmark,
+  IconChartBar,
+  IconLayoutKanban,
+  IconServer
+} from "@tabler/icons-react"
 
 export type ViewType = "kanban" | "bookmarks" | "servers" | "metrics"
 
@@ -58,7 +63,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
             `}
           >
             <div className="relative flex items-center">
-              <Kanban
+              <IconLayoutKanban
                 className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 transition-all duration-200 flex-shrink-0 ${activeView === "kanban" ? "scale-110" : ""}`}
               />
               <span className="hidden sm:inline">Kanban</span>
@@ -103,7 +108,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
               }
             `}
           >
-            <Bookmark
+            <IconBookmark
               className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 transition-all duration-200 flex-shrink-0 ${activeView === "bookmarks" ? "scale-110" : ""}`}
             />
             <span className="hidden sm:inline">Bookmarks</span>
@@ -121,7 +126,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
               }
             `}
           >
-            <Server
+            <IconServer
               className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 transition-all duration-200 flex-shrink-0 ${activeView === "servers" ? "scale-110" : ""}`}
             />
             <span className="hidden sm:inline">Servers</span>
@@ -139,7 +144,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
               }
             `}
           >
-            <BarChart3
+            <IconChartBar
               className={`w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2 transition-all duration-200 flex-shrink-0 ${activeView === "metrics" ? "scale-110" : ""}`}
             />
             <span className="hidden sm:inline">Metrics</span>

@@ -22,7 +22,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         />
 
         {/* Top Bar */}
-        <Header />
+        <Header showLegacyMenu={true} />
 
         {/* Main Content */}
         <div className="flex flex-1 flex-col p-4">
