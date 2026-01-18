@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react"
 
-export type ViewType = "kanban" | "bookmarks" | "servers" | "metrics"
+export type ViewType = "kanban" | "links" | "credentials" | "metrics"
 
 const useViewToggle = () => {
   const [activeView, setActiveView] = useState<ViewType>("kanban")
