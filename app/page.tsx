@@ -1,6 +1,6 @@
 import { DashboardLayout } from '@/components/dashboard-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { IconChartBar, IconFolder, IconChecklist, IconUsers } from '@tabler/icons-react'
+import { IconChartBar, IconChecklist, IconFolder, IconUsers } from '@tabler/icons-react'
 
 export default function Page() {
   return (
