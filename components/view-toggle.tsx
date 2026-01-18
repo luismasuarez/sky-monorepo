@@ -5,7 +5,7 @@ import { IconBookmark, IconChartBar, IconLayoutKanban, IconServer } from "@table
 import { useEffect, useRef, useState } from 'react'
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
 
-export type ViewType = "kanban" | "bookmarks" | "servers" | "metrics"
+export type ViewType = "kanban" | "links" | "credentials" | "metrics"
 
 interface ViewToggleProps {
   activeView: ViewType
@@ -19,7 +19,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
   const hasNotifications = kanbanNotifications.warning > 0 || kanbanNotifications.overtime > 0
 
   // Sliding indicator logic
-  const tabKeys: ViewType[] = ["kanban", "bookmarks", "servers", "metrics"]
+  const tabKeys: ViewType[] = ["kanban", "links", "credentials", "metrics"]
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
   const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 })
 
@@ -84,12 +84,12 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
                 </span>
               )}
             </>}
-            {tab === "bookmarks" && <><IconBookmark className="w-4 h-4" stroke={1.7} />
-              <span className="hidden sm:inline">Bookmarks</span>
+            {tab === "links" && <><IconBookmark className="w-4 h-4" stroke={1.7} />
+              <span className="hidden sm:inline">Links</span>
               <span className="sm:hidden">Links</span></>}
-            {tab === "servers" && <><IconServer className="w-4 h-4" stroke={1.7} />
-              <span className="hidden sm:inline">Servers</span>
-              <span className="sm:hidden">Servers</span></>}
+            {tab === "credentials" && <><IconServer className="w-4 h-4" stroke={1.7} />
+              <span className="hidden sm:inline">Credentials</span>
+              <span className="sm:hidden">Creds</span></>}
             {tab === "metrics" && <><IconChartBar className="w-4 h-4" stroke={1.7} />
               <span className="hidden sm:inline">Metrics</span>
               <span className="sm:hidden">Stats</span></>}
