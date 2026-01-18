@@ -1,8 +1,9 @@
 "use client"
 
-import { IconBookmark, IconChartBar, IconLayoutKanban, IconServer } from "@tabler/icons-react"
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
 import { cn } from '@/lib/utils'
+import { IconBookmark, IconChartBar, IconLayoutKanban, IconServer } from "@tabler/icons-react"
+import { useEffect, useRef, useState } from 'react'
+import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
 
 export type ViewType = "kanban" | "bookmarks" | "servers" | "metrics"
 
@@ -13,10 +14,29 @@ interface ViewToggleProps {
     kanban?: { warning: number; overtime: number }
   }
 }
-
 export default function ViewToggle({ activeView, onViewChange, notifications }: ViewToggleProps) {
   const kanbanNotifications = notifications?.kanban || { warning: 0, overtime: 0 }
   const hasNotifications = kanbanNotifications.warning > 0 || kanbanNotifications.overtime > 0
+
+  // Sliding indicator logic
+  const tabKeys: ViewType[] = ["kanban", "bookmarks", "servers", "metrics"]
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 })
+
+  useEffect(() => {
+    const idx = tabKeys.indexOf(activeView)
+    const node = tabRefs.current[idx]
+    if (node && node.parentElement) {
+      const { left, width } = node.getBoundingClientRect()
+      const parentLeft = node.parentElement.getBoundingClientRect().left
+      setIndicatorStyle({ left: left - parentLeft, width })
+    }
+  }, [activeView])
+
+  // Helper for ref assignment (must return void)
+  const setTabRef = (idx: number) => (el: HTMLButtonElement | null): void => {
+    tabRefs.current[idx] = el
+  }
 
   return (
     <Tabs
@@ -25,66 +45,56 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
       className="w-full flex justify-center"
     >
       <TabsList
-        className="glass-light dark:glass-dark rounded-md shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-[44px]"
+        className="glass-light dark:glass-dark rounded-md shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-[44px] relative overflow-hidden"
       >
-        <TabsTrigger
-          value="kanban"
-          className={cn(
-            "flex-1 flex items-center justify-center gap-1 relative text-base font-semibold transition-colors rounded-md",
-            "data-[state=active]:text-white data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-400 data-[state=active]:shadow-sm"
-          )}
-        >
-          <IconLayoutKanban className="w-4 h-4" stroke={1.7} />
-          <span className="hidden sm:inline">Kanban</span>
-          <span className="sm:hidden">Tasks</span>
-          {hasNotifications && (
-            <span className="absolute -top-1 -right-2 flex gap-0.5">
-              {kanbanNotifications.overtime > 0 && (
-                <span className="w-3 h-3 bg-red-500 dark:bg-red-400 rounded-full flex items-center justify-center text-[8px] text-white font-bold animate-pulse">
-                  {kanbanNotifications.overtime > 9 ? "9+" : kanbanNotifications.overtime}
+        {/* Sliding indicator */}
+        <div
+          className="absolute top-1 left-0 h-[calc(100%-0.5rem)] bg-blue-600 dark:bg-blue-400 rounded-md z-0 transition-all duration-300 ease-in-out"
+          style={{
+            width: `${indicatorStyle.width}px`,
+            left: `${indicatorStyle.left}px`,
+            pointerEvents: 'none',
+          }}
+        />
+        {tabKeys.map((tab, idx) => (
+          <TabsTrigger
+            key={tab}
+            value={tab}
+            ref={setTabRef(idx)}
+            className={cn(
+              "flex-1 flex items-center justify-center gap-1 relative text-base font-semibold rounded-md z-10 transition-colors duration-200",
+              activeView === tab ? "text-white" : ""
+            )}
+          >
+            {tab === "kanban" && <><IconLayoutKanban className="w-4 h-4" stroke={1.7} />
+              <span className="hidden sm:inline">Kanban</span>
+              <span className="sm:hidden">Tasks</span>
+              {hasNotifications && (
+                <span className="absolute -top-1 -right-2 flex gap-0.5">
+                  {kanbanNotifications.overtime > 0 && (
+                    <span className="w-3 h-3 bg-red-500 dark:bg-red-400 rounded-full flex items-center justify-center text-[8px] text-white font-bold animate-pulse">
+                      {kanbanNotifications.overtime > 9 ? "9+" : kanbanNotifications.overtime}
+                    </span>
+                  )}
+                  {kanbanNotifications.warning > 0 && (
+                    <span className="w-3 h-3 bg-yellow-500 dark:bg-yellow-400 rounded-full flex items-center justify-center text-[8px] text-white font-bold">
+                      {kanbanNotifications.warning > 9 ? "9+" : kanbanNotifications.warning}
+                    </span>
+                  )}
                 </span>
               )}
-              {kanbanNotifications.warning > 0 && (
-                <span className="w-3 h-3 bg-yellow-500 dark:bg-yellow-400 rounded-full flex items-center justify-center text-[8px] text-white font-bold">
-                  {kanbanNotifications.warning > 9 ? "9+" : kanbanNotifications.warning}
-                </span>
-              )}
-            </span>
-          )}
-        </TabsTrigger>
-        <TabsTrigger
-          value="bookmarks"
-          className={cn(
-            "flex-1 flex items-center justify-center gap-1 text-base font-semibold transition-colors rounded-md",
-            "data-[state=active]:text-white data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-400 data-[state=active]:shadow-sm"
-          )}
-        >
-          <IconBookmark className="w-4 h-4" stroke={1.7} />
-          <span className="hidden sm:inline">Bookmarks</span>
-          <span className="sm:hidden">Links</span>
-        </TabsTrigger>
-        <TabsTrigger
-          value="servers"
-          className={cn(
-            "flex-1 flex items-center justify-center gap-1 text-base font-semibold transition-colors rounded-md",
-            "data-[state=active]:text-white data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-400 data-[state=active]:shadow-sm"
-          )}
-        >
-          <IconServer className="w-4 h-4" stroke={1.7} />
-          <span className="hidden sm:inline">Servers</span>
-          <span className="sm:hidden">Servers</span>
-        </TabsTrigger>
-        <TabsTrigger
-          value="metrics"
-          className={cn(
-            "flex-1 flex items-center justify-center gap-1 text-base font-semibold transition-colors rounded-md",
-            "data-[state=active]:text-white data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-400 data-[state=active]:shadow-sm"
-          )}
-        >
-          <IconChartBar className="w-4 h-4" stroke={1.7} />
-          <span className="hidden sm:inline">Metrics</span>
-          <span className="sm:hidden">Stats</span>
-        </TabsTrigger>
+            </>}
+            {tab === "bookmarks" && <><IconBookmark className="w-4 h-4" stroke={1.7} />
+              <span className="hidden sm:inline">Bookmarks</span>
+              <span className="sm:hidden">Links</span></>}
+            {tab === "servers" && <><IconServer className="w-4 h-4" stroke={1.7} />
+              <span className="hidden sm:inline">Servers</span>
+              <span className="sm:hidden">Servers</span></>}
+            {tab === "metrics" && <><IconChartBar className="w-4 h-4" stroke={1.7} />
+              <span className="hidden sm:inline">Metrics</span>
+              <span className="sm:hidden">Stats</span></>}
+          </TabsTrigger>
+        ))}
       </TabsList>
     </Tabs>
   )
