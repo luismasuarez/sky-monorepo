@@ -15,7 +15,11 @@ Se basa en la premisa:
 ## 1. Tipos de cuenta (AccountType)
 
 ```ts
-AccountType = 'ORGANIZATION' | 'FREELANCER'
+// Ahora como enum en Prisma:
+enum AccountType {
+  ORGANIZATION
+  FREELANCER
+}
 ```
 
 ### 1.1. ORGANIZATION
@@ -45,7 +49,7 @@ model User {
   email       String   @unique
   fullName    String
   avatarUrl   String?
-  accountType String   @default("FREELANCER") // 'FREELANCER' | 'ORGANIZATION'
+  accountType AccountType   @default(FREELANCER)
   // ...existing code...
 }
 ```
@@ -55,7 +59,13 @@ model User {
 ## 2. Planes (PlanType)
 
 ```ts
-PlanType = 'FREE' | 'PRO' | 'TEAM' | 'ENTERPRISE'
+// Ahora como enum en Prisma:
+enum PlanType {
+  FREE
+  PRO
+  TEAM
+  ENTERPRISE
+}
 ```
 
 - Los **planes no desbloquean features nuevas** a nivel de Project/Task.
@@ -104,7 +114,7 @@ model Organization {
   id           String   @id @default(cuid())
   name         String
   slug         String   @unique
-  plan         String   @default("FREE") // 'FREE' | 'PRO' | 'TEAM' | 'ENTERPRISE'
+  plan         PlanType   @default(FREE)
   // ...existing code...
 }
 ```
@@ -130,7 +140,7 @@ model Workspace {
   description    String?
   organizationId String?  // null cuando ownerType = 'USER'
   ownerUserId    String?  // null cuando ownerType = 'ORGANIZATION'
-  ownerType      String   // 'ORGANIZATION' | 'USER'
+  ownerType      OwnerType // enum OwnerType { ORGANIZATION USER }
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -215,11 +225,11 @@ La restricción `workspace.ownerType === 'ORGANIZATION'` se aplica en la capa de
 
 ### 6.1. Organization (tenant)
 
-Roles (vía `OrganizationMembership`):
+Roles (vía `OrganizationMembership`, enum OrgRole):
 
-- `owner`
-- `admin`
-- `member`
+- `OWNER`
+- `ADMIN`
+- `MEMBER`
 
 Responsabilidades:
 
@@ -234,12 +244,12 @@ Responsabilidades:
 
 ### 6.2. Workspace
 
-Roles (vía `WorkspaceMember`):
+Roles (vía `WorkspaceMember`, enum WorkspaceRole):
 
-- `owner`
-- `admin`
-- `contributor`
-- `viewer`
+- `OWNER`
+- `ADMIN`
+- `CONTRIBUTOR`
+- `VIEWER`
 
 Uso típico:
 
@@ -252,11 +262,13 @@ Uso típico:
 
 ### 6.3. Project
 
-Roles (vía `ProjectMember`):
+Roles (vía `ProjectMember`, enum ProjectRole):
 
-- `manager`
-- `contributor`
-- `viewer`
+- `MANAGER`
+- `CONTRIBUTOR`
+- `VIEWER`
+
+> **Nota:** `ProjectMember` permite invitar freelancers externos a proyectos concretos, sin requerir OrganizationMembership. Estos miembros cuentan para los límites de plan.
 
 Uso típico:
 
@@ -364,13 +376,16 @@ export function canInviteUser(params: {
   plan: PlanType;
   currentMemberCount: number;
 }): boolean {
-  // Freelancer FREE: sin invitaciones
+
+  // Freelancer FREE: sin invitaciones salvo ProjectMember (colaboración puntual)
   if (params.accountType === 'FREELANCER') return false;
 
   const limits = PLAN_LIMITS[params.plan];
   if (limits.maxMembers === 'UNLIMITED') return true;
 
   return params.currentMemberCount < limits.maxMembers;
+
+  // Los ProjectMember externos (freelancers invitados) también cuentan para el límite de miembros activos.
 }
 ```
 
@@ -386,4 +401,4 @@ export function canInviteUser(params: {
   - Proyectos/Tasks/Links/Credentials ilimitados.
 - Planes de pago amplían:
   - Número de workspaces.
-  - Número de usuarios.
+  - Número de usuarios (OrganizationMembership + ProjectMember externos).

@@ -1,10 +1,10 @@
-# Dokkap – Roadmap Multi‑Tenant (Organization → Workspace → Project)
+# Dokkap – Roadmap Multi‑Tenant (Organization/Freelancer → Workspace → Project)
 
-Este roadmap detalla cómo evolucionar Dokkap a una arquitectura multi‑tenant basada en:
+Este roadmap detalla cómo evolucionar Dokkap a una arquitectura multi‑tenant flexible, soportando tanto organizaciones como freelancers:
 
-- Tenant raíz: **Organization**
-- Jerarquía: `Organization → Workspace → Team → Project → Task/Links/Credentials`
-- Stack actual: **Next.js (App Router) + React 19 + Prisma + PostgreSQL + React Query**
+- Tenant raíz: **Organization** (pero también soporta cuentas tipo **Freelancer**)
+- Jerarquía: `Organization/Freelancer → Workspace → Team → Project → Task/Links/Credentials`
+- Stack actual: **Next.js (App Router) + React 19 + Prisma (con enums) + PostgreSQL + React Query + Zustand**
 
 ---
 
@@ -25,36 +25,18 @@ Este roadmap detalla cómo evolucionar Dokkap a una arquitectura multi‑tenant 
 
 ## 1. Modelo de datos (Prisma)
 
-### 1.1. Definir tenant raíz
+### 1.1. Definir tenant raíz y tipos de cuenta
 
-- [ ] Añadir/ajustar modelo `Organization` con `slug` único:
-
-```prisma
-model Organization {
-  id           String        @id @default(cuid())
-  slug         String        @unique
-  name         String
-  ownerId      String
-  contactEmail String?
-  contactName  String?
-  phone        String?
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-
-  owner        User          @relation(fields: [ownerId], references: [id])
-  workspaces   Workspace[]
-  members      OrganizationMembership[]
-
-  @@index([ownerId])
-}
-```
+- [x] `Organization` como tenant raíz, con `plan` y `limits` (usando enum `PlanType`).
+- [x] Soporte para cuentas tipo **Freelancer** (`User.accountType` enum `AccountType`).
+- [x] `Workspace` puede ser de una organización (`ownerType = ORGANIZATION`) o de un freelancer (`ownerType = USER`).
 
 ### 1.2. Jerarquía principal
 
-- [ ] `Workspace` pertenece a `Organization`.
-- [ ] `Team` pertenece a `Workspace`.
-- [ ] `Project` pertenece a `Workspace`.
-- [ ] `Task`, `UsefulLink`, `Credential` pertenecen a `Project`.
+- [x] `Workspace` pertenece a una `Organization` o a un `User` (freelancer), según `ownerType`.
+- [x] `Team` pertenece a `Workspace` (solo si `ownerType = ORGANIZATION`).
+- [x] `Project` pertenece a `Workspace`.
+- [x] `Task`, `UsefulLink`, `Credential` pertenecen a `Project`.
 
 ```prisma
 model Workspace {
@@ -110,9 +92,9 @@ model Project {
 
 ### 1.3. Trabajo y recursos dentro del Project
 
-- [ ] `Task` ligada a `Project`.
-- [ ] `UsefulLink` ligada a `Project`.
-- [ ] `Credential` ligada a `Project`.
+- [x] `Task` ligada a `Project`.
+- [x] `UsefulLink` ligada a `Project`.
+- [x] `Credential` ligada a `Project`.
 
 ```prisma
 model Task {
@@ -173,11 +155,13 @@ model Credential {
 }
 ```
 
-### 1.4. Membresías y roles
+### 1.4. Membresías y roles (enums y colaboración externa)
 
-- [ ] Definir `OrganizationMembership` (usuario dentro de org).
-- [ ] Usar/ajustar `WorkspaceMembership`, `TeamMember`, etc.
-- [ ] Añadir enums de roles (`OrgRole`, `WorkspaceRole`, `TeamRole`).
+- [x] `OrganizationMembership` (usuario interno de la organización, con enum `OrgRole`).
+- [x] `WorkspaceMember` (acceso a workspace, con enum `WorkspaceRole`).
+- [x] `ProjectMember` (colaboradores internos o freelancers invitados, con enum `ProjectRole`).
+- [x] Todos los roles y tipos relevantes son enums de Prisma (`OrgRole`, `WorkspaceRole`, `ProjectRole`, `AccountType`, `OwnerType`, `PlanType`).
+- [x] Freelancers invitados a proyectos NO requieren `OrganizationMembership`, pero cuentan para los límites de miembros activos.
 
 ---
 
@@ -377,23 +361,20 @@ export function orgScoped(prismaClient: PrismaClient, organizationId: string) {
 
 ---
 
-## 6. Seguridad y permisos
+## 6. Seguridad, límites y permisos
 
-### 6.1. Membresías
+### 6.1. Membresías y colaboradores
 
-- [ ] Implementar `OrganizationMembership` y `WorkspaceMembership`:
+- [x] `OrganizationMembership` define miembros internos (cuentan para límites y tienen acceso global).
+- [x] `ProjectMember` permite invitar freelancers externos a proyectos concretos (también cuentan para límites de plan).
+- [x] Los límites de plan (`maxMembers`) consideran todos los usuarios con acceso activo a recursos de la organización (internos y externos).
 
-  - Un usuario solo puede acceder a una `Organization` si es miembro.
-  - Dentro de la org, definir:
-    - Roles (`owner`, `admin`, `member`).
-    - Permisos mínimos por rol.
+### 6.2. Validaciones y guards
 
-### 6.2. Validaciones en server actions / endpoints
-
-- [ ] Antes de acceder a cualquier recurso:
-  - Verificar que:
-    - `user` pertenece a la `Organization` (y opcionalmente al `Workspace`/`Project`).
-    - El recurso (`Project`, `Task`, etc.) pertenece a esa `Organization`.
+- [x] Antes de acceder a recursos sensibles:
+  - Verificar que el usuario tiene acceso por `OrganizationMembership`, `WorkspaceMember` o `ProjectMember`.
+  - Validar límites de plan antes de invitar a nuevos colaboradores (internos o externos).
+  - Roles y permisos se controlan vía enums y helpers RBAC/ABAC.
 
 ---
 
@@ -447,7 +428,8 @@ npm run prisma:migrate
 
 ## 9. Futuras extensiones
 
-- Billing por organización (planes, límites).
+- Billing por organización (planes, límites, upgrades/downgrades de freelancer a organización y viceversa).
 - Auditoría por tenant (logs con `organizationId`).
 - Credenciales compartidas a nivel `Workspace` u `Organization` cuando tenga sentido.
 - Soporte para subdominios por organización (`org.dokkap.com` además de `/[orgSlug]`).
+- Flags de archivado/borrado suave para soportar flujos de downgrade y migración de workspaces.
