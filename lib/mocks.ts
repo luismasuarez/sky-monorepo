@@ -1,3 +1,92 @@
+// Kanban mocks para UI moderna (alineados a Task de Prisma y legacy)
+export type KanbanColumnType = 'todo' | 'in-progress' | 'done';
+
+export interface KanbanTaskMock {
+  id: string;
+  workspaceId: string;
+  projectId: string;
+  teamId?: string;
+  title: string;
+  description?: string;
+  column: KanbanColumnType;
+  estimatedTime?: number;
+  startTime?: number;
+  completedTime?: number;
+  totalTime?: number;
+  pausedTime?: number;
+  isPaused?: boolean;
+  lastPauseStart?: number;
+  isOvertime?: boolean;
+  notificationSent?: boolean;
+  quoteAmount?: number;
+  assignedTo: string;
+  priority?: 'low' | 'medium' | 'high';
+  tags?: string[];
+  dueDate?: number;
+  createdAt: number;
+  updatedAt: number;
+  createdBy: string;
+}
+
+export interface KanbanMockData {
+  todo: KanbanTaskMock[];
+  inProgress: KanbanTaskMock[];
+  done: KanbanTaskMock[];
+}
+
+export const kanbanMockData: KanbanMockData = {
+  todo: [
+    {
+      id: "task-1",
+      workspaceId: "ws-1",
+      projectId: "prj-1",
+      title: "Diseñar wireframes",
+      description: "Crear wireframes para la nueva landing page",
+      column: "todo",
+      assignedTo: "user-1",
+      priority: "high",
+      tags: ["diseño", "ux"],
+      dueDate: Date.now() + 86400000,
+      createdAt: Date.now() - 86400000,
+      updatedAt: Date.now(),
+      createdBy: "user-2"
+    }
+  ],
+  inProgress: [
+    {
+      id: "task-2",
+      workspaceId: "ws-1",
+      projectId: "prj-1",
+      title: "Implementar API de usuarios",
+      description: "Desarrollar endpoints para gestión de usuarios",
+      column: "in-progress",
+      assignedTo: "user-2",
+      priority: "medium",
+      tags: ["backend", "api"],
+      dueDate: Date.now() + 172800000,
+      createdAt: Date.now() - 172800000,
+      updatedAt: Date.now(),
+      createdBy: "user-1"
+    }
+  ],
+  done: [
+    {
+      id: "task-3",
+      workspaceId: "ws-1",
+      projectId: "prj-1",
+      title: "Setup inicial de proyecto",
+      description: "Configurar repositorio y CI/CD",
+      column: "done",
+      assignedTo: "user-3",
+      priority: "low",
+      tags: ["devops"],
+      dueDate: Date.now() - 86400000,
+      createdAt: Date.now() - 259200000,
+      updatedAt: Date.now() - 86400000,
+      createdBy: "user-1"
+    }
+  ]
+};
 // Tipos ligeros para mocks basados en el schema de Prisma.
 // No usamos los tipos generados completos para evitar acoplamiento a DefaultSelection.
 
