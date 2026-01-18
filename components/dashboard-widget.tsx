@@ -11,10 +11,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { useSidebar } from '@/components/ui/sidebar';
-import { cn } from '@/lib/utils';
-import { IconCheck, IconChevronDown, IconChevronLeft, IconChevronRight, IconFolder, IconMenu2, IconX } from '@tabler/icons-react';
-import { ReactNode, useEffect, useState } from 'react';
 import { useProjectContext } from '@/lib/contexts/project-context';
+import { cn } from '@/lib/utils';
+import { IconCheck, IconChevronDown, IconChevronLeft, IconChevronRight, IconFolder, IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand } from '@tabler/icons-react';
+import { ReactNode, useEffect, useState } from 'react';
 
 interface DashboardWidgetProps {
   children?: ReactNode;
@@ -62,7 +62,7 @@ export default function DashboardWidget({ children, className }: DashboardWidget
         className="h-7 w-7 hover:bg-white/30 dark:hover:bg-slate-700/30 text-slate-700 dark:text-slate-300 transition-colors flex-shrink-0"
         title={open ? 'Ocultar menú' : 'Mostrar menú'}
       >
-        {open ? <IconX className="h-4 w-4" /> : <IconMenu2 className="h-4 w-4" />}
+        {open ? <IconLayoutSidebarLeftCollapse className="h-4 w-4" /> : <IconLayoutSidebarLeftExpand className="h-4 w-4" />}
       </Button>
 
       {/* Separador */}
