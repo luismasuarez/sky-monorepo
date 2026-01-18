@@ -1,8 +1,10 @@
 "use client"
 
+
 import Clock from './clock'
 import DashboardWidget from './dashboard-widget'
 import ViewToggle from './view-toggle'
+import HeaderMenuControls from './header-menu-controls'
 
 import type { ViewType } from './view-toggle'
 interface HeaderProps {
@@ -29,12 +31,23 @@ export function Header({ activeView, handleViewChange }: HeaderProps) {
 			</div>
 
 			{/* DERECHA */}
-			{/* <div className="flex items-center justify-end flex-none gap-2">
-	<HeaderMenuControls
-	  onBackup={() => { }}
-	  onRestore={() => { }}
-	/>
-      </div> */}
+			<div className="flex items-center justify-end flex-none gap-2">
+				<HeaderMenuControls
+					onBackup={() => { }}
+					onRestore={() => { }}
+					notifications={[
+						{ id: "1", title: "Nueva tarea asignada", read: false },
+						{ id: "2", title: "Backup completado", read: true },
+						{ id: "3", title: "Actualización disponible", read: false },
+					]}
+					workspaces={[
+						{ id: "w1", name: "Personal" },
+						{ id: "w2", name: "Equipo" },
+					]}
+					currentWorkspaceId="w1"
+					syncStatus="ok"
+				/>
+			</div>
 		</header>
 	)
 }
