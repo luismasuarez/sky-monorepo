@@ -180,4 +180,18 @@
     backdrop-filter: blur(12px) saturate(180%);
     border-right: 1px solid oklch(from var(--sidebar-border) l c h / 0.3);
   }
+
+  /* Glass light/dark helpers for main containers */
+  .glass-light {
+    background: oklch(from var(--card) l c h / 0.7);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid oklch(from var(--border) l c h / 0.3);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  }
+  .dark .glass-dark {
+    background: oklch(from var(--card) l c h / 0.4);
+    backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid oklch(from var(--border) l c h / 0.15);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.18);
+  }
 }

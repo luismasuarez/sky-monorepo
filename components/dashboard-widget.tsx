@@ -18,11 +18,12 @@ import { useProjectContext } from '@/lib/contexts/project-context';
 
 interface DashboardWidgetProps {
   children?: ReactNode;
+  className?: string;
 }
 
 type WidgetView = 'clock' | 'date' | 'project';
 
-export default function DashboardWidget({ children }: DashboardWidgetProps) {
+export default function DashboardWidget({ children, className }: DashboardWidgetProps) {
   const { open, toggleSidebar } = useSidebar();
   const [currentView, setCurrentView] = useState<WidgetView>('clock');
 
@@ -52,7 +53,7 @@ export default function DashboardWidget({ children }: DashboardWidgetProps) {
   };
 
   return (
-    <div className="glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 py-3 gap-2">
+    <div className={cn("glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 py-3 gap-2", className)}>
       {/* Botón del Sidebar */}
       <Button
         variant="ghost"
