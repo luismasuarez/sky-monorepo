@@ -18,7 +18,11 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
   const hasNotifications = kanbanNotifications.warning > 0 || kanbanNotifications.overtime > 0
 
   return (
-    <Tabs value={activeView} onValueChange={onViewChange} className="w-full flex justify-center">
+    <Tabs
+      value={activeView}
+      onValueChange={(value) => onViewChange(value as ViewType)}
+      className="w-full flex justify-center"
+    >
       <TabsList className="w-full max-w-2xl flex justify-between bg-background/80 dark:bg-background/60">
         <TabsTrigger value="kanban" className="flex-1 flex items-center justify-center gap-1 relative">
           <IconLayoutKanban className="w-4 h-4" stroke={1.7} />
