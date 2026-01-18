@@ -39,8 +39,8 @@ export default function HeaderMenuControls({ onBackup, onRestore }: HeaderMenuCo
       <div className="
         glass-light dark:glass-dark
         text-slate-900 dark:text-slate-100
-        rounded-xl px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3
-        shadow-2xl text-shadow-sm
+        rounded-xl px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2.5
+        shadow-2xl text-shadow-sm min-h-[44px]
       ">
         <div className="flex gap-2">
           {/* User Menu */}
@@ -49,7 +49,7 @@ export default function HeaderMenuControls({ onBackup, onRestore }: HeaderMenuCo
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50 h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 backdrop-blur-sm"
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50 h-11 w-11 min-h-[44px] min-w-[44px] p-0 backdrop-blur-sm"
               >
                 <IconUser className="w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
@@ -94,7 +94,7 @@ export default function HeaderMenuControls({ onBackup, onRestore }: HeaderMenuCo
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50 h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 backdrop-blur-sm"
+                className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100/50 dark:hover:bg-slate-800/50 h-11 w-11 min-h-[44px] min-w-[44px] p-0 backdrop-blur-sm"
               >
                 <IconSettings className="w-4 h-4 sm:w-5 sm:h-5" />
               </Button>
@@ -152,7 +152,7 @@ export default function HeaderMenuControls({ onBackup, onRestore }: HeaderMenuCo
             variant="ghost"
             size="icon"
             onClick={toggleDarkMode}
-            className="text-slate-600 dark:text-yellow-400 hover:text-slate-900 dark:hover:text-yellow-300 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full h-8 w-8 sm:h-9 sm:w-9 md:h-10 md:w-10 backdrop-blur-sm"
+            className="text-slate-600 dark:text-yellow-400 hover:text-slate-900 dark:hover:text-yellow-300 hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded-full h-11 w-11 min-h-[44px] min-w-[44px] p-0 backdrop-blur-sm"
           >
             {isDarkMode ? (
               <IconSun className="w-4 h-4 sm:w-5 sm:h-5" />

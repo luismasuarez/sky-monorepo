@@ -24,7 +24,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
       className="w-full flex justify-center"
     >
       <TabsList
-        className="glass-light dark:glass-dark rounded-xl shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-[44px]"
+        className="glass-light dark:glass-dark rounded-lg shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-[44px]"
       >
         <TabsTrigger value="kanban" className="flex-1 flex items-center justify-center gap-1 relative text-base font-semibold">
           <IconLayoutKanban className="w-4 h-4" stroke={1.7} />

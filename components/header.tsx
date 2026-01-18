@@ -3,7 +3,6 @@
 import useViewToggle from '@/hooks/useViewToggle'
 import Clock from './clock'
 import DashboardWidget from './dashboard-widget'
-import HeaderMenuControls from './header-menu-controls'
 import ViewToggle from './view-toggle'
 
 export function Header() {
@@ -28,12 +27,12 @@ export function Header() {
 			</div>
 
 			{/* DERECHA */}
-			<div className="flex items-center justify-end flex-none gap-2">
+			{/* <div className="flex items-center justify-end flex-none gap-2">
 				<HeaderMenuControls
 					onBackup={() => { }}
 					onRestore={() => { }}
 				/>
-			</div>
+			</div> */}
 		</header>
 	)
 }
