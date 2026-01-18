@@ -11,7 +11,7 @@ export function Header() {
 	const { activeView, handleViewChange } = useViewToggle()
 
 	return (
-		<header className="glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center max-w-7xl mx-auto px-3 py-6 gap-2 mt-4 mb-6">
+		<header className="flex items-center max-w-7xl mx-auto gap-2 mt-4 mb-6">
 			{/* IZQUIERDA - Widget con Clock */}
 			<div className="flex items-center justify-start flex-none gap-3">
 				<DashboardWidget className="glass-card">
