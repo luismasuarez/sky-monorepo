@@ -53,7 +53,7 @@ export default function DashboardWidget({ children, className }: DashboardWidget
   };
 
   return (
-    <div className={cn("glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 py-3 gap-2", className)}>
+    <div className={cn("glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 min-h-[44px] gap-2", className)}>
       {/* Botón del Sidebar */}
       <Button
         variant="ghost"
@@ -80,7 +80,7 @@ export default function DashboardWidget({ children, className }: DashboardWidget
       </Button>
 
       {/* Contenido Principal (Clock, Date o Project) - Con ancho fijo */}
-      <div className="w-28 sm:w-32 flex items-center justify-center flex-shrink-0">
+      <div className="w-28 sm:w-32 flex items-center justify-center flex-shrink-0 h-full">
         {renderContent()}
       </div>
 

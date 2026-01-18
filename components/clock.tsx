@@ -26,15 +26,10 @@ export default function Clock() {
   }, [])
 
   return (
-    <div className="flex justify-center pt-4 sm:pt-6 md:pt-8 pb-2 sm:pb-3 md:pb-4 px-4">
-      <div className="
-        glass-light dark:glass-dark
-        text-slate-900 dark:text-slate-100
-        rounded-xl px-4 sm:px-5 md:px-6 py-2 sm:py-2.5 md:py-3
-        shadow-2xl text-shadow-sm
-      ">
-        <div className="text-lg sm:text-xl md:text-2xl font-mono font-bold tracking-wider">{currentTime}</div>
-      </div>
+    <div className="text-center w-full" title="Hora actual">
+      <p className="text-base sm:text-lg font-semibold text-slate-700 dark:text-slate-200 capitalize truncate py-1">
+        {currentTime}
+      </p>
     </div>
   )
 }
