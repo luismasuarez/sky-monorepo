@@ -119,10 +119,6 @@ export default function HeaderMenuControls({ onBackup, onRestore, notifications:
             </DropdownMenuContent>
           </DropdownMenu>
 
-          {/* Icono de ayuda y feedback */}
-          <Button variant="ghost" size="icon" className="text-slate-500 hover:text-slate-900" title="Ayuda y feedback">
-            <IconHelp className="w-5 h-5" />
-          </Button>
           {/* Botón de menú principal al final */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
