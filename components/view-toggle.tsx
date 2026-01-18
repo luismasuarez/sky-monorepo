@@ -2,6 +2,7 @@
 
 import { IconBookmark, IconChartBar, IconLayoutKanban, IconServer } from "@tabler/icons-react"
 import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
+import { cn } from '@/lib/utils'
 
 export type ViewType = "kanban" | "bookmarks" | "servers" | "metrics"
 
@@ -24,9 +25,15 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
       className="w-full flex justify-center"
     >
       <TabsList
-        className="glass-light dark:glass-dark rounded-lg shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-[44px]"
+        className="glass-light dark:glass-dark rounded-md shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-[44px]"
       >
-        <TabsTrigger value="kanban" className="flex-1 flex items-center justify-center gap-1 relative text-base font-semibold">
+        <TabsTrigger
+          value="kanban"
+          className={cn(
+            "flex-1 flex items-center justify-center gap-1 relative text-base font-semibold transition-colors rounded-md",
+            "data-[state=active]:text-white data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-400 data-[state=active]:shadow-sm"
+          )}
+        >
           <IconLayoutKanban className="w-4 h-4" stroke={1.7} />
           <span className="hidden sm:inline">Kanban</span>
           <span className="sm:hidden">Tasks</span>
@@ -45,17 +52,35 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
             </span>
           )}
         </TabsTrigger>
-        <TabsTrigger value="bookmarks" className="flex-1 flex items-center justify-center gap-1 text-base font-semibold">
+        <TabsTrigger
+          value="bookmarks"
+          className={cn(
+            "flex-1 flex items-center justify-center gap-1 text-base font-semibold transition-colors rounded-md",
+            "data-[state=active]:text-white data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-400 data-[state=active]:shadow-sm"
+          )}
+        >
           <IconBookmark className="w-4 h-4" stroke={1.7} />
           <span className="hidden sm:inline">Bookmarks</span>
           <span className="sm:hidden">Links</span>
         </TabsTrigger>
-        <TabsTrigger value="servers" className="flex-1 flex items-center justify-center gap-1 text-base font-semibold">
+        <TabsTrigger
+          value="servers"
+          className={cn(
+            "flex-1 flex items-center justify-center gap-1 text-base font-semibold transition-colors rounded-md",
+            "data-[state=active]:text-white data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-400 data-[state=active]:shadow-sm"
+          )}
+        >
           <IconServer className="w-4 h-4" stroke={1.7} />
           <span className="hidden sm:inline">Servers</span>
           <span className="sm:hidden">Servers</span>
         </TabsTrigger>
-        <TabsTrigger value="metrics" className="flex-1 flex items-center justify-center gap-1 text-base font-semibold">
+        <TabsTrigger
+          value="metrics"
+          className={cn(
+            "flex-1 flex items-center justify-center gap-1 text-base font-semibold transition-colors rounded-md",
+            "data-[state=active]:text-white data-[state=active]:bg-blue-600 dark:data-[state=active]:bg-blue-400 data-[state=active]:shadow-sm"
+          )}
+        >
           <IconChartBar className="w-4 h-4" stroke={1.7} />
           <span className="hidden sm:inline">Metrics</span>
           <span className="sm:hidden">Stats</span>
