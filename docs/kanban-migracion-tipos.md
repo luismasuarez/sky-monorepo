@@ -1,3 +1,44 @@
+## 6. Procedimiento de migración Kanban (guía reutilizable)
+
+1. **Identificar componentes legacy principales y subcomponentes**
+
+- Ubica los archivos legacy relevantes (por ejemplo, `kanban-board.tsx`, `kanban-column.tsx`, `kanban-card.tsx`).
+- Documenta las props y tipos principales de cada componente.
+
+2. **Extraer y adaptar tipos/interfaces**
+
+- Extrae los tipos legacy (`KanbanItem`, `KanbanData`, etc.) y compáralos con los modelos de Prisma.
+- Define tipos mock alineados a Prisma para datos de UI.
+
+3. **Crear mocks de datos**
+
+- Genera datos mock realistas para alimentar la UI y facilitar el desarrollo/despliegue incremental.
+
+4. **Replicar estructura de componentes en la nueva UI**
+
+- Crea la carpeta de componentes (ej: `components/kanban/`).
+- Implementa los componentes principales siguiendo atomic design (organism → molecule → atom).
+- Usa los mocks y tipos modernos en los props.
+
+5. **Integrar en la vista principal**
+
+- Importa y renderiza el componente principal (ej: `KanbanBoard`) en la página adecuada (`/` o dashboard).
+- Usa un sistema de tabs/toggle para alternar vistas (ej: `ViewToggle`).
+- Renderiza el componente solo cuando la vista activa lo requiera.
+
+6. **Convertir a Client Component si usas hooks de estado**
+
+- Añade `"use client"` al inicio de la página si usas hooks como `useState` o `useEffect`.
+
+7. **Validar integración y refactorizar**
+
+- Verifica que la UI responde correctamente al cambiar de vista.
+- Refactoriza y reutiliza patrones para migrar otras vistas (links, credentials, metrics) siguiendo estos mismos pasos.
+
+---
+
+> Sigue este procedimiento para migrar cualquier otra vista legacy a la nueva UI de forma ordenada, reutilizando mocks, tipos y estructura de componentes.
+>
 # Migración Kanban: Props y Tipos Principales
 
 Este documento resume los tipos y props principales de los componentes Kanban legacy, alineados con el modelo `Task` de Prisma y siguiendo buenas prácticas (skills, atomic design).
