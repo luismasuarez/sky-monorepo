@@ -12,17 +12,17 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import {
-  IconHome,
-  IconFolder,
-  IconUsers,
-  IconChecklist,
   IconBookmark,
+  IconBuilding,
+  IconChecklist,
+  IconCreditCard,
+  IconFolder,
+  IconHome,
   IconServer,
   IconSettings,
-  IconBuilding,
   IconStack2,
-  IconCreditCard,
   IconUserCircle,
+  IconUsers,
 } from '@tabler/icons-react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -42,6 +42,7 @@ export function AppSidebar() {
     {
       title: 'General',
       items: [
+        { title: 'Workspace', icon: IconStack2, href: '/workspace' },
         { title: 'Dashboard', icon: IconHome, href: '/' },
       ],
     },
