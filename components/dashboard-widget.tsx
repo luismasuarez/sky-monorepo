@@ -14,6 +14,7 @@ import { useSidebar } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
 import { IconCheck, IconChevronDown, IconChevronLeft, IconChevronRight, IconFolder, IconMenu2, IconX } from '@tabler/icons-react';
 import { ReactNode, useEffect, useState } from 'react';
+import { useProjectContext } from '@/lib/contexts/project-context';
 
 interface DashboardWidgetProps {
   children?: ReactNode;
@@ -126,9 +127,9 @@ function ProjectDisplay() {
     console.log('ProjectDisplay - projects:', projects);
   }, [activeProject, projects]);
 
-  const handleProjectSelect = (projectId: string | null) => {
-    console.log('Selecting project:', projectId);
-    setActiveProject(projectId);
+  const handleProjectSelect = (project: typeof projects[number] | null) => {
+    console.log('Selecting project:', project);
+    setActiveProject(project);
     setIsOpen(false);
   };
 
@@ -191,7 +192,7 @@ function ProjectDisplay() {
         {projects.map((project) => (
           <DropdownMenuItem
             key={project.id}
-            onClick={() => handleProjectSelect(project.id)}
+            onClick={() => handleProjectSelect(project)}
             className={cn('cursor-pointer', activeProject?.id === project.id && 'bg-accent')}
           >
             <IconCheck
