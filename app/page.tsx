@@ -17,7 +17,7 @@ export default function Page() {
       <Header activeView={activeView} handleViewChange={handleViewChange} />
       <div className="space-y-6">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-full max-w-2xl min-h-[320px] relative">
+          <div className="w-full min-h-[320px] relative">
             <AnimatedView isActive={activeView === 'kanban'}>
               <KanbanBoard kanbanData={kanbanMockData} />
             </AnimatedView>
