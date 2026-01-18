@@ -14,12 +14,13 @@ datasource db {
 // ==================== USER ====================
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  fullName  String
-  avatarUrl String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  email       String   @unique
+  fullName    String
+  avatarUrl   String?
+  accountType String   @default("FREELANCER") // 'FREELANCER' | 'ORGANIZATION'
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   // Relations
   workspaceMembers     WorkspaceMember[]
@@ -45,7 +46,7 @@ model Organization {
   slug         String   @unique
   description  String?
   logo         String?
-  plan         String   @default("starter") // 'starter' | 'professional' | 'enterprise'
+  plan         String   @default("FREE") // 'FREE' | 'PRO' | 'TEAM' | 'ENTERPRISE'
   contactEmail String?
   contactName  String?
   phone        String?
@@ -54,7 +55,7 @@ model Organization {
   createdBy    String
 
   // JSON fields for limits and features
-  limits Json @default("{\"maxWorkspaces\": 2, \"maxProjects\": 20, \"maxMembers\": 10, \"features\": {\"teams\": true, \"advancedReports\": false, \"sso\": false, \"customDomain\": false}}")
+  limits Json @default("{\"maxWorkspaces\": 1, \"maxProjects\": 1000, \"maxMembers\": 5, \"features\": {\"teams\": true}}")
 
   // Relations
   creator    User                     @relation("CreatedOrganizations", fields: [createdBy], references: [id])
@@ -72,13 +73,14 @@ model Workspace {
   id             String   @id @default(cuid())
   name           String
   description    String?
-  organizationId String
+  organizationId String?
   ownerUserId    String?
+  ownerType      String // 'ORGANIZATION' | 'USER'
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
   // Relations
-  organization Organization      @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organization Organization?     @relation(fields: [organizationId], references: [id], onDelete: Cascade)
   owner        User?             @relation("PersonalWorkspaces", fields: [ownerUserId], references: [id], onDelete: Cascade)
   members      WorkspaceMember[]
   projects     Project[]
