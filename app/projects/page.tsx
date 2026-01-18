@@ -1,14 +1,16 @@
-import { DashboardLayout } from '@/components/dashboard-layout'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { IconFolder } from '@tabler/icons-react'
-import { Metadata } from 'next'
 
-export const metadata: Metadata = {
-  title: 'Proyectos - Dokkap',
-  description: 'Gestiona tus proyectos',
-}
+
+"use client"
+
+import { DashboardLayout } from '@/components/dashboard-layout'
+import { KanbanBoard } from '@/components/kanban/kanban-board'
+import { kanbanMockData } from '@/lib/mocks'
+import ViewToggle, { ViewType } from '@/components/view-toggle'
+import { useState } from 'react'
 
 export default function ProjectsPage() {
+  const [activeView, setActiveView] = useState<ViewType>("kanban")
+
   return (
     <DashboardLayout>
       <div className="space-y-6">
@@ -21,22 +23,14 @@ export default function ProjectsPage() {
           </div>
         </div>
 
-        <Card className="glass-card">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <IconFolder className="h-5 w-5" />
-              Proyectos
-            </CardTitle>
-            <CardDescription>
-              Esta sección estará disponible próximamente
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Aquí podrás crear, editar y gestionar todos tus proyectos.
-            </p>
-          </CardContent>
-        </Card>
+        <div className="mt-8">
+          <ViewToggle activeView={activeView} onViewChange={setActiveView} />
+        </div>
+
+        <div className="mt-8">
+          {activeView === "kanban" && <KanbanBoard kanbanData={kanbanMockData} />}
+          {/* Aquí puedes agregar otras vistas: links, credentials, metrics... */}
+        </div>
       </div>
     </DashboardLayout>
   )
