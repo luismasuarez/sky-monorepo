@@ -12,7 +12,7 @@ interface HeaderProps {
 
 export function Header({ activeView, handleViewChange }: HeaderProps) {
 	return (
-		<header className="flex items-center max-w-7xl mx-auto gap-2 mt-4 mb-6">
+		<header className="flex items-center w-full gap-2 mt-4 mb-6 px-2 sm:px-4 lg:px-8">
 			{/* IZQUIERDA - Widget con Clock */}
 			<div className="flex items-center justify-start flex-none gap-3">
 				<DashboardWidget className="glass-card">
@@ -21,7 +21,7 @@ export function Header({ activeView, handleViewChange }: HeaderProps) {
 			</div>
 
 			{/* CENTRO */}
-			<div className="flex-1 flex items-center justify-center min-w-[300px]">
+			<div className="flex-1 flex items-center justify-center min-w-[200px]">
 				<ViewToggle
 					activeView={activeView as any}
 					onViewChange={handleViewChange as any}
@@ -30,10 +30,10 @@ export function Header({ activeView, handleViewChange }: HeaderProps) {
 
 			{/* DERECHA */}
 			{/* <div className="flex items-center justify-end flex-none gap-2">
-        <HeaderMenuControls
-          onBackup={() => { }}
-          onRestore={() => { }}
-        />
+	<HeaderMenuControls
+	  onBackup={() => { }}
+	  onRestore={() => { }}
+	/>
       </div> */}
 		</header>
 	)
