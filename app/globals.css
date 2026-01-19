@@ -1,6 +1,6 @@
-@import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -192,7 +192,7 @@
     background: oklch(from var(--card) l c h / 0.4);
     backdrop-filter: blur(12px) saturate(180%);
     border: 1px solid oklch(from var(--border) l c h / 0.15);
-    box-shadow: 0 4px 30px rgba(0,0,0,0.18);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.18);
   }
 }
 

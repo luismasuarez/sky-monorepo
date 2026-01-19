@@ -1,29 +1,29 @@
-"use client"
+'use client';
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from 'react';
 
 export default function Clock() {
-  const [currentTime, setCurrentTime] = useState("")
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const [currentTime, setCurrentTime] = useState('');
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     const updateTime = () => {
-      const now = new Date()
+      const now = new Date();
       const timeString = now.toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
+        hour: '2-digit',
+        minute: '2-digit',
         hour12: true,
-      })
-      setCurrentTime(timeString.toUpperCase())
-    }
+      });
+      setCurrentTime(timeString.toUpperCase());
+    };
 
-    updateTime()
-    intervalRef.current = setInterval(updateTime, 1000)
+    updateTime();
+    intervalRef.current = setInterval(updateTime, 1000);
 
     return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-    }
-  }, [])
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
   return (
     <div className="text-center w-full" title="Hora actual">
@@ -31,5 +31,5 @@ export default function Clock() {
         {currentTime}
       </p>
     </div>
-  )
+  );
 }

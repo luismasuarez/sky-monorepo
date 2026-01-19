@@ -1,5 +1,5 @@
 // src/components/dashboard-widget.tsx
-"use client"
+'use client';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +13,15 @@ import {
 import { useSidebar } from '@/components/ui/sidebar';
 import { useProjectContext } from '@/lib/contexts/project-context';
 import { cn } from '@/lib/utils';
-import { IconCheck, IconChevronDown, IconChevronLeft, IconChevronRight, IconFolder, IconLayoutSidebarLeftCollapse, IconLayoutSidebarLeftExpand } from '@tabler/icons-react';
+import {
+  IconCheck,
+  IconChevronDown,
+  IconChevronLeft,
+  IconChevronRight,
+  IconFolder,
+  IconLayoutSidebarLeftCollapse,
+  IconLayoutSidebarLeftExpand,
+} from '@tabler/icons-react';
 import { ReactNode, useEffect, useState } from 'react';
 
 interface DashboardWidgetProps {
@@ -53,7 +61,12 @@ export default function DashboardWidget({ children, className }: DashboardWidget
   };
 
   return (
-    <div className={cn("glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 min-h-[44px] gap-2", className)}>
+    <div
+      className={cn(
+        'glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 min-h-[44px] gap-2',
+        className
+      )}
+    >
       {/* Botón del Sidebar */}
       <Button
         variant="ghost"
@@ -62,7 +75,11 @@ export default function DashboardWidget({ children, className }: DashboardWidget
         className="h-7 w-7 hover:bg-white/30 dark:hover:bg-slate-700/30 text-slate-700 dark:text-slate-300 transition-colors flex-shrink-0"
         title={open ? 'Ocultar menú' : 'Mostrar menú'}
       >
-        {open ? <IconLayoutSidebarLeftCollapse className="h-4 w-4" /> : <IconLayoutSidebarLeftExpand className="h-4 w-4" />}
+        {open ? (
+          <IconLayoutSidebarLeftCollapse className="h-4 w-4" />
+        ) : (
+          <IconLayoutSidebarLeftExpand className="h-4 w-4" />
+        )}
       </Button>
 
       {/* Separador */}
@@ -128,7 +145,7 @@ function ProjectDisplay() {
     console.log('ProjectDisplay - projects:', projects);
   }, [activeProject, projects]);
 
-  const handleProjectSelect = (project: typeof projects[number] | null) => {
+  const handleProjectSelect = (project: (typeof projects)[number] | null) => {
     console.log('Selecting project:', project);
     setActiveProject(project);
     setIsOpen(false);
@@ -181,16 +198,14 @@ function ProjectDisplay() {
           onClick={() => handleProjectSelect(null)}
           className={cn('cursor-pointer', !activeProject && 'bg-accent')}
         >
-          <IconCheck
-            className={cn('mr-2 h-4 w-4', !activeProject ? 'opacity-100' : 'opacity-0')}
-          />
+          <IconCheck className={cn('mr-2 h-4 w-4', !activeProject ? 'opacity-100' : 'opacity-0')} />
           Sin proyecto
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
         {/* Lista de proyectos */}
-        {projects.map((project) => (
+        {projects.map(project => (
           <DropdownMenuItem
             key={project.id}
             onClick={() => handleProjectSelect(project)}
