@@ -22,6 +22,7 @@ interface OnboardingStepperProps {
   steps: StepConfig[];
   onComplete: (data: OwnerOnboardingFormData | ContributorOnboardingFormData) => Promise<void>;
   onBack?: () => void;
+  loading?: boolean;
 }
 
 export function OnboardingStepper({
@@ -29,6 +30,7 @@ export function OnboardingStepper({
   steps,
   onComplete,
   onBack,
+  loading = false,
 }: OnboardingStepperProps) {
   const {
     currentStep,
@@ -101,6 +103,7 @@ export function OnboardingStepper({
   };
 
   const handleNext = async () => {
+    if (loading) return;
     if (isLastStep) {
       await handleSubmit();
     } else {
@@ -131,7 +134,7 @@ export function OnboardingStepper({
             type="button"
             variant="outline"
             onClick={handlePrev}
-            disabled={isSubmitting}
+            disabled={isSubmitting || loading}
             className="flex items-center gap-2"
           >
             <IconArrowLeft className="h-4 w-4" />
@@ -141,13 +144,15 @@ export function OnboardingStepper({
           <Button
             type="button"
             onClick={handleNext}
-            disabled={isSubmitting}
+            disabled={isSubmitting || loading}
             className={`flex items-center gap-2 ${accountType === 'ORGANIZATION'
               ? 'bg-blue-600 hover:bg-blue-700'
               : 'bg-green-600 hover:bg-green-700'
               }`}
           >
-            {isSubmitting ? (
+            {loading ? (
+              <span className="flex items-center"><svg className="animate-spin h-4 w-4 mr-2" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" /></svg>Procesando...</span>
+            ) : isSubmitting ? (
               'Procesando...'
             ) : isLastStep ? (
               <>

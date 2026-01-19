@@ -9,54 +9,74 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { AccountTypeSelection } from './account-type-selection';
 import { OnboardingStepper } from './onboarding-stepper';
+import { createOrganizationOnboarding, createFreelancerOnboarding } from '@/app/auth/actions';
 
-type OnboardingStep = 'select-type' | 'stepper';
+
+type OnboardingStep = 'select-type' | 'stepper' | 'success';
 
 export function OnboardingFlow() {
   const [step, setStep] = useState<OnboardingStep>('select-type');
-  const [accountType, setAccountType] = useState<AccountType | null>();
+  const [accountType, setAccountType] = useState<AccountType | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   const handleAccountTypeSelect = (type: AccountType) => {
     setAccountType(type);
     setStep('stepper');
+    setError(null);
   };
 
   const handleBack = () => {
     setStep('select-type');
     setAccountType(null);
+    setError(null);
   };
 
   const handleComplete = async (
     data: OwnerOnboardingFormData | ContributorOnboardingFormData
   ) => {
-    // try {
-    //   if (!accountType) return;
-
-    //   if (accountType === 'ORGANIZATION') {
-    //     // 1. Crear usuario (admin/owner)
-    //     const { fullName, email, organizationName, workspaceName } = data as any;
-    //     const user = await createUser({ name: fullName || data.name, email, accountType });
-    //     // 2. Crear organización
-    //     const org = await createOrganization({ name: organizationName, ownerId: user.id, plan: PlanType.FREE });
-    //     // 3. Crear membresía OWNER
-    //     await createOrganizationMembership({ organizationId: org.id, userId: user.id, role: MembershipRole.OWNER });
-    //     // 4. Crear workspace inicial
-    //     await createWorkspace({ ownerType: accountType, organizationId: org.id, ownerId: user.id });
-    //     window.location.href = '/dashboard';
-    //     return;
-    //   }
-
-    //   if (accountType === 'FREELANCER') {
-    //     const { fullName, email } = data as any;
-    //     await createUser({ name: fullName || data.name, email, accountType });
-    //     window.location.href = '/dashboard';
-    //     return;
-    //   }
-    // } catch (error) {
-    //   console.error('Onboarding error:', error);
-    //   alert('Hubo un error al finalizar el onboarding. Intenta de nuevo.');
-    //   throw error;
-    // }
+    setLoading(true);
+    setError(null);
+    try {
+      let result;
+      if (accountType === 'ORGANIZATION') {
+        // Adaptar campos según el formulario
+        const formData = new FormData();
+        formData.append('email', (data as any).email);
+        formData.append('password', (data as any).password);
+        formData.append('organizationName', (data as any).organizationName);
+        formData.append('workspaceName', (data as any).workspaceName || 'Default');
+        formData.append('contactName', (data as any).fullName || '');
+        if ((data as any).phone) formData.append('phone', (data as any).phone);
+        result = await createOrganizationOnboarding(formData);
+      } else if (accountType === 'FREELANCER') {
+        const formData = new FormData();
+        formData.append('name', (data as any).fullName || (data as any).name);
+        formData.append('email', (data as any).email);
+        formData.append('password', (data as any).password);
+        result = await createFreelancerOnboarding(formData);
+      }
+      if (result?.success && result.redirectUrl) {
+        setSuccessMsg(
+          accountType === 'ORGANIZATION'
+            ? '¡Organización creada con éxito! Redirigiendo a tu dashboard...'
+            : '¡Cuenta personal creada! Redirigiendo a tu dashboard...'
+        );
+        setStep('success');
+        setTimeout(() => {
+          window.location.href = result.redirectUrl;
+        }, 1800);
+      } else if (result?.error) {
+        setError(result.error);
+      } else {
+        setError('Ocurrió un error inesperado.');
+      }
+    } catch (err: any) {
+      setError(err?.message || 'Error al completar el onboarding.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -86,6 +106,12 @@ export function OnboardingFlow() {
         </div>
 
         <div className="glass-light dark:glass-dark rounded-xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 p-8">
+          {error && (
+            <div className="mb-4 text-red-600 dark:text-red-400 text-center font-medium">
+              {error}
+            </div>
+          )}
+
           {step === 'select-type' && (
             <AccountTypeSelection onSelect={handleAccountTypeSelect} />
           )}
@@ -96,7 +122,22 @@ export function OnboardingFlow() {
               steps={accountType === 'ORGANIZATION' ? ownerSteps : contributorSteps}
               onComplete={handleComplete}
               onBack={handleBack}
+              loading={loading}
             />
+          )}
+
+          {step === 'success' && (
+            <div className="flex flex-col items-center justify-center py-12">
+              <svg className="w-16 h-16 text-green-500 mb-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+              <h2 className="text-2xl font-bold mb-2 text-slate-900 dark:text-slate-100">
+                {successMsg || '¡Registro exitoso!'}
+              </h2>
+              <p className="text-slate-600 dark:text-slate-400 mb-4">
+                Serás redirigido a tu dashboard en unos segundos...
+              </p>
+            </div>
           )}
         </div>
       </div>
