@@ -1,4 +1,4 @@
-import { OnboardingFlow } from "@/components/onboarding/onboarding-flow";
+import { OnboardingFlow } from '@/components';
 
 export default function AuthOnboardingPage() {
   return <OnboardingFlow />;

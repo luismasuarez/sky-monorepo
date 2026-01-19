@@ -1,8 +1,10 @@
 'use client';
 
-import { Header, KanbanBoard, ViewContentPlaceholder } from '@/components';
 import { AnimatedView } from '@/components/animated-view';
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
+import { Header } from '@/components/layout/header';
+import { KanbanBoard } from '@/components/views/kanban/kanban-board';
+import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
 import { kanbanMockData } from '@/lib/mocks';
 

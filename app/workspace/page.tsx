@@ -1,7 +1,7 @@
 // Entry point for future workspace feature
 // Add your workspace feature implementation here
 
-import { DashboardLayout } from "@/components/dashboard-layout";
+import { DashboardLayout } from '@/components';
 
 export default function WorkspacePage() {
   return (
