@@ -1,4 +1,5 @@
-"use client";
+'use client';
+import { AccountType } from '@/app/auth/types';
 import { StepConfig } from '@/lib/onboarding-steps.config';
 import {
   contributorAccountSchema,
@@ -9,12 +10,11 @@ import {
 } from '@/schemas/onboarding.schema';
 import { useCallback, useState } from 'react';
 import { z } from 'zod';
-import { AccountType } from '../types';
 
 interface UseOnboardingStepperOptions {
   accountType: AccountType;
   steps: StepConfig[];
-  onComplete: (data: any) => Promise<void>;
+  onComplete: (data: unknown) => Promise<void>;
 }
 
 export function useOnboardingStepper({
@@ -23,7 +23,7 @@ export function useOnboardingStepper({
   onComplete,
 }: UseOnboardingStepperOptions) {
   const [currentStep, setCurrentStep] = useState(0);
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [formData, setFormData] = useState<Record<string, unknown>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -61,7 +61,7 @@ export function useOnboardingStepper({
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: Record<string, string> = {};
-        error.issues.forEach((err) => {
+        error.issues.forEach(err => {
           if (err.path[0]) {
             fieldErrors[String(err.path[0])] = err.message;
           }
@@ -78,7 +78,7 @@ export function useOnboardingStepper({
   const nextStep = async (): Promise<boolean> => {
     const isValid = await validateStep();
     if (isValid && currentStep < steps.length - 1) {
-      setCurrentStep((prev) => prev + 1);
+      setCurrentStep(prev => prev + 1);
       setErrors({});
       return true;
     }
@@ -90,7 +90,7 @@ export function useOnboardingStepper({
    */
   const prevStep = () => {
     if (currentStep > 0) {
-      setCurrentStep((prev) => prev - 1);
+      setCurrentStep(prev => prev - 1);
       setErrors({});
     }
   };
@@ -114,8 +114,8 @@ export function useOnboardingStepper({
   /**
    * Update form data
    */
-  const updateFormData = (data: Record<string, any>) => {
-    setFormData((prev) => ({ ...prev, ...data }));
+  const updateFormData = (data: Record<string, unknown>) => {
+    setFormData(prev => ({ ...prev, ...data }));
   };
 
   /**

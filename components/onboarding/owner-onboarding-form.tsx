@@ -39,8 +39,9 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
 
   const handleFormSubmit = async (data: OwnerOnboardingFormData) => {
     try {
-      // Remove confirmPassword before submitting
+      // Solo enviamos los datos relevantes, confirmPassword es solo para validación
       const { confirmPassword, ...onboardingData } = data;
+      void confirmPassword; // Evita advertencia de variable no usada
       await onSubmit(onboardingData);
     } catch (err) {
       console.error('Owner onboarding error:', err);
@@ -51,7 +52,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
     <div className="glass-light dark:glass-dark rounded-xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 max-w-2xl w-full">
       <div className="p-8">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 bg-gradient-to-br from-blue-500/90 to-blue-600/90 dark:from-blue-400/90 dark:to-blue-500/90 rounded-xl flex items-center justify-center shadow-lg mx-auto mb-4">
+          <div className="w-16 h-16 bg-linear-to-br from-blue-500/90 to-blue-600/90 dark:from-blue-400/90 dark:to-blue-500/90 rounded-xl flex items-center justify-center shadow-lg mx-auto mb-4">
             <IconBuilding className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
