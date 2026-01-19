@@ -42,9 +42,6 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
         );
       }
     };
-    // Animación de escala/opacidad
-    setIsAnimating(true);
-    const timeout = setTimeout(() => setIsAnimating(false), 350);
     updateIndicator();
     if (!tabsListRef.current) return;
     const resizeObs = new window.ResizeObserver(updateIndicator);
@@ -53,9 +50,18 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
     return () => {
       resizeObs.disconnect();
       window.removeEventListener('resize', updateIndicator);
-      clearTimeout(timeout);
     };
   }, [activeView, tabKeys]);
+
+  // Animación de escala/opacidad: solo cuando cambia activeView
+  useEffect(() => {
+    const start = setTimeout(() => setIsAnimating(true), 0);
+    const timeout = setTimeout(() => setIsAnimating(false), 350);
+    return () => {
+      clearTimeout(start);
+      clearTimeout(timeout);
+    };
+  }, [activeView]);
 
   // Helper for ref assignment (must return void)
   const setTabRef =
