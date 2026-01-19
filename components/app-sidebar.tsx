@@ -11,6 +11,7 @@ import { NavMain } from './sidebar/nav-main';
 import { NavProjects } from './sidebar/nav-projects';
 import { NavUser } from './sidebar/nav-user';
 import { TeamSwitcher } from './sidebar/team-switcher';
+import { IconPhoto, IconWaveSine, IconCommand } from '@tabler/icons-react';
 
 export function AppSidebar() {
   // Datos de ejemplo sidebar-07
@@ -23,17 +24,17 @@ export function AppSidebar() {
     teams: [
       {
         name: 'Acme Inc',
-        logo: 'GalleryVerticalEnd', // icon name, reemplazar por import real si se usa
+        logo: IconPhoto,
         plan: 'Enterprise',
       },
       {
         name: 'Acme Corp.',
-        logo: 'AudioWaveform',
+        logo: IconWaveSine,
         plan: 'Startup',
       },
       {
         name: 'Evil Corp.',
-        logo: 'Command',
+        logo: IconCommand,
         plan: 'Free',
       },
     ],
@@ -92,7 +93,7 @@ export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
-        <TeamSwitcher teams={[]} />
+        <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
         <NavMain />
