@@ -1,7 +1,3 @@
-import { auth } from "@/auth";
 
-export { auth as middleware };
-
-export const config = {
-  matcher: ["/dashboard/:path*", "/projects/:path*", "/workspace/:path*"],
-};
+// middleware.ts está deprecado en Next.js 16. Usa proxy.ts para protección de rutas.
+// Ver proxy.ts para la lógica actualizada.
