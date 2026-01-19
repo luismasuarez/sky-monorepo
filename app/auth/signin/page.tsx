@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import RegisterForm from "./register-form";
+import { OnboardingFlow } from "../onboarding/onboarding-flow";
 
 interface LoginFormData {
   email: string;
@@ -44,9 +44,8 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-12">
-      <RegisterForm />
-      {/* Si quieres mantener el login, puedes mostrarlo debajo o en otra pestaña */}
+    <div className="max-w-xl mx-auto mt-12">
+      <OnboardingFlow />
     </div>
   );
 }
