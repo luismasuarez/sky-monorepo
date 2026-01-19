@@ -2,6 +2,11 @@ import { useState } from "react";
 import { AccountType, AccountTypeSelection } from "./account-type-selection";
 import { StepIndicator } from "./step-indicator";
 import { contributorSteps, ownerSteps } from "./steps";
+import { OwnerAccountStep } from "./steps/owner-account-step";
+import { OwnerOrganizationStep } from "./steps/owner-organization-step";
+import { OwnerConfirmationStep } from "./steps/owner-confirmation-step";
+import { ContributorAccountStep } from "./steps/contributor-account-step";
+import { ContributorConfirmationStep } from "./steps/contributor-confirmation-step";
 
 // TODO: Import and implement step components for each step (see legacy/auth/components/steps/*)
 
@@ -66,33 +71,44 @@ export function OnboardingFlow() {
     if (!accountType) {
       return <AccountTypeSelection onSelect={handleAccountTypeSelect} />;
     }
-    // Aquí deberías renderizar los componentes visuales de cada paso
-    // Ejemplo:
-    // if (accountType === "ORGANIZATION" && steps[step].id === "account") return <OwnerAccountStep ... />;
-    // if (accountType === "ORGANIZATION" && steps[step].id === "organization") return <OwnerOrganizationStep ... />;
-    // if (accountType === "ORGANIZATION" && steps[step].id === "confirmation") return <OwnerConfirmationStep ... />;
-    // if (accountType === "FREELANCER" && steps[step].id === "account") return <ContributorAccountStep ... />;
-    // if (accountType === "FREELANCER" && steps[step].id === "confirmation") return <ContributorConfirmationStep ... />;
-    return (
-      <div className="p-8 bg-white rounded shadow">
-        <h2 className="text-xl font-bold mb-4">{steps[step].title}</h2>
-        <p className="mb-4">{steps[step].description}</p>
-        {/* Aquí van los campos del paso actual */}
-        <button type="button" className="mr-2" onClick={handlePrev} disabled={step === 0}>Atrás</button>
-        {step < steps.length - 1 ? (
-          <button type="button" onClick={handleNext}>Siguiente</button>
-        ) : (
-          <button type="button" onClick={handleSubmit} disabled={loading}>{loading ? "Registrando..." : "Finalizar"}</button>
-        )}
-        {error && <div className="mt-4 text-red-600">{error}</div>}
-      </div>
-    );
+    const stepId = steps[step].id;
+    if (accountType === "ORGANIZATION") {
+      if (stepId === "account") {
+        return <OwnerAccountStep formData={formData} errors={{}} onChange={handleChange} />;
+      }
+      if (stepId === "organization") {
+        return <OwnerOrganizationStep formData={formData} errors={{}} onChange={handleChange} />;
+      }
+      if (stepId === "confirmation") {
+        return <OwnerConfirmationStep formData={formData} errors={{}} onChange={handleChange} />;
+      }
+    }
+    if (accountType === "FREELANCER") {
+      if (stepId === "account") {
+        return <ContributorAccountStep formData={formData} errors={{}} onChange={handleChange} />;
+      }
+      if (stepId === "confirmation") {
+        return <ContributorConfirmationStep formData={formData} errors={{}} onChange={handleChange} />;
+      }
+    }
+    return null;
   };
 
   return (
     <div className="max-w-xl mx-auto mt-12">
       {accountType && <StepIndicator steps={steps} currentStep={step} />}
-      {renderStep()}
+      <div className="p-8 bg-white rounded shadow">
+        {renderStep()}
+        <div className="flex justify-between mt-8">
+          <button type="button" className="mr-2 px-4 py-2 rounded bg-slate-200" onClick={handlePrev} disabled={step === 0}>Atrás</button>
+          {accountType && step < steps.length - 1 ? (
+            <button type="button" className="px-4 py-2 rounded bg-blue-600 text-white" onClick={handleNext}>Siguiente</button>
+          ) : accountType ? (
+            <button type="button" className="px-4 py-2 rounded bg-green-600 text-white" onClick={handleSubmit} disabled={loading}>{loading ? "Registrando..." : "Finalizar"}</button>
+          ) : null}
+        </div>
+        {error && <div className="mt-4 text-red-600">{error}</div>}
+      </div>
     </div>
   );
 }
