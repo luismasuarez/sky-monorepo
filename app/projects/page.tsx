@@ -1,7 +1,8 @@
 'use client';
 
-import { DashboardLayout, KanbanBoard, ViewToggle } from '@/components';
-import type { ViewType } from '@/components/widgets/view-toggle';
+import { DashboardLayout } from '@/components/layout/dashboard-layout';
+import { KanbanBoard } from '@/components/views/kanban/kanban-board';
+import { ViewToggle, type ViewType } from '@/components/widgets/view-toggle';
 import { kanbanMockData } from '@/lib/mocks';
 import { useState } from 'react';
 
