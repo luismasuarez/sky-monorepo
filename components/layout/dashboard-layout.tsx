@@ -1,10 +1,9 @@
-
-import { AppSidebar } from '@/components/app-sidebar'
-import { SidebarInset } from '@/components/ui/sidebar'
-import { ReactNode } from 'react'
+import { SidebarInset } from '@/components/ui/sidebar';
+import { ReactNode } from 'react';
+import { AppSidebar } from './app-sidebar';
 
 interface DashboardLayoutProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
 export function DashboardLayout({ children }: DashboardLayoutProps) {
@@ -21,10 +20,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         />
 
         {/* Main Content */}
-        <div className="flex flex-1 flex-col p-4">
-          {children}
-        </div>
+        <div className="flex flex-1 flex-col p-4">{children}</div>
       </SidebarInset>
     </>
-  )
+  );
 }

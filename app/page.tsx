@@ -1,23 +1,19 @@
+'use client';
 
-"use client"
-
-
-import AnimatedView from '@/components/animated-view'
-import { DashboardLayout } from '@/components/dashboard-layout'
-import { Header } from '@/components/header'
-import useViewToggle from '@/hooks/useViewToggle'
-import { ViewContentPlaceholder } from '../components/ViewContentPlaceholder'
-import { KanbanBoard } from '@/components/kanban/kanban-board'
-import { kanbanMockData } from '@/lib/mocks'
+import { Header, KanbanBoard, ViewContentPlaceholder } from '@/components';
+import AnimatedView from '@/components/animated-view';
+import { DashboardLayout } from '@/components/layout/dashboard-layout';
+import useViewToggle from '@/hooks/useViewToggle';
+import { kanbanMockData } from '@/lib/mocks';
 
 export default function Page() {
-  const { activeView, handleViewChange } = useViewToggle()
+  const { activeView, handleViewChange } = useViewToggle();
   return (
     <DashboardLayout>
       <Header activeView={activeView} handleViewChange={handleViewChange} />
       <div className="space-y-6">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-full min-h-[320px] relative">
+          <div className="w-full min-h-80 relative">
             <AnimatedView isActive={activeView === 'kanban'}>
               <KanbanBoard kanbanData={kanbanMockData} />
             </AnimatedView>
@@ -34,5 +30,5 @@ export default function Page() {
         </div>
       </div>
     </DashboardLayout>
-  )
+  );
 }

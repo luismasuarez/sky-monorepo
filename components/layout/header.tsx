@@ -1,11 +1,11 @@
 'use client';
 
-import Clock from './clock';
-import DashboardWidget from './dashboard-widget';
-import HeaderMenuControls from './header-menu-controls';
-import ViewToggle from './view-toggle';
+import Clock from '@/components/widgets/clock';
+import DashboardWidget from '@/components/widgets/dashboard-widget';
+import HeaderMenuControls from '@/components/widgets/header-menu-controls';
+import ViewToggle from '@/components/widgets/view-toggle';
 
-import type { ViewType } from './view-toggle';
+import type { ViewType } from '@/hooks/useViewToggle';
 interface HeaderProps {
 	activeView: ViewType;
 	handleViewChange: (view: ViewType) => void;

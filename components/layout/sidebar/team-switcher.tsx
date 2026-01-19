@@ -1,7 +1,5 @@
-"use client"
+'use client';
 
-import * as React from "react"
-import { IconChevronDown, IconPlus } from "@tabler/icons-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,30 +8,32 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "../ui/sidebar"
+} from '@/components/ui/sidebar';
+import { IconChevronDown, IconPlus } from '@tabler/icons-react';
+import * as React from 'react';
 
 type Team = {
-  name: string
-  plan: string
-  logo: React.ComponentType<{ className?: string }>
-}
+  name: string;
+  plan: string;
+  logo: React.ComponentType<{ className?: string }>;
+};
 
 interface TeamSwitcherProps {
-  teams: Team[]
+  teams: Team[];
 }
 
 export function TeamSwitcher({ teams }: TeamSwitcherProps) {
-  const { isMobile } = useSidebar()
-  const [activeTeam, setActiveTeam] = React.useState(teams[0])
+  const { isMobile } = useSidebar();
+  const [activeTeam, setActiveTeam] = React.useState(teams[0]);
 
   if (!activeTeam) {
-    return null
+    return null;
   }
 
   return (
@@ -58,12 +58,10 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             align="start"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             sideOffset={4}
           >
-            <DropdownMenuLabel className="text-muted-foreground text-xs">
-              Teams
-            </DropdownMenuLabel>
+            <DropdownMenuLabel className="text-muted-foreground text-xs">Teams</DropdownMenuLabel>
             {teams.map((team, index) => (
               <DropdownMenuItem
                 key={team.name}
@@ -88,5 +86,5 @@ export function TeamSwitcher({ teams }: TeamSwitcherProps) {
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

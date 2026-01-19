@@ -1,18 +1,12 @@
-"use client"
+'use client';
 
-import {
-  IconDots,
-  IconFolder,
-  IconArrowForward,
-  IconTrash,
-} from "@tabler/icons-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -21,26 +15,27 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "../ui/sidebar"
+} from '@/components/ui/sidebar';
+import { IconArrowForward, IconDots, IconFolder, IconTrash } from '@tabler/icons-react';
 
 type Project = {
-  name: string
-  url: string
-  icon: React.ComponentType
-}
+  name: string;
+  url: string;
+  icon: React.ComponentType;
+};
 
 interface NavProjectsProps {
-  projects: Project[]
+  projects: Project[];
 }
 
 export function NavProjects({ projects }: NavProjectsProps) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
       <SidebarGroupLabel>Projects</SidebarGroupLabel>
       <SidebarMenu>
-        {projects.map((item) => (
+        {projects.map(item => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
@@ -57,8 +52,8 @@ export function NavProjects({ projects }: NavProjectsProps) {
               </DropdownMenuTrigger>
               <DropdownMenuContent
                 className="w-48 rounded-lg"
-                side={isMobile ? "bottom" : "right"}
-                align={isMobile ? "end" : "start"}
+                side={isMobile ? 'bottom' : 'right'}
+                align={isMobile ? 'end' : 'start'}
               >
                 <DropdownMenuItem>
                   <IconFolder className="text-muted-foreground" />
@@ -85,5 +80,5 @@ export function NavProjects({ projects }: NavProjectsProps) {
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }
