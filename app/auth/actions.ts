@@ -1,5 +1,4 @@
-"use server";
-
+'use server';
 
 import { OrgRole, OwnerType, WorkspaceRole } from '@/lib/generated/prisma/enums';
 import prisma from '@/lib/prisma/prisma.service';
@@ -24,7 +23,7 @@ export async function registerUser(formData: FormData) {
   const hashed = await bcrypt.hash(password, 10);
   const user = await prisma.user.create({
     data: { email, password: hashed, fullName },
-    select: { id: true, email: true, fullName: true }
+    select: { id: true, email: true, fullName: true },
   });
 
   return { user };
@@ -75,7 +74,10 @@ export async function createOrganizationOnboarding(formData: FormData) {
     }
 
     // Generar slug único para la organización
-    const baseSlug = organizationName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const baseSlug = organizationName
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '');
     let slug = baseSlug;
     let counter = 1;
     while (await prisma.organization.findUnique({ where: { slug } })) {
@@ -140,8 +142,8 @@ export async function createOrganizationOnboarding(formData: FormData) {
 
     // Revalidar y redirigir
     revalidatePath('/');
-    return { success: true, redirectUrl: `/${organization.slug}/dashboard` };
-
+    // Redirigir a home ("/") si no hay multi-tenant
+    return { success: true, redirectUrl: '/' };
   } catch (error) {
     console.error('Error en onboarding de organización:', error);
     return { error: 'Error al crear la organización. Inténtalo de nuevo.' };
@@ -199,7 +201,6 @@ export async function createFreelancerOnboarding(formData: FormData) {
     // Revalidar y redirigir
     revalidatePath('/');
     return { success: true, redirectUrl: '/workspace/dashboard' };
-
   } catch (error) {
     console.error('Error en onboarding de freelancer:', error);
     return { error: 'Error al crear la cuenta. Inténtalo de nuevo.' };
