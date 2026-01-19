@@ -28,17 +28,21 @@ export default function SignInPage() {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true);
     setLoginError(null);
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: data.email,
-      password: data.password,
-    });
-    if (result?.error) {
-      setLoginError(result.error);
-    } else if (result?.ok) {
-      router.replace("/");
-    } else {
-      setLoginError("Error al iniciar sesión");
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+      if (result?.error) {
+        setLoginError(result.error);
+      } else if (result?.ok) {
+        router.replace("/");
+      } else {
+        setLoginError("Error al iniciar sesión");
+      }
+    } catch (err) {
+      setLoginError("Error inesperado al iniciar sesión");
     }
     setIsLoading(false);
   };
