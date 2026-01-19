@@ -78,8 +78,8 @@ export default function HeaderMenuControls({
 
   return (
     <div className="flex items-center justify-end gap-2 w-full min-h-8">
-      <div className="glass-light dark:glass-dark text-slate-900 dark:text-slate-100 rounded-md px-2 sm:px-3 md:px-4 py-1 min-h-8 shadow-2xl text-shadow-sm flex items-center">
-        <div className="flex gap-1 sm:gap-2 items-center min-h-8">
+      <div className="glass-light dark:glass-dark rounded-md shadow-2xl border w-full max-w-2xl flex justify-between px-2 py-1 min-h-12 relative overflow-hidden">
+        <div className="flex gap-1 sm:gap-2 items-center min-h-10">
           {/* Indicador de sincronización */}
           <span title="Estado de sincronización">
             {syncStatus === 'ok' && <IconCheck className="w-4 h-4 text-green-500" />}

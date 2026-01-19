@@ -78,7 +78,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
     >
       <TabsList
         ref={tabsListRef}
-        className="glass-light dark:glass-dark rounded-md shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-11 relative overflow-hidden"
+        className="glass-light dark:glass-dark rounded-md shadow-2xl border w-full max-w-2xl flex justify-between px-2 py-1 min-h-12 relative overflow-hidden"
       >
         {/* Sliding indicator */}
         {/* Indicador deslizante mejorado */}

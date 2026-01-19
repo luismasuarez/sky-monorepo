@@ -63,7 +63,7 @@ export default function DashboardWidget({ children, className }: DashboardWidget
   return (
     <div
       className={cn(
-        'glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 min-h-[44px] gap-2',
+        'glass-light dark:glass-dark rounded-xl shadow-2xl flex items-center justify-between px-4 sm:px-5 min-h-12 gap-2',
         className
       )}
     >
@@ -72,7 +72,7 @@ export default function DashboardWidget({ children, className }: DashboardWidget
         variant="ghost"
         size="icon"
         onClick={toggleSidebar}
-        className="h-7 w-7 hover:bg-white/30 dark:hover:bg-slate-700/30 text-slate-700 dark:text-slate-300 transition-colors flex-shrink-0"
+        className="h-7 w-7 hover:bg-white/30 dark:hover:bg-slate-700/30 text-slate-700 dark:text-slate-300 transition-colors shrink-0"
         title={open ? 'Ocultar menú' : 'Mostrar menú'}
       >
         {open ? (
@@ -83,21 +83,21 @@ export default function DashboardWidget({ children, className }: DashboardWidget
       </Button>
 
       {/* Separador */}
-      <div className="h-8 w-px bg-slate-300/50 dark:bg-slate-600/50 flex-shrink-0" />
+      <div className="h-8 w-px bg-slate-300/50 dark:bg-slate-600/50 shrink-0" />
 
       {/* Chevron Izquierdo */}
       <Button
         variant="ghost"
         size="icon"
         onClick={prevView}
-        className="h-7 w-7 hover:bg-white/30 dark:hover:bg-slate-700/30 text-slate-600 dark:text-slate-400 transition-colors flex-shrink-0"
+        className="h-7 w-7 hover:bg-white/30 dark:hover:bg-slate-700/30 text-slate-600 dark:text-slate-400 transition-colors shrink-0"
         title="Vista anterior"
       >
         <IconChevronLeft className="h-4 w-4" />
       </Button>
 
       {/* Contenido Principal (Clock, Date o Project) - Con ancho fijo */}
-      <div className="w-28 sm:w-32 flex items-center justify-center flex-shrink-0 h-full">
+      <div className="w-28 sm:w-32 flex items-center justify-center shrink-0 h-full">
         {renderContent()}
       </div>
 
@@ -106,7 +106,7 @@ export default function DashboardWidget({ children, className }: DashboardWidget
         variant="ghost"
         size="icon"
         onClick={nextView}
-        className="h-7 w-7 hover:bg-white/30 dark:hover:bg-slate-700/30 text-slate-600 dark:text-slate-400 transition-colors flex-shrink-0"
+        className="h-7 w-7 hover:bg-white/30 dark:hover:bg-slate-700/30 text-slate-600 dark:text-slate-400 transition-colors shrink-0"
         title="Vista siguiente"
       >
         <IconChevronRight className="h-4 w-4" />
@@ -189,7 +189,7 @@ function ProjectDisplay() {
           </div>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="center" className="w-[200px]">
+      <DropdownMenuContent align="center" className="w-50 sm:w-60">
         <DropdownMenuLabel>Proyectos</DropdownMenuLabel>
         <DropdownMenuSeparator />
 
