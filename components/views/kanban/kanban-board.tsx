@@ -1,5 +1,5 @@
-import { KanbanMockData, KanbanTaskMock } from "@/lib/mocks";
-import KanbanColumn from "./kanban-column";
+import { KanbanMockData, KanbanTaskMock } from '@/lib/mocks';
+import KanbanColumn from './kanban-column';
 
 export interface KanbanBoardProps {
   kanbanData: KanbanMockData;
@@ -47,5 +47,3 @@ export function KanbanBoard({ kanbanData, onAddTask, onEditTask }: KanbanBoardPr
     </div>
   );
 }
-
-export default KanbanBoard;
