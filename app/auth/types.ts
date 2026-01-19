@@ -1,8 +1,7 @@
 // Tipos de usuario y autenticación para Auth.js v5
 
-
 // Roles de usuario globales (no confundir con roles de membresía en organizaciones)
-export type UserRole = "freelancer" | "developer" | "qa" | "designer" | "manager" | "admin";
+export type UserRole = 'freelancer' | 'developer' | 'qa' | 'designer' | 'manager' | 'admin';
 
 export interface User {
   id: string;
@@ -44,26 +43,28 @@ export interface RegisterResponse {
 
 // Tipos de cuenta para onboarding multi-tenant
 export enum AccountType {
-  ORGANIZATION = "ORGANIZATION",
-  FREELANCER = "FREELANCER",
+  ORGANIZATION = 'ORGANIZATION',
+  FREELANCER = 'FREELANCER',
 }
 
 // Tipos de planes
 export enum PlanType {
-  FREE = "FREE",
-  // Agregar más planes aquí
+  FREE = 'FREE',
+  PRO = 'PRO',
+  TEAM = 'TEAM',
+  ENTERPRISE = 'ENTERPRISE',
 }
 
 // Roles de membresía en organizaciones/workspaces
 export enum MembershipRole {
-  OWNER = "OWNER",
-  MEMBER = "MEMBER",
+  OWNER = 'OWNER',
+  MEMBER = 'MEMBER',
 }
 
 // Tipo de propietario de workspace
 export enum OwnerType {
-  ORGANIZATION = "ORGANIZATION",
-  USER = "USER",
+  ORGANIZATION = 'ORGANIZATION',
+  USER = 'USER',
 }
 
 // Payload genérico para registro inicial
@@ -79,6 +80,5 @@ export interface ApiError {
   message: string;
   statusCode: number;
   errorCode?: string;
-  details?: any;
+  details?: unknown;
 }
-
