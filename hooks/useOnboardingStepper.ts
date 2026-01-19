@@ -9,12 +9,17 @@ import {
   ownerOrganizationSchema,
 } from '@/schemas/onboarding.schema';
 import { useCallback, useState } from 'react';
+
+import {
+  ContributorOnboardingFormData,
+  OwnerOnboardingFormData,
+} from '@/schemas/onboarding.schema';
 import { z } from 'zod';
 
 interface UseOnboardingStepperOptions {
   accountType: AccountType;
   steps: StepConfig[];
-  onComplete: (data: unknown) => Promise<void>;
+  onComplete: (data: OwnerOnboardingFormData | ContributorOnboardingFormData) => Promise<void>;
 }
 
 export function useOnboardingStepper({
@@ -127,7 +132,7 @@ export function useOnboardingStepper({
 
     setIsSubmitting(true);
     try {
-      await onComplete(formData);
+      await onComplete(formData as OwnerOnboardingFormData | ContributorOnboardingFormData);
     } finally {
       setIsSubmitting(false);
     }
