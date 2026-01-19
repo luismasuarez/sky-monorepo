@@ -5,6 +5,7 @@ import Clock from './clock'
 import DashboardWidget from './dashboard-widget'
 import ViewToggle from './view-toggle'
 import HeaderMenuControls from './header-menu-controls'
+import LogoutButton from '@/components/ui/logout-button'
 
 import type { ViewType } from './view-toggle'
 interface HeaderProps {
@@ -47,6 +48,7 @@ export function Header({ activeView, handleViewChange }: HeaderProps) {
 					currentWorkspaceId="w1"
 					syncStatus="ok"
 				/>
+				<LogoutButton />
 			</div>
 		</header>
 	)
