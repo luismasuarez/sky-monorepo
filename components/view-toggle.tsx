@@ -25,6 +25,8 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
     left: 0,
     width: 0,
   });
+  // Para animación de escala/opacidad
+  const [isAnimating, setIsAnimating] = useState(false);
   const tabsListRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -40,6 +42,9 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
         );
       }
     };
+    // Animación de escala/opacidad
+    setIsAnimating(true);
+    const timeout = setTimeout(() => setIsAnimating(false), 350);
     updateIndicator();
     if (!tabsListRef.current) return;
     const resizeObs = new window.ResizeObserver(updateIndicator);
@@ -48,6 +53,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
     return () => {
       resizeObs.disconnect();
       window.removeEventListener('resize', updateIndicator);
+      clearTimeout(timeout);
     };
   }, [activeView, tabKeys]);
 
@@ -69,12 +75,26 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
         className="glass-light dark:glass-dark rounded-md shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-11 relative overflow-hidden"
       >
         {/* Sliding indicator */}
+        {/* Indicador deslizante mejorado */}
         <div
-          className="absolute top-1 left-0 h-[calc(100%-0.5rem)] bg-blue-600 dark:bg-blue-400 rounded-md z-0 transition-all duration-300 ease-in-out"
+          className={cn(
+            'absolute top-1 left-0 h-[calc(100%-0.5rem)] rounded-md z-0 transition-all duration-300 ease-in-out',
+            isAnimating && 'scale-105 opacity-90',
+            {
+              'bg-blue-600 dark:bg-blue-400': activeView === 'kanban',
+              'bg-yellow-500 dark:bg-yellow-400': activeView === 'links',
+              'bg-slate-500 dark:bg-slate-400': activeView === 'credentials',
+              'bg-green-600 dark:bg-green-400': activeView === 'metrics',
+            }
+          )}
           style={{
             width: `${indicatorStyle.width}px`,
             left: `${indicatorStyle.left}px`,
             pointerEvents: 'none',
+            boxShadow: isAnimating
+              ? '0 4px 24px 0 rgba(0, 80, 255, 0.18), 0 1.5px 8px 0 rgba(0,0,0,0.10)'
+              : '0 2px 8px 0 rgba(0,0,0,0.08)',
+            transition: 'all 0.3s cubic-bezier(.4,1.2,.4,1)',
           }}
         />
         {tabKeys.map((tab: ViewType, idx: number) => (
