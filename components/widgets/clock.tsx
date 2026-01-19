@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-export default function Clock() {
+export function Clock() {
   const [currentTime, setCurrentTime] = useState('');
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 

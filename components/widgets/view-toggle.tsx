@@ -1,9 +1,9 @@
 'use client';
 
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { IconBookmark, IconChartBar, IconLayoutKanban, IconServer } from '@tabler/icons-react';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
 
 export type ViewType = 'kanban' | 'links' | 'credentials' | 'metrics';
 
@@ -14,7 +14,7 @@ interface ViewToggleProps {
     kanban?: { warning: number; overtime: number };
   };
 }
-export default function ViewToggle({ activeView, onViewChange, notifications }: ViewToggleProps) {
+export function ViewToggle({ activeView, onViewChange, notifications }: ViewToggleProps) {
   const kanbanNotifications = notifications?.kanban || { warning: 0, overtime: 0 };
   const hasNotifications = kanbanNotifications.warning > 0 || kanbanNotifications.overtime > 0;
 

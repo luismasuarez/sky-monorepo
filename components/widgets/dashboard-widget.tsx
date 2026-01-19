@@ -1,4 +1,3 @@
-// src/components/dashboard-widget.tsx
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -31,7 +30,7 @@ interface DashboardWidgetProps {
 
 type WidgetView = 'clock' | 'date' | 'project';
 
-export default function DashboardWidget({ children, className }: DashboardWidgetProps) {
+export function DashboardWidget({ children, className }: DashboardWidgetProps) {
   const { open, toggleSidebar } = useSidebar();
   const [currentView, setCurrentView] = useState<WidgetView>('clock');
 

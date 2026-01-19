@@ -1,9 +1,9 @@
 'use client';
 
-import Clock from '@/components/widgets/clock';
-import DashboardWidget from '@/components/widgets/dashboard-widget';
-import HeaderMenuControls from '@/components/widgets/header-menu-controls';
-import ViewToggle from '@/components/widgets/view-toggle';
+import { Clock } from '@/components/widgets/clock';
+import { DashboardWidget } from '@/components/widgets/dashboard-widget';
+import { HeaderMenuControls } from '@/components/widgets/header-menu-controls';
+import { ViewToggle } from '@/components/widgets/view-toggle';
 
 import type { ViewType } from '@/hooks/useViewToggle';
 interface HeaderProps {

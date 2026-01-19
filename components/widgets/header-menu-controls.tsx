@@ -1,4 +1,3 @@
-// src/components/HeaderMenuControls.tsx
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,6 +20,7 @@ import {
   IconUser,
 } from '@tabler/icons-react';
 
+import { Button } from '@/components/ui/button';
 import {
   IconAlertCircle,
   IconBell,
@@ -32,7 +32,6 @@ import {
 } from '@tabler/icons-react';
 import { useTheme } from 'next-themes';
 import { useState } from 'react';
-import { Button } from './ui/button';
 
 type SyncStatus = 'ok' | 'error' | 'syncing';
 interface HeaderMenuControlsProps {
@@ -49,7 +48,7 @@ interface HeaderMenuControlsProps {
   syncStatus?: SyncStatus;
 }
 
-export default function HeaderMenuControls({
+export function HeaderMenuControls({
   onBackup,
   onRestore,
   notifications: notificationsProp,
