@@ -1,3 +1,33 @@
+// Guards y helpers para onboarding multi-tenant
+export function canCreateOrganizationFree(ownerId: string): boolean {
+  // Limita a 1 organización FREE por usuario
+  const orgs = mockDb.organizations.filter(o => o.ownerId === ownerId && o.plan === PlanType.FREE);
+  return orgs.length < 1;
+}
+
+export function canCreateWorkspaceFree(ownerId: string, ownerType: AccountType): boolean {
+  // Limita a 1 workspace FREE por usuario u organización
+  // ownerType: ORGANIZATION o FREELANCER
+  if (ownerType === AccountType.ORGANIZATION) {
+    const org = mockDb.organizations.find(o => o.ownerId === ownerId && o.plan === PlanType.FREE);
+    if (!org) return false;
+    // Simula que solo puede haber 1 workspace por organización FREE
+    // Aquí podrías consultar mockDb para workspaces si existiera
+    return true;
+  } else {
+    // Para freelancers, solo 1 workspace personal
+    // Aquí podrías consultar mockDb para workspaces si existiera
+    return true;
+  }
+}
+
+export function isEmailRegistered(email: string): boolean {
+  return !!mockDb.users.find(u => u.email === email);
+}
+
+export function isOrgSlugTaken(slug: string): boolean {
+  return !!mockDb.organizations.find(o => o.slug === slug);
+}
 // Servicios de autenticación adaptados a Auth.js v5 y Next.js 16
 // Aquí solo se definen helpers si necesitas lógica adicional fuera de Auth.js
 
