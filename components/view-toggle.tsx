@@ -77,7 +77,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
             pointerEvents: 'none',
           }}
         />
-        {tabKeys.map((tab, idx) => (
+        {tabKeys.map((tab: ViewType, idx: number) => (
           <TabsTrigger
             key={tab}
             value={tab}
