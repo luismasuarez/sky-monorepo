@@ -27,7 +27,6 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<OwnerOnboardingFormData>({
     mode: 'onBlur',
     defaultValues: {
@@ -35,11 +34,12 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
     },
   });
 
-  const password = watch('password');
-
   const handleFormSubmit = async (data: OwnerOnboardingFormData) => {
     try {
-      // Solo enviamos los datos relevantes, confirmPassword es solo para validación
+      if (data.password !== data.confirmPassword) {
+        // Aquí podrías mostrar un error global si lo deseas
+        return;
+      }
       const { confirmPassword, ...onboardingData } = data;
       void confirmPassword; // Evita advertencia de variable no usada
       await onSubmit(onboardingData);
@@ -137,7 +137,6 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                   placeholder="••••••••"
                   {...register('confirmPassword', {
                     required: 'Confirmación es requerida',
-                    validate: value => value === password || 'Las contraseñas no coinciden',
                   })}
                   disabled={isLoading}
                   className="w-full bg-white/80 dark:bg-slate-800/80 border border-slate-200/50 dark:border-slate-700/50 rounded-lg px-4 py-3"
