@@ -2,7 +2,14 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { OwnerOnboardingData } from '@/types/onboardingTypes';
-import { Briefcase, Building2, Lock, Mail, Phone, User } from 'lucide-react';
+import {
+  IconBriefcase,
+  IconBuilding,
+  IconLock,
+  IconMail,
+  IconPhone,
+  IconUser,
+} from '@tabler/icons-react';
 import { useForm } from 'react-hook-form';
 
 interface OwnerOnboardingFormProps {
@@ -45,7 +52,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
       <div className="p-8">
         <div className="text-center mb-8">
           <div className="w-16 h-16 bg-gradient-to-br from-blue-500/90 to-blue-600/90 dark:from-blue-400/90 dark:to-blue-500/90 rounded-xl flex items-center justify-center shadow-lg mx-auto mb-4">
-            <Building2 className="w-8 h-8 text-white" />
+            <IconBuilding className="w-8 h-8 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
             Crear Organización
@@ -67,7 +74,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                 htmlFor="email"
                 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
               >
-                <Mail className="w-4 h-4 mr-2 text-blue-500" />
+                <IconMail className="w-4 h-4 mr-2 text-blue-500" />
                 Email
               </Label>
               <Input
@@ -84,9 +91,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                 disabled={isLoading}
                 className="w-full bg-white/80 dark:bg-slate-800/80 border border-slate-200/50 dark:border-slate-700/50 rounded-lg px-4 py-3"
               />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email.message}</p>
-              )}
+              {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
@@ -95,7 +100,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                   htmlFor="password"
                   className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
                 >
-                  <Lock className="w-4 h-4 mr-2 text-blue-500" />
+                  <IconLock className="w-4 h-4 mr-2 text-blue-500" />
                   Contraseña
                 </Label>
                 <Input
@@ -122,7 +127,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                   htmlFor="confirmPassword"
                   className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
                 >
-                  <Lock className="w-4 h-4 mr-2 text-blue-500" />
+                  <IconLock className="w-4 h-4 mr-2 text-blue-500" />
                   Confirmar Contraseña
                 </Label>
                 <Input
@@ -131,8 +136,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                   placeholder="••••••••"
                   {...register('confirmPassword', {
                     required: 'Confirmación es requerida',
-                    validate: (value) =>
-                      value === password || 'Las contraseñas no coinciden',
+                    validate: value => value === password || 'Las contraseñas no coinciden',
                   })}
                   disabled={isLoading}
                   className="w-full bg-white/80 dark:bg-slate-800/80 border border-slate-200/50 dark:border-slate-700/50 rounded-lg px-4 py-3"
@@ -155,7 +159,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                 htmlFor="organizationName"
                 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
               >
-                <Building2 className="w-4 h-4 mr-2 text-blue-500" />
+                <IconBuilding className="w-4 h-4 mr-2 text-blue-500" />
                 Nombre de Organización *
               </Label>
               <Input
@@ -182,7 +186,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                 htmlFor="workspaceName"
                 className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
               >
-                <Briefcase className="w-4 h-4 mr-2 text-blue-500" />
+                <IconBriefcase className="w-4 h-4 mr-2 text-blue-500" />
                 Nombre del Workspace Inicial
               </Label>
               <Input
@@ -206,7 +210,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                   htmlFor="contactName"
                   className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
                 >
-                  <User className="w-4 h-4 mr-2 text-blue-500" />
+                  <IconUser className="w-4 h-4 mr-2 text-blue-500" />
                   Nombre de Contacto (Opcional)
                 </Label>
                 <Input
@@ -224,7 +228,7 @@ export function OwnerOnboardingForm({ onSubmit, onBack, isLoading }: OwnerOnboar
                   htmlFor="phone"
                   className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
                 >
-                  <Phone className="w-4 h-4 mr-2 text-blue-500" />
+                  <IconPhone className="w-4 h-4 mr-2 text-blue-500" />
                   Teléfono (Opcional)
                 </Label>
                 <Input
