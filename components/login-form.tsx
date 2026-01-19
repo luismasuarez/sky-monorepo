@@ -5,6 +5,8 @@ import { IconAlertCircle, IconLock, IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface LoginFormData {
   email: string;
@@ -27,31 +29,28 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     mode: 'onBlur',
   });
 
+  const router = useRouter();
   const onSubmit = async (data: LoginFormData) => {
-    // try {
-    //   setIsLoading(true);
-    //   setLoginError(null);
-
-    //   const result = await localAuthService.login(data.email, data.password);
-
-    //   if (result.success && result.user) {
-    //     onSuccess?.();
-
-    //     // Redirect based on account type
-    //     if (result.user.accountType === 'owner') {
-    //       // navigate('/', { replace: true });
-    //     } else {
-    //       // navigate('/invitations', { replace: true });
-    //     }
-    //   } else {
-    //     setLoginError(result.error || 'Error al iniciar sesión');
-    //   }
-    // } catch (err) {
-    //   console.error('Login error:', err);
-    //   setLoginError('Error inesperado al iniciar sesión');
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    setIsLoading(true);
+    setLoginError(null);
+    try {
+      const result = await signIn("credentials", {
+        redirect: false,
+        email: data.email,
+        password: data.password,
+      });
+      if (result?.error) {
+        setLoginError(result.error);
+      } else if (result?.ok) {
+        onSuccess?.();
+        router.replace("/");
+      } else {
+        setLoginError("Error al iniciar sesión");
+      }
+    } catch (err) {
+      setLoginError("Error inesperado al iniciar sesión");
+    }
+    setIsLoading(false);
   };
 
   return (
