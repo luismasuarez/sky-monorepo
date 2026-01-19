@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils';
 import { IconBookmark, IconChartBar, IconLayoutKanban, IconServer } from '@tabler/icons-react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
 
 export type ViewType = 'kanban' | 'links' | 'credentials' | 'metrics';
@@ -19,7 +19,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
   const hasNotifications = kanbanNotifications.warning > 0 || kanbanNotifications.overtime > 0;
 
   // Sliding indicator logic
-  const tabKeys: ViewType[] = ['kanban', 'links', 'credentials', 'metrics'];
+  const tabKeys = useMemo<ViewType[]>(() => ['kanban', 'links', 'credentials', 'metrics'], []);
   const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number }>({
     left: 0,
@@ -34,7 +34,10 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
       if (node && node.parentElement) {
         const { left, width } = node.getBoundingClientRect();
         const parentLeft = node.parentElement.getBoundingClientRect().left;
-        setIndicatorStyle({ left: left - parentLeft, width });
+        const newStyle = { left: left - parentLeft, width };
+        setIndicatorStyle(prev =>
+          prev.left !== newStyle.left || prev.width !== newStyle.width ? newStyle : prev
+        );
       }
     };
     updateIndicator();
@@ -63,7 +66,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
     >
       <TabsList
         ref={tabsListRef}
-        className="glass-light dark:glass-dark rounded-md shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-[44px] relative overflow-hidden"
+        className="glass-light dark:glass-dark rounded-md shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-11 relative overflow-hidden"
       >
         {/* Sliding indicator */}
         <div
