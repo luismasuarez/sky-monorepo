@@ -6,7 +6,7 @@ import AnimatedView from '@/components/animated-view'
 import { DashboardLayout } from '@/components/dashboard-layout'
 import { Header } from '@/components/header'
 import useViewToggle from '@/hooks/useViewToggle'
-import { ViewContentPlaceholder } from './dashboard/core/components/ViewContentPlaceholder'
+import { ViewContentPlaceholder } from '../components/ViewContentPlaceholder'
 import { KanbanBoard } from '@/components/kanban/kanban-board'
 import { kanbanMockData } from '@/lib/mocks'
 

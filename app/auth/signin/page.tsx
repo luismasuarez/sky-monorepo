@@ -1,5 +1,5 @@
 "use client";
-import { LoginForm } from "@/app/auth/onboarding/login-form";
+import { LoginForm } from "@/app/auth/signin/login-form";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
