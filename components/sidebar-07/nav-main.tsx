@@ -23,12 +23,66 @@ import {
   SidebarMenuSubItem,
 } from "../ui/sidebar"
 
-export function NavMain({ items }) {
+
+const sidebarItems = [
+  {
+    title: "Dashboard",
+    icon: "Bot",
+    isActive: false,
+    items: [
+      { title: "Overview", url: "/dashboard" },
+      { title: "Kanban", url: "/dashboard/core/kanban" },
+    ],
+  },
+  {
+    title: "Projects",
+    icon: "BookOpen",
+    isActive: false,
+    items: [
+      { title: "All Projects", url: "/projects" },
+    ],
+  },
+  {
+    title: "Workspace",
+    icon: "SquareTerminal",
+    isActive: false,
+    items: [
+      { title: "Workspace Home", url: "/workspace" },
+    ],
+  },
+  {
+    title: "Settings",
+    icon: "Settings2",
+    isActive: false,
+    items: [
+      { title: "General", url: "/pages/settings" },
+    ],
+  },
+  {
+    title: "Team",
+    icon: "Badge",
+    isActive: false,
+    items: [
+      { title: "Members", url: "/team" },
+    ],
+  },
+  {
+    title: "Auth",
+    icon: "Terminal",
+    isActive: false,
+    items: [
+      { title: "Sign In", url: "/auth/signin" },
+      { title: "Logout", url: "/logout" },
+    ],
+  },
+]
+
+export function NavMain() {
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
+        {sidebarItems.map((item) => (
           <Collapsible
             key={item.title}
             asChild
