@@ -10,8 +10,8 @@ import { OwnerConfirmationStep } from './steps/owner-confirmation-step';
 import { OwnerOrganizationStep } from './steps/owner-organization-step';
 
 // Contributor steps
-import { useOnboardingStepper } from '@/app/auth/hooks/useOnboardingStepper';
 import { AccountType } from '@/app/auth/types';
+import { useOnboardingStepper } from '@/hooks/useOnboardingStepper';
 import { StepConfig } from '@/lib/onboarding-steps.config';
 import { ContributorOnboardingFormData, OwnerOnboardingFormData } from '@/schemas/onboarding.schema';
 import { ContributorAccountStep } from './steps/contributor-account-step';
