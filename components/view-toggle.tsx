@@ -1,50 +1,68 @@
-"use client"
+'use client';
 
-import { cn } from '@/lib/utils'
-import { IconBookmark, IconChartBar, IconLayoutKanban, IconServer } from "@tabler/icons-react"
-import { useEffect, useRef, useState } from 'react'
-import { Tabs, TabsList, TabsTrigger } from "./ui/tabs"
+import { cn } from '@/lib/utils';
+import { IconBookmark, IconChartBar, IconLayoutKanban, IconServer } from '@tabler/icons-react';
+import { useEffect, useRef, useState } from 'react';
+import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
 
-export type ViewType = "kanban" | "links" | "credentials" | "metrics"
+export type ViewType = 'kanban' | 'links' | 'credentials' | 'metrics';
 
 interface ViewToggleProps {
-  activeView: ViewType
-  onViewChange: (view: ViewType) => void
+  activeView: ViewType;
+  onViewChange: (view: ViewType) => void;
   notifications?: {
-    kanban?: { warning: number; overtime: number }
-  }
+    kanban?: { warning: number; overtime: number };
+  };
 }
 export default function ViewToggle({ activeView, onViewChange, notifications }: ViewToggleProps) {
-  const kanbanNotifications = notifications?.kanban || { warning: 0, overtime: 0 }
-  const hasNotifications = kanbanNotifications.warning > 0 || kanbanNotifications.overtime > 0
+  const kanbanNotifications = notifications?.kanban || { warning: 0, overtime: 0 };
+  const hasNotifications = kanbanNotifications.warning > 0 || kanbanNotifications.overtime > 0;
 
   // Sliding indicator logic
-  const tabKeys: ViewType[] = ["kanban", "links", "credentials", "metrics"]
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
-  const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number }>({ left: 0, width: 0 })
+  const tabKeys: ViewType[] = ['kanban', 'links', 'credentials', 'metrics'];
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicatorStyle, setIndicatorStyle] = useState<{ left: number; width: number }>({
+    left: 0,
+    width: 0,
+  });
+  const tabsListRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const idx = tabKeys.indexOf(activeView)
-    const node = tabRefs.current[idx]
-    if (node && node.parentElement) {
-      const { left, width } = node.getBoundingClientRect()
-      const parentLeft = node.parentElement.getBoundingClientRect().left
-      setIndicatorStyle({ left: left - parentLeft, width })
-    }
-  }, [activeView])
+    const updateIndicator = () => {
+      const idx = tabKeys.indexOf(activeView);
+      const node = tabRefs.current[idx];
+      if (node && node.parentElement) {
+        const { left, width } = node.getBoundingClientRect();
+        const parentLeft = node.parentElement.getBoundingClientRect().left;
+        setIndicatorStyle({ left: left - parentLeft, width });
+      }
+    };
+    updateIndicator();
+    if (!tabsListRef.current) return;
+    const resizeObs = new window.ResizeObserver(updateIndicator);
+    resizeObs.observe(tabsListRef.current);
+    window.addEventListener('resize', updateIndicator);
+    return () => {
+      resizeObs.disconnect();
+      window.removeEventListener('resize', updateIndicator);
+    };
+  }, [activeView, tabKeys]);
 
   // Helper for ref assignment (must return void)
-  const setTabRef = (idx: number) => (el: HTMLButtonElement | null): void => {
-    tabRefs.current[idx] = el
-  }
+  const setTabRef =
+    (idx: number) =>
+      (el: HTMLButtonElement | null): void => {
+        tabRefs.current[idx] = el;
+      };
 
   return (
     <Tabs
       value={activeView}
-      onValueChange={(value) => onViewChange(value as ViewType)}
+      onValueChange={value => onViewChange(value as ViewType)}
       className="w-full flex justify-center"
     >
       <TabsList
+        ref={tabsListRef}
         className="glass-light dark:glass-dark rounded-md shadow-2xl border border-slate-200/70 dark:border-slate-700/60 w-full max-w-2xl flex justify-between px-2 py-1 min-h-[44px] relative overflow-hidden"
       >
         {/* Sliding indicator */}
@@ -62,40 +80,55 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
             value={tab}
             ref={setTabRef(idx)}
             className={cn(
-              "flex-1 flex items-center justify-center gap-1 relative text-base font-semibold rounded-md z-10 transition-colors duration-200",
-              activeView === tab ? "text-white" : ""
+              'flex-1 flex items-center justify-center gap-1 relative text-base font-semibold rounded-md z-10 transition-colors duration-200',
+              activeView === tab ? 'text-white' : ''
             )}
           >
-            {tab === "kanban" && <><IconLayoutKanban className="w-4 h-4" stroke={1.7} />
-              <span className="hidden sm:inline">Kanban</span>
-              <span className="sm:hidden">Tasks</span>
-              {hasNotifications && (
-                <span className="absolute -top-1 -right-2 flex gap-0.5">
-                  {kanbanNotifications.overtime > 0 && (
-                    <span className="w-3 h-3 bg-red-500 dark:bg-red-400 rounded-full flex items-center justify-center text-[8px] text-white font-bold animate-pulse">
-                      {kanbanNotifications.overtime > 9 ? "9+" : kanbanNotifications.overtime}
-                    </span>
-                  )}
-                  {kanbanNotifications.warning > 0 && (
-                    <span className="w-3 h-3 bg-yellow-500 dark:bg-yellow-400 rounded-full flex items-center justify-center text-[8px] text-white font-bold">
-                      {kanbanNotifications.warning > 9 ? "9+" : kanbanNotifications.warning}
-                    </span>
-                  )}
-                </span>
-              )}
-            </>}
-            {tab === "links" && <><IconBookmark className="w-4 h-4" stroke={1.7} />
-              <span className="hidden sm:inline">Links</span>
-              <span className="sm:hidden">Links</span></>}
-            {tab === "credentials" && <><IconServer className="w-4 h-4" stroke={1.7} />
-              <span className="hidden sm:inline">Credentials</span>
-              <span className="sm:hidden">Creds</span></>}
-            {tab === "metrics" && <><IconChartBar className="w-4 h-4" stroke={1.7} />
-              <span className="hidden sm:inline">Metrics</span>
-              <span className="sm:hidden">Stats</span></>}
+            {tab === 'kanban' && (
+              <>
+                <IconLayoutKanban className="w-4 h-4" stroke={1.7} />
+                <span className="hidden sm:inline">Kanban</span>
+                <span className="sm:hidden">Tasks</span>
+                {hasNotifications && (
+                  <span className="absolute -top-1 -right-2 flex gap-0.5">
+                    {kanbanNotifications.overtime > 0 && (
+                      <span className="w-3 h-3 bg-red-500 dark:bg-red-400 rounded-full flex items-center justify-center text-[8px] text-white font-bold animate-pulse">
+                        {kanbanNotifications.overtime > 9 ? '9+' : kanbanNotifications.overtime}
+                      </span>
+                    )}
+                    {kanbanNotifications.warning > 0 && (
+                      <span className="w-3 h-3 bg-yellow-500 dark:bg-yellow-400 rounded-full flex items-center justify-center text-[8px] text-white font-bold">
+                        {kanbanNotifications.warning > 9 ? '9+' : kanbanNotifications.warning}
+                      </span>
+                    )}
+                  </span>
+                )}
+              </>
+            )}
+            {tab === 'links' && (
+              <>
+                <IconBookmark className="w-4 h-4" stroke={1.7} />
+                <span className="hidden sm:inline">Links</span>
+                <span className="sm:hidden">Links</span>
+              </>
+            )}
+            {tab === 'credentials' && (
+              <>
+                <IconServer className="w-4 h-4" stroke={1.7} />
+                <span className="hidden sm:inline">Credentials</span>
+                <span className="sm:hidden">Creds</span>
+              </>
+            )}
+            {tab === 'metrics' && (
+              <>
+                <IconChartBar className="w-4 h-4" stroke={1.7} />
+                <span className="hidden sm:inline">Metrics</span>
+                <span className="sm:hidden">Stats</span>
+              </>
+            )}
           </TabsTrigger>
         ))}
       </TabsList>
     </Tabs>
-  )
+  );
 }
