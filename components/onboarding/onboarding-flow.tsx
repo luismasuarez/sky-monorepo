@@ -9,8 +9,6 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { AccountTypeSelection } from './account-type-selection';
 import { OnboardingStepper } from './onboarding-stepper';
-import { createUser, createOrganization, createWorkspace, createOrganizationMembership } from '../services';
-import { PlanType, MembershipRole } from '../types';
 
 type OnboardingStep = 'select-type' | 'stepper';
 
@@ -31,34 +29,34 @@ export function OnboardingFlow() {
   const handleComplete = async (
     data: OwnerOnboardingFormData | ContributorOnboardingFormData
   ) => {
-    try {
-      if (!accountType) return;
+    // try {
+    //   if (!accountType) return;
 
-      if (accountType === 'ORGANIZATION') {
-        // 1. Crear usuario (admin/owner)
-        const { fullName, email, organizationName, workspaceName } = data as any;
-        const user = await createUser({ name: fullName || data.name, email, accountType });
-        // 2. Crear organización
-        const org = await createOrganization({ name: organizationName, ownerId: user.id, plan: PlanType.FREE });
-        // 3. Crear membresía OWNER
-        await createOrganizationMembership({ organizationId: org.id, userId: user.id, role: MembershipRole.OWNER });
-        // 4. Crear workspace inicial
-        await createWorkspace({ ownerType: accountType, organizationId: org.id, ownerId: user.id });
-        window.location.href = '/dashboard';
-        return;
-      }
+    //   if (accountType === 'ORGANIZATION') {
+    //     // 1. Crear usuario (admin/owner)
+    //     const { fullName, email, organizationName, workspaceName } = data as any;
+    //     const user = await createUser({ name: fullName || data.name, email, accountType });
+    //     // 2. Crear organización
+    //     const org = await createOrganization({ name: organizationName, ownerId: user.id, plan: PlanType.FREE });
+    //     // 3. Crear membresía OWNER
+    //     await createOrganizationMembership({ organizationId: org.id, userId: user.id, role: MembershipRole.OWNER });
+    //     // 4. Crear workspace inicial
+    //     await createWorkspace({ ownerType: accountType, organizationId: org.id, ownerId: user.id });
+    //     window.location.href = '/dashboard';
+    //     return;
+    //   }
 
-      if (accountType === 'FREELANCER') {
-        const { fullName, email } = data as any;
-        await createUser({ name: fullName || data.name, email, accountType });
-        window.location.href = '/dashboard';
-        return;
-      }
-    } catch (error) {
-      console.error('Onboarding error:', error);
-      alert('Hubo un error al finalizar el onboarding. Intenta de nuevo.');
-      throw error;
-    }
+    //   if (accountType === 'FREELANCER') {
+    //     const { fullName, email } = data as any;
+    //     await createUser({ name: fullName || data.name, email, accountType });
+    //     window.location.href = '/dashboard';
+    //     return;
+    //   }
+    // } catch (error) {
+    //   console.error('Onboarding error:', error);
+    //   alert('Hubo un error al finalizar el onboarding. Intenta de nuevo.');
+    //   throw error;
+    // }
   };
 
   return (
