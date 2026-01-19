@@ -1,4 +1,4 @@
-import { Check } from "lucide-react";
+import { IconCheck } from "@tabler/icons-react";
 
 interface StepConfig {
   id: string;
@@ -34,7 +34,7 @@ export function StepIndicator({ steps, currentStep, onStepClick }: StepIndicator
               >
                 <div className="relative flex w-full items-center justify-center">
                   <span className={`w-10 h-10 flex items-center justify-center rounded-full border-2 ${isActive ? "border-blue-600" : isCompleted ? "border-green-500" : "border-slate-300"} bg-white dark:bg-slate-900 shadow-lg`}>
-                    {isCompleted ? <Check className="w-6 h-6 text-green-500" /> : <StepIcon className="w-6 h-6 text-blue-600" />}
+                    {isCompleted ? <IconCheck className="w-6 h-6 text-green-500" /> : <StepIcon className="w-6 h-6 text-blue-600" />}
                   </span>
                 </div>
                 <span className="mt-2 text-xs text-slate-700 dark:text-slate-300">{step.title}</span>

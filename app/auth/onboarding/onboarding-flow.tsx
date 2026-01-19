@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ownerSteps, contributorSteps } from "./steps";
+import { AccountType, AccountTypeSelection } from "./account-type-selection";
 import { StepIndicator } from "./step-indicator";
-import { AccountTypeSelection, AccountType } from "./account-type-selection";
+import { contributorSteps, ownerSteps } from "./steps";
 
 // TODO: Import and implement step components for each step (see legacy/auth/components/steps/*)
 

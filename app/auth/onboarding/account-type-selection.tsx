@@ -1,4 +1,4 @@
-import { Building2, User } from "lucide-react";
+import { IconBuilding, IconUser } from "@tabler/icons-react";
 
 export type AccountType = "ORGANIZATION" | "FREELANCER";
 
@@ -24,7 +24,7 @@ export function AccountTypeSelection({ onSelect }: AccountTypeSelectionProps) {
         >
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-400 dark:to-blue-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
-              <Building2 className="w-10 h-10 text-white" />
+              <IconBuilding className="w-10 h-10 text-white" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">
@@ -42,7 +42,7 @@ export function AccountTypeSelection({ onSelect }: AccountTypeSelectionProps) {
         >
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
-              <User className="w-10 h-10 text-white" />
+              <IconUser className="w-10 h-10 text-white" />
             </div>
             <div>
               <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 mb-2">

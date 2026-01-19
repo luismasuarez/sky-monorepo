@@ -1,23 +1,23 @@
-import { User, Building2, CheckCircle2 } from "lucide-react";
+import { IconBuilding, IconCircleDashedCheck, IconUser } from "@tabler/icons-react";
 
 export const ownerSteps = [
   {
     id: "account",
     title: "Cuenta",
     description: "Crea tu cuenta de administrador",
-    icon: User,
+    icon: IconUser,
   },
   {
     id: "organization",
     title: "Organización",
     description: "Configura tu organización",
-    icon: Building2,
+    icon: IconBuilding,
   },
   {
     id: "confirmation",
     title: "Confirmación",
     description: "Revisa y confirma",
-    icon: CheckCircle2,
+    icon: IconCircleDashedCheck,
   },
 ];
 
@@ -26,12 +26,12 @@ export const contributorSteps = [
     id: "account",
     title: "Cuenta",
     description: "Crea tu cuenta personal",
-    icon: User,
+    icon: IconUser,
   },
   {
     id: "confirmation",
     title: "Configura tu espacio",
     description: "Configura tu espacio",
-    icon: CheckCircle2,
+    icon: IconCircleDashedCheck,
   },
 ];
