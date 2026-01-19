@@ -77,9 +77,9 @@ export default function HeaderMenuControls({
   const syncStatus: SyncStatus = syncStatusProp ?? 'ok';
 
   return (
-    <div className="flex items-center justify-end gap-2 w-full">
-      <div className="glass-light dark:glass-dark text-slate-900 dark:text-slate-100 rounded-xl px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2.5 shadow-2xl text-shadow-sm">
-        <div className="flex gap-1 sm:gap-2 items-center">
+    <div className="flex items-center justify-end gap-2 w-full min-h-8">
+      <div className="glass-light dark:glass-dark text-slate-900 dark:text-slate-100 rounded-md px-2 sm:px-3 md:px-4 py-1 min-h-8 shadow-2xl text-shadow-sm flex items-center">
+        <div className="flex gap-1 sm:gap-2 items-center min-h-8">
           {/* Indicador de sincronización */}
           <span title="Estado de sincronización">
             {syncStatus === 'ok' && <IconCheck className="w-4 h-4 text-green-500" />}
@@ -97,7 +97,7 @@ export default function HeaderMenuControls({
               <Button
                 variant="ghost"
                 size="sm"
-                className="flex items-center gap-1 px-2 text-xs font-medium"
+                className="flex items-center gap-1 px-2 text-xs font-medium min-h-6"
               >
                 {workspaces.find(w => w.id === currentWorkspaceId)?.name || 'Workspace'}
                 <IconChevronDown className="w-3 h-3" />
@@ -121,7 +121,7 @@ export default function HeaderMenuControls({
           <Button
             variant="ghost"
             size="icon"
-            className="text-blue-600 hover:text-blue-800"
+            className="text-blue-600 hover:text-blue-800 min-h-9"
             title="Crear nuevo"
           >
             <IconPlus className="w-5 h-5" />
@@ -130,7 +130,12 @@ export default function HeaderMenuControls({
           {/* Notificaciones */}
           <DropdownMenu open={showNotifications} onOpenChange={setShowNotifications}>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative" title="Notificaciones">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="relative min-h-9"
+                title="Notificaciones"
+              >
                 <IconBell className="w-5 h-5" />
                 {unreadCount > 0 && (
                   <span className="absolute top-1 right-1 bg-red-500 text-white rounded-full text-xs w-4 h-4 flex items-center justify-center">
@@ -158,7 +163,7 @@ export default function HeaderMenuControls({
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-slate-700 dark:text-slate-200"
+                className="text-slate-700 dark:text-slate-200 min-h-9"
                 title="Menú principal"
               >
                 <IconMenu2 className="w-5 h-5" />
