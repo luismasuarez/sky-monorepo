@@ -2,8 +2,8 @@
 
 import Clock from './clock';
 import DashboardWidget from './dashboard-widget';
-import ViewToggle from './view-toggle';
 import HeaderMenuControls from './header-menu-controls';
+import ViewToggle from './view-toggle';
 
 import type { ViewType } from './view-toggle';
 interface HeaderProps {
@@ -22,8 +22,8 @@ export function Header({ activeView, handleViewChange }: HeaderProps) {
 			</div>
 
 			{/* CENTRO */}
-			<div className="flex-1 flex items-center justify-center min-w-[200px]">
-				<ViewToggle activeView={activeView as any} onViewChange={handleViewChange as any} />
+			<div className="flex-1 flex items-center justify-center">
+				<ViewToggle activeView={activeView} onViewChange={handleViewChange} />
 			</div>
 
 			{/* DERECHA */}
