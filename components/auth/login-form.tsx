@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { AlertCircle, Lock, Mail } from 'lucide-react';
+import { IconAlertCircle, IconLock, IconMail } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -58,7 +58,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
     <div>
       <div className="text-center mb-8">
         <div className="w-16 h-16 bg-gradient-to-br from-blue-500/90 to-blue-600/90 dark:from-blue-400/90 dark:to-blue-500/90 rounded-xl flex items-center justify-center shadow-lg mx-auto mb-4">
-          <Lock className="w-8 h-8 text-white" />
+          <IconLock className="w-8 h-8 text-white" />
         </div>
         <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-2">
           Iniciar Sesión
@@ -72,7 +72,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
         {/* Error message */}
         {loginError && (
           <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3 flex items-center gap-2">
-            <AlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
+            <IconAlertCircle className="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0" />
             <p className="text-sm text-red-600 dark:text-red-400">{loginError}</p>
           </div>
         )}
@@ -82,7 +82,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             htmlFor="email"
             className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
           >
-            <Mail className="w-4 h-4 mr-2 text-blue-500" />
+            <IconMail className="w-4 h-4 mr-2 text-blue-500" />
             Email
           </Label>
           <Input
@@ -109,7 +109,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             htmlFor="password"
             className="text-sm font-semibold text-slate-700 dark:text-slate-300 flex items-center"
           >
-            <Lock className="w-4 h-4 mr-2 text-purple-500" />
+            <IconLock className="w-4 h-4 mr-2 text-purple-500" />
             Contraseña
           </Label>
           <Input
