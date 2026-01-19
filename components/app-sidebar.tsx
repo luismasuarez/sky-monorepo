@@ -3,137 +3,105 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
+  SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+  SidebarRail,
 } from '@/components/ui/sidebar'
-import {
-  IconBookmark,
-  IconBuilding,
-  IconChecklist,
-  IconCreditCard,
-  IconFolder,
-  IconHome,
-  IconServer,
-  IconSettings,
-  IconStack2,
-  IconUserCircle,
-  IconUsers,
-} from '@tabler/icons-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { NavMain } from "./sidebar-07/nav-main"
+import { NavProjects } from "./sidebar-07/nav-projects"
+import { NavUser } from "./sidebar-07/nav-user"
+import { TeamSwitcher } from "./sidebar-07/team-switcher"
 
 export function AppSidebar() {
-  const pathname = usePathname()
-
-  // TODO: Esta lógica vendrá del contexto de workspace cuando lo implementemos
-  const isOrgWorkspace = false
-  const permissions = {
-    isOwner: true,
-    isAdmin: false,
-  }
-
-  // Base navigation (always available)
-  const baseNavigation = [
-    {
-      title: 'General',
-      items: [
-        { title: 'Dashboard', icon: IconHome, href: '/' },
-      ],
+  // Datos de ejemplo sidebar-07
+  const data = {
+    user: {
+      name: "shadcn",
+      email: "m@example.com",
+      avatar: "/avatars/shadcn.jpg",
     },
-    {
-      title: 'Workspace',
-      items: [
-        { title: 'Proyectos', icon: IconFolder, href: '/projects' },
-        ...(isOrgWorkspace
-          ? [{ title: 'Equipos', icon: IconUsers, href: '/teams' }]
-          : []
-        ),
-      ],
-    },
-  ]
-
-  // Settings section varies based on workspace type and permissions
-  let settingsSection = []
-
-  if (isOrgWorkspace && (permissions.isOwner || permissions.isAdmin)) {
-    settingsSection = [
+    teams: [
       {
-        title: 'Administración',
+        name: "Acme Inc",
+        logo: "GalleryVerticalEnd", // icon name, reemplazar por import real si se usa
+        plan: "Enterprise",
+      },
+      {
+        name: "Acme Corp.",
+        logo: "AudioWaveform",
+        plan: "Startup",
+      },
+      {
+        name: "Evil Corp.",
+        logo: "Command",
+        plan: "Free",
+      },
+    ],
+    navMain: [
+      {
+        title: "Playground",
+        url: "#",
+        icon: "SquareTerminal",
+        isActive: true,
         items: [
-          ...(permissions.isOwner
-            ? [{ title: 'Organización', icon: IconBuilding, href: '/settings/organization' }]
-            : []
-          ),
-          { title: 'Workspaces', icon: IconStack2, href: '/settings/workspaces' },
-          { title: 'Miembros', icon: IconUsers, href: '/settings/members' },
-          ...(permissions.isOwner
-            ? [{ title: 'Facturación', icon: IconCreditCard, href: '/settings/billing' }]
-            : []
-          ),
+          { title: "History", url: "#" },
+          { title: "Starred", url: "#" },
+          { title: "Settings", url: "#" },
         ],
       },
-    ]
-  } else {
-    settingsSection = [
       {
-        title: 'Mi Cuenta',
+        title: "Models",
+        url: "#",
+        icon: "Bot",
         items: [
-          { title: 'Perfil', icon: IconUserCircle, href: '/settings/profile' },
-          { title: 'Preferencias', icon: IconSettings, href: '/settings/preferences' },
+          { title: "Genesis", url: "#" },
+          { title: "Explorer", url: "#" },
+          { title: "Quantum", url: "#" },
         ],
       },
-    ]
+      {
+        title: "Documentation",
+        url: "#",
+        icon: "BookOpen",
+        items: [
+          { title: "Introduction", url: "#" },
+          { title: "Get Started", url: "#" },
+          { title: "Tutorials", url: "#" },
+          { title: "Changelog", url: "#" },
+        ],
+      },
+      {
+        title: "Settings",
+        url: "#",
+        icon: "Settings2",
+        items: [
+          { title: "General", url: "#" },
+          { title: "Team", url: "#" },
+          { title: "Billing", url: "#" },
+          { title: "Limits", url: "#" },
+        ],
+      },
+    ],
+    projects: [
+      { name: "Design Engineering", url: "#", icon: "Frame" },
+      { name: "Sales & Marketing", url: "#", icon: "PieChart" },
+      { name: "Travel", url: "#", icon: "Map" },
+    ],
   }
-
-  const navigation = [...baseNavigation, ...settingsSection]
 
   return (
-    <Sidebar className="glass-sidebar border-r">
-      <SidebarHeader className="p-4">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-            <IconStack2 className="h-5 w-5" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-semibold">Dokkap</span>
-            <span className="text-xs text-muted-foreground">Project Management</span>
-          </div>
-        </div>
+    <Sidebar collapsible="icon">
+      <SidebarHeader>
+        <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
-
-      <SidebarContent className="gap-2">
-        {navigation.map((group) => (
-          <SidebarGroup key={group.title}>
-            <SidebarGroupLabel className="text-muted-foreground">
-              {group.title}
-            </SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {group.items.map((item) => {
-                  const Icon = item.icon
-                  const isActive = pathname === item.href
-
-                  return (
-                    <SidebarMenuItem key={item.title}>
-                      <SidebarMenuButton asChild isActive={isActive}>
-                        <Link href={item.href}>
-                          <Icon className="h-4 w-4" />
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  )
-                })}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+      <SidebarContent>
+        <NavMain items={data.navMain} />
+        <NavProjects projects={data.projects} />
       </SidebarContent>
+      <SidebarFooter>
+        <NavUser user={data.user} />
+      </SidebarFooter>
+      <SidebarRail />
     </Sidebar>
   )
 }
