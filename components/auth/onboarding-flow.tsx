@@ -52,7 +52,7 @@ export function OnboardingFlow() {
         {/* Back to Login Link */}
         <div className="mb-4 text-center">
           <Link
-            href="/login"
+            href="/auth/signin"
             className="inline-flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 transition-colors"
           >
             <svg
