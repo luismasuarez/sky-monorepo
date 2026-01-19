@@ -152,7 +152,7 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
             ¿No tienes cuenta?
           </p>
           <Link
-            href="/onboarding"
+            href="/auth/onboarding"
             className="inline-flex items-center justify-center font-medium text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 hover:underline"
           >
             Comienza gratis →
