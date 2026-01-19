@@ -1,5 +1,7 @@
+"use client";
+
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
+import { IconArrowLeft, IconArrowRight, IconCheck } from '@tabler/icons-react';
 import { StepIndicator } from './step-indicator';
 
 // Owner steps
@@ -132,7 +134,7 @@ export function OnboardingStepper({
             disabled={isSubmitting}
             className="flex items-center gap-2"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <IconArrowLeft className="h-4 w-4" />
             {isFirstStep ? 'Volver' : 'Anterior'}
           </Button>
 
@@ -149,13 +151,13 @@ export function OnboardingStepper({
               'Procesando...'
             ) : isLastStep ? (
               <>
-                <Check className="h-4 w-4" />
+                <IconCheck className="h-4 w-4" />
                 Finalizar
               </>
             ) : (
               <>
                 Siguiente
-                <ArrowRight className="h-4 w-4" />
+                <IconArrowRight className="h-4 w-4" />
               </>
             )}
           </Button>

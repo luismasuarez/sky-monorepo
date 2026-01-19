@@ -1,5 +1,4 @@
-import type { LucideIcon } from 'lucide-react';
-import { User, Building2, CheckCircle2 } from 'lucide-react';
+import { IconUser, IconBuilding, IconCircleCheck } from '@tabler/icons-react';
 
 /**
  * Step configuration for onboarding flows
@@ -8,7 +7,7 @@ export interface StepConfig {
   id: string;
   title: string;
   description?: string;
-  icon: LucideIcon;
+  icon: React.ComponentType<any>;
 }
 
 /**
@@ -19,19 +18,19 @@ export const ownerSteps: StepConfig[] = [
     id: 'account',
     title: 'Cuenta',
     description: 'Crea tu cuenta de administrador',
-    icon: User,
+    icon: IconUser,
   },
   {
     id: 'organization',
     title: 'Organización',
     description: 'Configura tu organización',
-    icon: Building2,
+    icon: IconBuilding,
   },
   {
     id: 'confirmation',
     title: 'Confirmación',
     description: 'Revisa y confirma',
-    icon: CheckCircle2,
+    icon: IconCircleCheck,
   },
 ];
 
@@ -43,12 +42,12 @@ export const contributorSteps: StepConfig[] = [
     id: 'account',
     title: 'Cuenta',
     description: 'Crea tu cuenta personal',
-    icon: User,
+    icon: IconUser,
   },
   {
     id: 'confirmation',
     title: 'Confirmación',
     description: 'Configura tu espacio',
-    icon: CheckCircle2,
+    icon: IconCircleCheck,
   },
 ];

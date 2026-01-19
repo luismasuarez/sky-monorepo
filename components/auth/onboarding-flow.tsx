@@ -1,3 +1,4 @@
+"use client";
 import { AccountType } from '@/app/auth/types';
 import { contributorSteps, ownerSteps } from '@/lib/onboarding-steps.config';
 import type {

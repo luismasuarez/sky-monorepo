@@ -1,5 +1,6 @@
 import { AccountType } from '@/app/auth/types';
 import { Button } from '@/components/ui/button';
+import { IconBuilding, IconUser } from '@tabler/icons-react';
 
 interface AccountTypeSelectionProps {
   onSelect: (type: AccountType) => void;
@@ -20,12 +21,12 @@ export function AccountTypeSelection({ onSelect }: AccountTypeSelectionProps) {
       <div className="grid md:grid-cols-2 gap-6">
         {/* Owner / Organization Card */}
         <button
-          onClick={() => onSelect('ORGANIZATION')}
+          onClick={() => onSelect(AccountType.ORGANIZATION)}
           className="group relative p-8 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-400 transition-all duration-200 bg-white/50 dark:bg-slate-800/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/20 text-left"
         >
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 dark:from-blue-400 dark:to-blue-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
-              <Building2 className="w-10 h-10 text-white" />
+              <IconBuilding className="w-10 h-10 text-white" />
             </div>
 
             <div>
@@ -65,12 +66,12 @@ export function AccountTypeSelection({ onSelect }: AccountTypeSelectionProps) {
 
         {/* Contributor / Freelancer Card */}
         <button
-          onClick={() => onSelect('contributor')}
+          onClick={() => onSelect(AccountType.FREELANCER)}
           className="group relative p-8 rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-green-500 dark:hover:border-green-400 transition-all duration-200 bg-white/50 dark:bg-slate-800/50 hover:bg-green-50/50 dark:hover:bg-green-900/20 text-left"
         >
           <div className="flex flex-col items-center text-center space-y-4">
             <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-green-600 dark:from-green-400 dark:to-green-500 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-200">
-              <User className="w-10 h-10 text-white" />
+              <IconUser className="w-10 h-10 text-white" />
             </div>
 
             <div>

@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Lock, Mail, User } from 'lucide-react';
+import { IconLock, IconMail, IconUser } from '@tabler/icons-react';
 
 interface OwnerAccountStepProps {
   formData: Record<string, any>;
@@ -31,7 +31,7 @@ export function OwnerAccountStep({ formData, errors, onChange }: OwnerAccountSte
             Nombre completo <span className="text-red-500">*</span>
           </Label>
           <div className="relative">
-            <User className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+            <IconUser className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
               id="fullName"
               type="text"
@@ -50,7 +50,7 @@ export function OwnerAccountStep({ formData, errors, onChange }: OwnerAccountSte
             Email <span className="text-red-500">*</span>
           </Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+            <IconMail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
               id="email"
               type="email"
@@ -69,7 +69,7 @@ export function OwnerAccountStep({ formData, errors, onChange }: OwnerAccountSte
             Contraseña <span className="text-red-500">*</span>
           </Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+            <IconLock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
               id="password"
               type="password"
@@ -91,7 +91,7 @@ export function OwnerAccountStep({ formData, errors, onChange }: OwnerAccountSte
             Confirmar contraseña <span className="text-red-500">*</span>
           </Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+            <IconLock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
               id="confirmPassword"
               type="password"

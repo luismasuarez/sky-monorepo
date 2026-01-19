@@ -1,3 +1,4 @@
+"use client";
 import { StepConfig } from '@/lib/onboarding-steps.config';
 import {
   contributorAccountSchema,

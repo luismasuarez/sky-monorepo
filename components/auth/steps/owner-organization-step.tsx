@@ -1,6 +1,6 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Building2, FolderKanban, Mail, Phone } from 'lucide-react';
+import { IconBuilding, IconFolder, IconMail, IconPhone } from '@tabler/icons-react';
 
 interface OwnerOrganizationStepProps {
   formData: Record<string, any>;
@@ -35,7 +35,7 @@ export function OwnerOrganizationStep({
             Nombre de la organización <span className="text-red-500">*</span>
           </Label>
           <div className="relative">
-            <Building2 className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+            <IconBuilding className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
               id="organizationName"
               type="text"
@@ -56,7 +56,7 @@ export function OwnerOrganizationStep({
             Nombre del workspace inicial <span className="text-red-500">*</span>
           </Label>
           <div className="relative">
-            <FolderKanban className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+            <IconFolder className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
               id="workspaceName"
               type="text"
@@ -80,7 +80,7 @@ export function OwnerOrganizationStep({
             Email de contacto (opcional)
           </Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+            <IconMail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
               id="contactEmail"
               type="email"
@@ -101,7 +101,7 @@ export function OwnerOrganizationStep({
             Teléfono (opcional)
           </Label>
           <div className="relative">
-            <Phone className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+            <IconPhone className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
             <Input
               id="phone"
               type="tel"

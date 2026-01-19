@@ -1,5 +1,5 @@
 import { StepConfig } from '@/lib/onboarding-steps.config';
-import { Check } from 'lucide-react';
+import { IconCheck } from '@tabler/icons-react';
 
 interface StepIndicatorProps {
   steps: StepConfig[];
@@ -61,7 +61,7 @@ export function StepIndicator({ steps, currentStep, onStepClick }: StepIndicator
                       }`}
                   >
                     {isCompleted ? (
-                      <Check className="h-5 w-5" aria-hidden="true" />
+                      <IconCheck className="h-5 w-5" aria-hidden="true" />
                     ) : (
                       <StepIcon className="h-5 w-5" aria-hidden="true" />
                     )}

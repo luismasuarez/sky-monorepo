@@ -1,6 +1,6 @@
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
-import { Building2, FolderKanban, Mail, Shield, User } from 'lucide-react';
+import { IconBuilding, IconFolder, IconMail, IconShield, IconUser } from '@tabler/icons-react';
 
 interface OwnerConfirmationStepProps {
   formData: Record<string, any>;
@@ -27,13 +27,13 @@ export function OwnerConfirmationStep({
       {/* Summary */}
       <div className="rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-6 space-y-4">
         <h3 className="font-semibold flex items-center gap-2 text-slate-900 dark:text-slate-100">
-          <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+          <IconShield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
           Resumen de tu cuenta
         </h3>
 
         <div className="space-y-3 text-sm">
           <div className="flex items-start gap-3">
-            <User className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5" />
+            <IconUser className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5" />
             <div>
               <p className="font-medium text-slate-900 dark:text-slate-100">Administrador</p>
               <p className="text-slate-600 dark:text-slate-400">
@@ -43,7 +43,7 @@ export function OwnerConfirmationStep({
           </div>
 
           <div className="flex items-start gap-3">
-            <Mail className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5" />
+            <IconMail className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5" />
             <div>
               <p className="font-medium text-slate-900 dark:text-slate-100">Email</p>
               <p className="text-slate-600 dark:text-slate-400">
@@ -53,7 +53,7 @@ export function OwnerConfirmationStep({
           </div>
 
           <div className="flex items-start gap-3">
-            <Building2 className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5" />
+            <IconBuilding className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5" />
             <div>
               <p className="font-medium text-slate-900 dark:text-slate-100">Organización</p>
               <p className="text-slate-600 dark:text-slate-400">
@@ -63,7 +63,7 @@ export function OwnerConfirmationStep({
           </div>
 
           <div className="flex items-start gap-3">
-            <FolderKanban className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5" />
+            <IconFolder className="h-4 w-4 text-slate-500 dark:text-slate-400 mt-0.5" />
             <div>
               <p className="font-medium text-slate-900 dark:text-slate-100">Workspace inicial</p>
               <p className="text-slate-600 dark:text-slate-400">
