@@ -1,11 +1,15 @@
 "use client"
 
 import {
-  IconBolt,
-  IconBook,
   IconChevronRight,
+  IconFolder,
+  IconGauge,
+  IconLayoutKanban,
+  IconLogin,
+  IconLogout,
   IconSettings,
   IconTerminal,
+  IconUsers,
 } from "@tabler/icons-react"
 import {
   Collapsible,
@@ -27,52 +31,43 @@ import {
 const sidebarItems = [
   {
     title: "Dashboard",
-    icon: "Bot",
+    icon: "Gauge",
     isActive: false,
     items: [
-      { title: "Overview", url: "/dashboard" },
-      { title: "Kanban", url: "/dashboard/core/kanban" },
+      { title: "Overview", url: "/dashboard", icon: "Gauge" },
+      { title: "Kanban", url: "/dashboard/core/kanban", icon: "LayoutKanban" },
     ],
   },
   {
     title: "Projects",
-    icon: "BookOpen",
+    icon: "Folder",
     isActive: false,
     items: [
-      { title: "All Projects", url: "/projects" },
+      { title: "All Projects", url: "/projects", icon: "Folder" },
     ],
   },
   {
     title: "Workspace",
-    icon: "SquareTerminal",
+    icon: "Terminal",
     isActive: false,
     items: [
-      { title: "Workspace Home", url: "/workspace" },
+      { title: "Workspace Home", url: "/workspace", icon: "Terminal" },
     ],
   },
   {
     title: "Settings",
-    icon: "Settings2",
+    icon: "Settings",
     isActive: false,
     items: [
-      { title: "General", url: "/pages/settings" },
+      { title: "General", url: "/pages/settings", icon: "Settings" },
     ],
   },
   {
     title: "Team",
-    icon: "Badge",
+    icon: "Users",
     isActive: false,
     items: [
-      { title: "Members", url: "/team" },
-    ],
-  },
-  {
-    title: "Auth",
-    icon: "Terminal",
-    isActive: false,
-    items: [
-      { title: "Sign In", url: "/auth/signin" },
-      { title: "Logout", url: "/logout" },
+      { title: "Members", url: "/team", icon: "Users" },
     ],
   },
 ]
@@ -92,10 +87,14 @@ export function NavMain() {
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton tooltip={item.title}>
-                  {item.icon === "SquareTerminal" && <IconTerminal />}
-                  {item.icon === "Bot" && <IconBolt />}
-                  {item.icon === "BookOpen" && <IconBook />}
-                  {item.icon === "Settings2" && <IconSettings />}
+                  {item.icon === "Gauge" && <IconGauge />}
+                  {item.icon === "Folder" && <IconFolder />}
+                  {item.icon === "Users" && <IconUsers />}
+                  {item.icon === "Settings" && <IconSettings />}
+                  {item.icon === "Terminal" && <IconTerminal />}
+                  {item.icon === "LayoutKanban" && <IconLayoutKanban />}
+                  {item.icon === "Login" && <IconLogin />}
+                  {item.icon === "Logout" && <IconLogout />}
                   <span>{item.title}</span>
                   <IconChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
