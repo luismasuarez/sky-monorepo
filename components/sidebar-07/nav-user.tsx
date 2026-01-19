@@ -1,15 +1,15 @@
-"use client"
+'use client';
 
+import LogoutButton from '@/components/ui/logout-button';
 import {
   IconBadge,
   IconBell,
   IconChevronDown,
   IconCreditCard,
-  IconLogout,
   IconSparkles,
-} from "@tabler/icons-react"
+} from '@tabler/icons-react';
 
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,24 +18,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "../ui/dropdown-menu"
-import {
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  useSidebar,
-} from "../ui/sidebar"
+} from '../ui/dropdown-menu';
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '../ui/sidebar';
 
 interface NavUserProps {
   user: {
-    name: string
-    email: string
-    avatar: string
-  }
+    name: string;
+    email: string;
+    avatar: string;
+  };
 }
 
 export function NavUser({ user }: NavUserProps) {
-  const { isMobile } = useSidebar()
+  const { isMobile } = useSidebar();
 
   return (
     <SidebarMenu>
@@ -59,7 +54,7 @@ export function NavUser({ user }: NavUserProps) {
           </DropdownMenuTrigger>
           <DropdownMenuContent
             className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            side={isMobile ? "bottom" : "right"}
+            side={isMobile ? 'bottom' : 'right'}
             align="end"
             sideOffset={4}
           >
@@ -98,13 +93,12 @@ export function NavUser({ user }: NavUserProps) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <IconLogout />
-              Log out
-            </DropdownMenuItem>
+            <div className="px-2 py-1">
+              <LogoutButton />
+            </div>
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
     </SidebarMenu>
-  )
+  );
 }

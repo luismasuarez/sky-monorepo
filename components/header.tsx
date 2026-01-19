@@ -1,16 +1,14 @@
-"use client"
+'use client';
 
+import Clock from './clock';
+import DashboardWidget from './dashboard-widget';
+import ViewToggle from './view-toggle';
+import HeaderMenuControls from './header-menu-controls';
 
-import Clock from './clock'
-import DashboardWidget from './dashboard-widget'
-import ViewToggle from './view-toggle'
-import HeaderMenuControls from './header-menu-controls'
-import LogoutButton from '@/components/ui/logout-button'
-
-import type { ViewType } from './view-toggle'
+import type { ViewType } from './view-toggle';
 interface HeaderProps {
-	activeView: ViewType
-	handleViewChange: (view: ViewType) => void
+	activeView: ViewType;
+	handleViewChange: (view: ViewType) => void;
 }
 
 export function Header({ activeView, handleViewChange }: HeaderProps) {
@@ -25,10 +23,7 @@ export function Header({ activeView, handleViewChange }: HeaderProps) {
 
 			{/* CENTRO */}
 			<div className="flex-1 flex items-center justify-center min-w-[200px]">
-				<ViewToggle
-					activeView={activeView as any}
-					onViewChange={handleViewChange as any}
-				/>
+				<ViewToggle activeView={activeView as any} onViewChange={handleViewChange as any} />
 			</div>
 
 			{/* DERECHA */}
@@ -37,19 +32,18 @@ export function Header({ activeView, handleViewChange }: HeaderProps) {
 					onBackup={() => { }}
 					onRestore={() => { }}
 					notifications={[
-						{ id: "1", title: "Nueva tarea asignada", read: false },
-						{ id: "2", title: "Backup completado", read: true },
-						{ id: "3", title: "Actualización disponible", read: false },
+						{ id: '1', title: 'Nueva tarea asignada', read: false },
+						{ id: '2', title: 'Backup completado', read: true },
+						{ id: '3', title: 'Actualización disponible', read: false },
 					]}
 					workspaces={[
-						{ id: "w1", name: "Personal" },
-						{ id: "w2", name: "Equipo" },
+						{ id: 'w1', name: 'Personal' },
+						{ id: 'w2', name: 'Equipo' },
 					]}
 					currentWorkspaceId="w1"
 					syncStatus="ok"
 				/>
-				<LogoutButton />
 			</div>
 		</header>
-	)
+	);
 }
