@@ -86,12 +86,7 @@ export default function ViewToggle({ activeView, onViewChange, notifications }: 
           className={cn(
             'absolute top-1 left-0 h-[calc(100%-0.5rem)] rounded-md z-0 transition-all duration-300 ease-in-out',
             isAnimating && 'scale-105 opacity-90',
-            {
-              'bg-blue-600 dark:bg-blue-400': activeView === 'kanban',
-              'bg-yellow-500 dark:bg-yellow-400': activeView === 'links',
-              'bg-slate-500 dark:bg-slate-400': activeView === 'credentials',
-              'bg-green-600 dark:bg-green-400': activeView === 'metrics',
-            }
+            'bg-blue-600 dark:bg-blue-400'
           )}
           style={{
             width: `${indicatorStyle.width}px`,
