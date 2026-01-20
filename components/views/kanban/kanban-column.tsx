@@ -15,13 +15,12 @@ export interface KanbanColumnProps {
 }
 
 export function KanbanColumn({ column, indicatorColor, onAddTask, onEditTask }: KanbanColumnProps) {
-  // Drop integration
+  // Drop integration (hook debe ir dentro del cuerpo de la función)
   const droppableProps = useDroppable({
     type: 'kanban-card',
     targetId: column.id,
   });
 
-  // Aquí puedes manejar el evento de drop para mover la tarjeta
   function handleDrop(e: React.DragEvent) {
     droppableProps.onDrop(e);
     // Aquí deberías obtener el item arrastrado del contexto y actualizar el estado del board

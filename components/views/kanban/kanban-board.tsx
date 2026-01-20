@@ -1,6 +1,8 @@
 import { KanbanCard, KanbanColumn as KanbanColumnType, TaskStatus } from '@/lib/kanban-types';
 import { KanbanMockData, KanbanTaskMock } from '@/lib/mocks';
+import { useState } from 'react';
 import KanbanColumn from './kanban-column';
+
 // Utilidad para mapear KanbanTaskMock a KanbanCard
 function mapMockToCard(task: KanbanTaskMock): KanbanCard {
   return {
@@ -39,8 +41,8 @@ export interface KanbanBoardProps {
 }
 
 export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
-  // Adaptar los datos mock a la estructura KanbanColumnType
-  const columns: KanbanColumnType[] = [
+  // Estado local para columnas y tarjetas
+  const [columns, setColumns] = useState<KanbanColumnType[]>([
     {
       id: 'todo',
       title: 'To Do',
@@ -65,7 +67,33 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
       status: 'done',
       cards: kanbanData.done.map(mapMockToCard),
     },
-  ];
+  ]);
+
+  // Mover tarjeta entre columnas
+  function moveCard(cardId: string, fromColumnId: string, toColumnId: string) {
+    setColumns(prevCols => {
+      const fromCol = prevCols.find(col => col.id === fromColumnId);
+      const toCol = prevCols.find(col => col.id === toColumnId);
+      if (!fromCol || !toCol) return prevCols;
+      const cardIdx = fromCol.cards.findIndex(c => c.id === cardId);
+      if (cardIdx === -1) return prevCols;
+      const [card] = fromCol.cards.splice(cardIdx, 1);
+      card.status = toCol.status;
+      toCol.cards.push(card);
+      return [...prevCols];
+    });
+  }
+
+  // Handler para drop en columna
+  function handleColumnDrop(
+    targetColumnId: string,
+    draggedItem: KanbanCard,
+    sourceColumnId: string
+  ) {
+    if (targetColumnId !== sourceColumnId) {
+      moveCard(draggedItem.id, sourceColumnId, targetColumnId);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -84,10 +112,13 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
                     : 'bg-green-400'
             }
             onAddTask={onAddTask}
+            // Nuevo prop para manejar drop
+            onCardDrop={(draggedItem, sourceColumnId) =>
+              handleColumnDrop(column.id, draggedItem, sourceColumnId)
+            }
           />
         ))}
       </div>
     </div>
   );
-  // ...existing code...
 }
