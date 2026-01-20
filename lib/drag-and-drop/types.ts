@@ -1,4 +1,4 @@
-export interface DraggedItem<T = any> {
+export interface DraggedItem<T = unknown> {
   item: T;
   sourceId: string;
   type: string;

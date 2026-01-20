@@ -1,5 +1,4 @@
 import { useDragAndDropContext } from './DragAndDropContext';
-import type { DropTargetInfo } from './types';
 
 export function useDroppable(options: { type: string; targetId: string }) {
   const { setDropTarget } = useDragAndDropContext();
@@ -9,7 +8,7 @@ export function useDroppable(options: { type: string; targetId: string }) {
     setDropTarget({ targetId: options.targetId, type: options.type });
   }
 
-  function onDrop(e: React.DragEvent) {
+  function onDrop() {
     setDropTarget(null);
   }
 

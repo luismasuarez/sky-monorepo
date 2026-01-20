@@ -1,5 +1,4 @@
 import { useDragAndDropContext } from './DragAndDropContext';
-import type { DraggedItem } from './types';
 
 export function useDraggable<T>(item: T, options: { type: string; sourceId: string }) {
   const { setDraggedItem } = useDragAndDropContext();
