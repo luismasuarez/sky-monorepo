@@ -25,9 +25,9 @@ export function DeleteZone({
   if (!isVisible) return null;
 
   return (
-    <div
+    <footer
       className={`
-        fixed left-0 right-0 bottom-0 z-50 w-full transition-all duration-300 ease-in-out
+        fixed left-0 right-0 bottom-0 z-40 w-full transition-all duration-300 ease-in-out
         ${isDragOver
           ? 'bg-red-500/90 scale-[1.02] shadow-2xl border-red-300'
           : isDragging
@@ -38,6 +38,7 @@ export function DeleteZone({
         shadow-lg hover:shadow-xl cursor-pointer flex flex-col items-center
         ${isDragging ? 'animate-pulse' : ''}
       `}
+      style={{ pointerEvents: 'auto' }}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={onDrop}
@@ -78,6 +79,6 @@ export function DeleteZone({
           </div>
         </div>
       )}
-    </div>
+    </footer>
   );
 }
