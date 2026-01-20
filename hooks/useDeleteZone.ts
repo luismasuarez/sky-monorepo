@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 export interface UseDeleteZoneResult {
   isDeleteZoneVisible: boolean;
@@ -17,11 +17,14 @@ export function useDeleteZone(onDrop: (e: React.DragEvent) => void): UseDeleteZo
   const [isDeleteZoneVisible, setDeleteZoneVisible] = useState(false);
   const [isDeleteZoneDragOver, setDeleteZoneDragOver] = useState(false);
 
-  const handleDeleteZoneDragOver = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    setDeleteZoneDragOver(true);
-  }, []);
+  const handleDeleteZoneDragOver = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      if (!isDeleteZoneDragOver) setDeleteZoneDragOver(true);
+    },
+    [isDeleteZoneDragOver]
+  );
 
   const handleDeleteZoneDragLeave = useCallback(() => {
     setDeleteZoneDragOver(false);
@@ -30,6 +33,7 @@ export function useDeleteZone(onDrop: (e: React.DragEvent) => void): UseDeleteZo
   const handleDeleteZoneDrop = useCallback(
     (e: React.DragEvent) => {
       setDeleteZoneDragOver(false);
+      setTimeout(() => setDeleteZoneDragOver(false), 10); // forzar reset visual tras drop
       onDrop(e);
     },
     [onDrop]

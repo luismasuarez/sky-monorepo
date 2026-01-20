@@ -1,5 +1,5 @@
-import * as React from 'react';
 import { IconTrash } from '@tabler/icons-react';
+import * as React from 'react';
 
 export interface DeleteZoneProps {
   isVisible: boolean;
@@ -29,14 +29,11 @@ export function DeleteZone({
       className={`
         fixed left-0 right-0 bottom-0 z-40 w-full transition-all duration-300 ease-in-out
         ${isDragOver
-          ? 'bg-red-500/90 scale-[1.02] shadow-2xl border-red-300'
-          : isDragging
-            ? 'bg-red-400/80 hover:bg-red-500/80 border-red-300/50'
-            : 'bg-slate-200/60 dark:bg-slate-700/60 hover:bg-red-400/60 dark:hover:bg-red-500/60 border-slate-300/50 dark:border-slate-600/50'
+          ? 'bg-red-500/90 scale-[1.02] shadow-2xl border-red-300 animate-pulse'
+          : 'bg-slate-200/60 dark:bg-slate-700/60 hover:bg-red-400/60 dark:hover:bg-red-500/60 border-slate-300/50 dark:border-slate-600/50'
         }
         backdrop-blur-sm rounded-t-xl p-2 border-t-4 border-dashed
         shadow-lg hover:shadow-xl cursor-pointer flex flex-col items-center
-        ${isDragging ? 'animate-pulse' : ''}
       `}
       style={{ pointerEvents: 'auto' }}
       onDragOver={onDragOver}
@@ -56,10 +53,9 @@ export function DeleteZone({
       >
         <IconTrash
           className={`
-          ${isDragOver ? 'w-6 h-6' : 'w-5 h-5'}
-          transition-all duration-200
-          ${isDragging ? 'animate-bounce' : ''}
-        `}
+            ${isDragOver ? 'w-6 h-6 animate-bounce' : 'w-5 h-5'}
+            transition-all duration-200
+          `}
           stroke={2}
         />
         <span className="font-semibold text-sm sm:text-base">

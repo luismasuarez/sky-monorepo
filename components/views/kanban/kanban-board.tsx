@@ -197,7 +197,10 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
         isDragging={isDragging}
         onDragOver={handleDeleteZoneDragOver}
         onDragLeave={handleDeleteZoneDragLeave}
-        onDrop={handleDeleteZoneDropModal}
+        onDrop={e => {
+          handleDeleteZoneDragLeave(); // reset visual
+          handleDeleteZoneDropModal(e);
+        }}
       />
       {/* Modal de confirmación de borrado */}
       {/* Modal de confirmación de mover tarea desde 'done' */}
