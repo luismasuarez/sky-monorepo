@@ -26,7 +26,7 @@ export function useDeleteZone(onDrop: (e: React.DragEvent) => void): UseDeleteZo
     [isDeleteZoneDragOver]
   );
 
-  const handleDeleteZoneDragLeave = useCallback(() => {
+  const handleDeleteZoneDragLeave = useCallback((e?: React.DragEvent) => {
     setDeleteZoneDragOver(false);
   }, []);
 
