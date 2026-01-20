@@ -1,6 +1,19 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import { useDeleteZone } from '@/hooks/useDeleteZone';
+import { useDragAndDropContext } from '@/lib/drag-and-drop/DragAndDropContext';
 import { KanbanCard, KanbanColumn as KanbanColumnType, TaskStatus } from '@/lib/kanban-types';
 import { KanbanMockData, KanbanTaskMock } from '@/lib/mocks';
 import { useState } from 'react';
+import { DeleteZone } from './DeleteZone';
 import KanbanColumn from './kanban-column';
 
 // Utilidad para mapear KanbanTaskMock a KanbanCard
@@ -69,6 +82,33 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
     },
   ]);
 
+  // Estado para eliminar tarea
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<{
+    cardId: string;
+    sourceColumnId: string;
+  } | null>(null);
+
+  // Integración del hook reutilizable para la zona de eliminación
+  const {
+    isDeleteZoneDragOver,
+    handleDeleteZoneDragOver,
+    handleDeleteZoneDragLeave,
+    // handleDeleteZoneDrop, // removed because now handled by handleDeleteZoneDropModal
+  } = useDeleteZone((e: React.DragEvent) => {
+    // extraer datos del dataTransfer y abrir modal de confirmación
+    const cardId = e.dataTransfer.getData('kanban-card-id');
+    const sourceColumnId = e.dataTransfer.getData('kanban-source-column-id');
+    if (cardId && sourceColumnId) {
+      setPendingDelete({ cardId, sourceColumnId });
+      setDeleteDialogOpen(true);
+    }
+  });
+
+  const { draggedItem } = useDragAndDropContext();
+  const isDragging = !!draggedItem;
+  // const dragOverDeleteZone = useRef(false);
+
   // Mover tarjeta entre columnas
   function moveCard(cardId: string, fromColumnId: string, toColumnId: string) {
     setColumns(prevCols => {
@@ -95,30 +135,82 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
     }
   }
 
+  // Eliminar tarjeta
+  function deleteCard(cardId: string, fromColumnId: string) {
+    setColumns(prevCols => {
+      const col = prevCols.find(c => c.id === fromColumnId);
+      if (!col) return prevCols;
+      col.cards = col.cards.filter(c => c.id !== cardId);
+      return [...prevCols];
+    });
+  }
+
+  // Handler para drop en zona de eliminar
+  function handleDeleteZoneDropModal(cardId: string, sourceColumnId: string) {
+    setPendingDelete({ cardId, sourceColumnId });
+    setDeleteDialogOpen(true);
+  }
+
   return (
-    <div className="flex flex-col gap-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-stretch w-full">
-        {columns.map(column => (
-          <KanbanColumn
-            key={column.id}
-            column={column}
-            indicatorColor={
-              column.status === 'todo'
-                ? 'bg-red-400'
-                : column.status === 'in-progress'
-                  ? 'bg-yellow-400'
-                  : column.status === 'review'
-                    ? 'bg-blue-400'
-                    : 'bg-green-400'
-            }
-            onAddTask={onAddTask}
-            // Nuevo prop para manejar drop
-            onCardDrop={(draggedItem, sourceColumnId) =>
-              handleColumnDrop(column.id, draggedItem, sourceColumnId)
-            }
-          />
-        ))}
+    <>
+      <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-stretch w-full">
+          {columns.map(column => (
+            <KanbanColumn
+              key={column.id}
+              column={column}
+              indicatorColor={
+                column.status === 'todo'
+                  ? 'bg-red-400'
+                  : column.status === 'in-progress'
+                    ? 'bg-yellow-400'
+                    : column.status === 'review'
+                      ? 'bg-blue-400'
+                      : 'bg-green-400'
+              }
+              onAddTask={onAddTask}
+              onCardDrop={(draggedItem, sourceColumnId) =>
+                handleColumnDrop(column.id, draggedItem, sourceColumnId)
+              }
+            />
+          ))}
+        </div>
       </div>
-    </div>
+      {/* Zona de drop para eliminar (componente reutilizable, UI fiel al original) */}
+      <DeleteZone
+        isVisible={true}
+        isDragOver={isDeleteZoneDragOver}
+        isDragging={isDragging}
+        onDragOver={handleDeleteZoneDragOver}
+        onDragLeave={handleDeleteZoneDragLeave}
+        onDrop={handleDeleteZoneDropModal}
+      />
+      {/* Modal de confirmación de borrado */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>¿Eliminar tarea?</AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta acción no se puede deshacer. ¿Seguro que quieres eliminar la tarea?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setPendingDelete(null)}>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                if (pendingDelete) {
+                  deleteCard(pendingDelete.cardId, pendingDelete.sourceColumnId);
+                  setPendingDelete(null);
+                }
+                setDeleteDialogOpen(false);
+              }}
+              variant="destructive"
+            >
+              Eliminar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
