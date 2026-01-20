@@ -1,9 +1,10 @@
-import * as React from 'react';
+import { useDroppable } from '@/lib/drag-and-drop/useDroppable';
 import {
-  KanbanColumn as KanbanColumnType,
   KanbanCard as KanbanCardType,
+  KanbanColumn as KanbanColumnType,
   TaskStatus,
 } from '@/lib/kanban-types';
+import * as React from 'react';
 import KanbanCard from './kanban-card';
 
 export interface KanbanColumnProps {
@@ -14,8 +15,26 @@ export interface KanbanColumnProps {
 }
 
 export function KanbanColumn({ column, indicatorColor, onAddTask, onEditTask }: KanbanColumnProps) {
+  // Drop integration
+  const droppableProps = useDroppable({
+    type: 'kanban-card',
+    targetId: column.id,
+  });
+
+  // Aquí puedes manejar el evento de drop para mover la tarjeta
+  function handleDrop(e: React.DragEvent) {
+    droppableProps.onDrop(e);
+    // Aquí deberías obtener el item arrastrado del contexto y actualizar el estado del board
+    // Ejemplo: mover la tarjeta al array de column.cards
+    // (La lógica real se implementa en el board para mantener el estado global)
+  }
+
   return (
-    <div className="glass-light dark:glass-dark rounded-xl p-3 sm:p-4 shadow-xl">
+    <div
+      {...droppableProps}
+      onDrop={handleDrop}
+      className="glass-light dark:glass-dark rounded-xl p-3 sm:p-4 shadow-xl"
+    >
       <h2 className="text-slate-900 dark:text-slate-100 font-bold text-base sm:text-lg mb-3 sm:mb-4 flex items-center text-shadow-sm">
         <div
           className={`w-2.5 h-2.5 sm:w-3 sm:h-3 ${indicatorColor} rounded-full mr-2 shadow-sm`}
