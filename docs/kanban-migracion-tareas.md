@@ -12,10 +12,13 @@
 
 ### UX/UI y lógica de interacción
 
-- [ ] Confirmación visual y lógica para eliminar tareas (modal y zona de drop para eliminar).
-- [ ] Confirmación visual y lógica para mover tareas (por ejemplo, entre boards o equipos).
+- [x] Confirmación visual y lógica para eliminar tareas (modal y zona de drop para eliminar).
+  - Implementado: zona de eliminación inferior con feedback visual y modal de confirmación, lógica drag & drop mejorada y modularizada.
+- [x] Confirmación visual y lógica para mover tareas (por ejemplo, entre boards o equipos).
+  - Implementado: feedback visual y modal de confirmación para mover tareas desde la columna "done".
+- [~] Seguimiento de tiempo por tarea (pausar, reanudar, overtime, notificaciones).
+  - En progreso: helpers de tiempo y UI/UX de time tracking en tarjetas Kanban, replicando y mejorando la lógica original.
 - [ ] Modales para crear y editar tareas (formulario con validación).
-- [ ] Seguimiento de tiempo por tarea (pausar, reanudar, overtime, notificaciones).
 - [ ] Skeletons de carga para columnas y tarjetas.
 - [ ] Feedback visual avanzado: highlight de drop targets, animaciones, etc.
 
@@ -27,7 +30,8 @@
 
 ### Utilidades y helpers
 
-- [ ] Helpers de tiempo y notificaciones.
+- [~] Helpers de tiempo y notificaciones.
+  - En progreso: helpers para formateo y manejo de tiempo de tareas, integración con UI de tarjetas.
 - [ ] Utilidades para manipulación de datos y formateo.
 
 ---
