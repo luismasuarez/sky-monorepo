@@ -1,17 +1,26 @@
-import * as React from 'react';
+import { useDraggable } from '@/lib/drag-and-drop/useDraggable';
 import { KanbanCard as KanbanCardType } from '@/lib/kanban-types';
+import * as React from 'react';
 
 export interface KanbanCardProps {
   item: KanbanCardType;
   onEdit?: (item: KanbanCardType) => void;
 }
-
-export function KanbanCard({ item, onEdit }: KanbanCardProps) {
+function KanbanCard({ item, onEdit }: KanbanCardProps) {
   const [isExpanded, setIsExpanded] = React.useState(false);
   const needsExpansion = item.description && item.description.length > 100;
 
+  // Drag and drop integration
+  const draggableProps = useDraggable(item, {
+    type: 'kanban-card',
+    sourceId: item.id,
+  });
+
   return (
-    <div className="bg-white dark:bg-slate-900 rounded shadow p-2 hover:shadow-lg transition cursor-pointer">
+    <div
+      {...draggableProps}
+      className="bg-white dark:bg-slate-900 rounded shadow p-2 hover:shadow-lg transition cursor-pointer"
+    >
       <div className="flex items-center justify-between mb-1">
         <div className="font-semibold text-sm truncate flex-1">{item.title}</div>
         {item.status && (
@@ -85,4 +94,5 @@ export function KanbanCard({ item, onEdit }: KanbanCardProps) {
     </div>
   );
 }
+
 export default KanbanCard;

@@ -4,6 +4,7 @@ import { AnimatedView } from '@/components/animated-view';
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
 import { Header } from '@/components/layout/header';
 import { KanbanBoard } from '@/components/views/kanban/kanban-board';
+import KanbanDndProvider from './kanban-dnd-provider';
 import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
 import { kanbanMockData } from '@/lib/mocks';
@@ -17,7 +18,9 @@ export default function Page() {
         <div className="flex flex-col items-center gap-4">
           <div className="w-full min-h-80 relative">
             <AnimatedView isActive={activeView === 'kanban'}>
-              <KanbanBoard kanbanData={kanbanMockData} />
+              <KanbanDndProvider>
+                <KanbanBoard kanbanData={kanbanMockData} />
+              </KanbanDndProvider>
             </AnimatedView>
             <AnimatedView isActive={activeView === 'links'}>
               <ViewContentPlaceholder view="links" />
