@@ -29,7 +29,10 @@ export function KanbanColumn({
     targetId: column.id,
   });
 
-  const { draggedItem } = useDragAndDropContext();
+  const { draggedItem, dropTarget } = useDragAndDropContext();
+
+  // Highlight si la columna es el drop target actual
+  const isDropTarget = dropTarget?.type === 'kanban-card' && dropTarget?.targetId === column.id;
 
   function handleDrop(e: React.DragEvent) {
     droppableProps.onDrop(e);
@@ -49,7 +52,8 @@ export function KanbanColumn({
     <div
       {...droppableProps}
       onDrop={handleDrop}
-      className="glass-light dark:glass-dark rounded-xl p-3 sm:p-4 shadow-xl"
+      className={`glass-light dark:glass-dark rounded-xl p-3 sm:p-4 shadow-xl transition-all duration-200
+        ${isDropTarget ? 'ring-4 ring-blue-400/60 scale-[1.02] shadow-2xl z-10' : ''}`}
     >
       <h2 className="text-slate-900 dark:text-slate-100 font-bold text-base sm:text-lg mb-3 sm:mb-4 flex items-center text-shadow-sm">
         <div

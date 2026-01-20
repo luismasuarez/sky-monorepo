@@ -28,7 +28,7 @@ function mapMockToCard(task: KanbanTaskMock): KanbanCard {
     teamId: task.teamId,
     title: task.title,
     description: task.description,
-    status: (task.column === 'inProgress' ? 'in-progress' : task.column) as TaskStatus,
+    status: (task.column === "inProgress" ? "in-progress" : (task.column as TaskStatus)),
     priority: task.priority || 'medium',
     assignedTo: task.assignedTo,
     estimatedTime: task.estimatedTime,
