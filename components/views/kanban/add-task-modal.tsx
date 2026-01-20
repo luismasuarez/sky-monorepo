@@ -1,35 +1,69 @@
+import { IconPlus, IconX } from '@tabler/icons-react';
 import * as React from 'react';
-import { IconX, IconPlus } from '@tabler/icons-react';
+import { z } from 'zod';
+
+const TaskSchema = z.object({
+  title: z.string().min(1).max(100),
+  description: z.string().max(500).optional(),
+  estimatedHours: z.number().min(0).max(999).optional(),
+  estimatedMinutes: z.number().min(0).max(59).optional(),
+  quoteAmount: z.number().min(0).optional(),
+  priority: z.enum(['low', 'medium', 'high']).optional(),
+  tags: z.array(z.string()).optional(),
+  dueDate: z.string().optional(),
+  status: z.enum(['todo', 'in-progress', 'review', 'done']),
+});
+
+export type AddTaskFormData = z.infer<typeof TaskSchema>;
 
 export interface AddTaskModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onAddTask: (data: TaskFormData) => void;
-  targetColumn: 'todo' | 'inProgress' | 'done';
-}
-
-export interface TaskFormData {
-  title: string;
-  description?: string;
-  estimatedHours?: number;
-  estimatedMinutes?: number;
-  quoteAmount?: number;
+  onAddTask: (data: AddTaskFormData) => void;
+  targetColumn: 'todo' | 'in-progress' | 'review' | 'done';
 }
 
 export function AddTaskModal({ isOpen, onClose, onAddTask, targetColumn }: AddTaskModalProps) {
-  const [form, setForm] = React.useState<TaskFormData>({ title: '' });
+  const [form, setForm] = React.useState<AddTaskFormData>({
+    title: '',
+    description: '',
+    estimatedHours: 0,
+    estimatedMinutes: 0,
+    quoteAmount: 0,
+    priority: 'medium',
+    tags: [],
+    dueDate: '',
+    status: targetColumn,
+  });
+  const [errors, setErrors] = React.useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  React.useEffect(() => {
+    setForm(f => ({ ...f, status: targetColumn }));
+  }, [targetColumn]);
 
   if (!isOpen) return null;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setForm(prev => ({ ...prev, [name]: name === 'tags' ? value.split(',') : value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const parsed = TaskSchema.safeParse(form);
+    if (!parsed.success) {
+      const fieldErrors: Record<string, string> = {};
+      parsed.error.errors.forEach(err => {
+        if (err.path[0]) fieldErrors[err.path[0]] = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
     setIsSubmitting(true);
-    onAddTask(form);
+    onAddTask(parsed.data);
     setIsSubmitting(false);
     onClose();
   };
@@ -38,8 +72,10 @@ export function AddTaskModal({ isOpen, onClose, onAddTask, targetColumn }: AddTa
     switch (targetColumn) {
       case 'todo':
         return 'Pendiente';
-      case 'inProgress':
+      case 'in-progress':
         return 'En Progreso';
+      case 'review':
+        return 'Revisión';
       case 'done':
         return 'Hecho';
       default:
@@ -54,7 +90,7 @@ export function AddTaskModal({ isOpen, onClose, onAddTask, targetColumn }: AddTa
         <div className="glass-light dark:glass-dark rounded-xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 overflow-hidden">
           <div className="flex items-center justify-between p-6 border-b border-slate-200/50 dark:border-slate-700/50">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500/90 to-blue-600/90 dark:from-blue-400/90 dark:to-blue-500/90 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-linear-to-br from-blue-500/90 to-blue-600/90 dark:from-blue-400/90 dark:to-blue-500/90 rounded-xl flex items-center justify-center shadow-lg">
                 <IconPlus className="w-5 h-5 text-white" />
               </div>
               <div>
@@ -84,6 +120,7 @@ export function AddTaskModal({ isOpen, onClose, onAddTask, targetColumn }: AddTa
               className="w-full rounded border px-3 py-2 text-sm"
               maxLength={100}
             />
+            {errors.title && <div className="text-xs text-red-500">{errors.title}</div>}
             <textarea
               name="description"
               value={form.description || ''}
@@ -92,6 +129,7 @@ export function AddTaskModal({ isOpen, onClose, onAddTask, targetColumn }: AddTa
               className="w-full rounded border px-3 py-2 text-sm"
               maxLength={500}
             />
+            {errors.description && <div className="text-xs text-red-500">{errors.description}</div>}
             <div className="flex gap-2">
               <input
                 name="estimatedHours"
@@ -123,6 +161,43 @@ export function AddTaskModal({ isOpen, onClose, onAddTask, targetColumn }: AddTa
               placeholder="Presupuesto (opcional)"
               className="w-full rounded border px-3 py-2 text-sm"
             />
+            <div className="flex gap-2">
+              <select
+                name="priority"
+                value={form.priority}
+                onChange={handleChange}
+                className="w-1/2 rounded border px-3 py-2 text-sm"
+              >
+                <option value="low">Baja</option>
+                <option value="medium">Media</option>
+                <option value="high">Alta</option>
+              </select>
+              <input
+                name="tags"
+                value={form.tags?.join(',') || ''}
+                onChange={handleChange}
+                placeholder="Etiquetas (coma)"
+                className="w-1/2 rounded border px-3 py-2 text-sm"
+              />
+            </div>
+            <input
+              name="dueDate"
+              type="date"
+              value={form.dueDate || ''}
+              onChange={handleChange}
+              className="w-full rounded border px-3 py-2 text-sm"
+            />
+            <select
+              name="status"
+              value={form.status}
+              onChange={handleChange}
+              className="w-full rounded border px-3 py-2 text-sm"
+            >
+              <option value="todo">Por hacer</option>
+              <option value="in-progress">En progreso</option>
+              <option value="review">Revisión</option>
+              <option value="done">Hecho</option>
+            </select>
             <div className="flex justify-end gap-2 pt-2">
               <button
                 type="button"

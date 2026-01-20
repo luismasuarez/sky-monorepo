@@ -16,6 +16,7 @@ import { KanbanMockData, KanbanTaskMock } from '@/lib/mocks';
 import { useState } from 'react';
 import { DeleteZone } from './DeleteZone';
 import KanbanColumn from './kanban-column';
+import KanbanColumnSkeleton from './kanban-column-skeleton';
 import { MoveConfirmationModal } from './MoveConfirmationModal';
 
 // Utilidad para mapear KanbanTaskMock a KanbanCard
@@ -53,9 +54,10 @@ export interface KanbanBoardProps {
   kanbanData: KanbanMockData;
   onAddTask?: (column: TaskStatus) => void;
   onEditTask?: (task: KanbanTaskMock, column: TaskStatus) => void;
+  isLoading?: boolean;
 }
 
-export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
+export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: KanbanBoardProps) {
   // Confirmación visual para mover tareas desde 'done'
   const { showMoveModal, pendingMove, requestMove, confirmMove, cancelMove } =
     useMoveConfirmationModal();
@@ -169,25 +171,29 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
     <>
       <div className="flex flex-col gap-6 pb-24">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-stretch w-full">
-          {columns.map(column => (
-            <KanbanColumn
-              key={column.id}
-              column={column}
-              indicatorColor={
-                column.status === 'todo'
-                  ? 'bg-red-400'
-                  : column.status === 'in-progress'
-                    ? 'bg-yellow-400'
-                    : column.status === 'review'
-                      ? 'bg-blue-400'
-                      : 'bg-green-400'
-              }
-              onAddTask={onAddTask}
-              onCardDrop={(draggedItem, sourceColumnId) =>
-                handleColumnDrop(column.id, draggedItem, sourceColumnId)
-              }
-            />
-          ))}
+          {isLoading
+            ? Array.from({ length: 4 }).map((_, i) => (
+              <KanbanColumnSkeleton key={i} cardCount={3} />
+            ))
+            : columns.map(column => (
+              <KanbanColumn
+                key={column.id}
+                column={column}
+                indicatorColor={
+                  column.status === 'todo'
+                    ? 'bg-red-400'
+                    : column.status === 'in-progress'
+                      ? 'bg-yellow-400'
+                      : column.status === 'review'
+                        ? 'bg-blue-400'
+                        : 'bg-green-400'
+                }
+                onAddTask={onAddTask}
+                onCardDrop={(draggedItem, sourceColumnId) =>
+                  handleColumnDrop(column.id, draggedItem, sourceColumnId)
+                }
+              />
+            ))}
         </div>
       </div>
       {/* Zona de drop para eliminar (componente reutilizable, UI fiel al original) */}
