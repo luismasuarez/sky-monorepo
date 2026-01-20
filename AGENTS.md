@@ -16,16 +16,17 @@ Este repositorio utiliza agentes y skills documentados en `.github/agents` y `.g
 
 ## Skills Disponibles
 
-| Skill                  | Descripción breve (si aplica) | Archivo                                                                                      |
-| ---------------------- | ----------------------------- | -------------------------------------------------------------------------------------------- |
-| `authjs-skills`        | Skills para Auth.js           | [.github/skills/authjs-skills/SKILL.md](.github/skills/authjs-skills/SKILL.md)               |
-| `prisma-orm-v7-skills` | Skills para Prisma ORM v7     | [.github/skills/prisma-orm-v7-skills/SKILL.md](.github/skills/prisma-orm-v7-skills/SKILL.md) |
-| `react-19`             | Skills para React 19          | [.github/skills/react-19/SKILL.md](.github/skills/react-19/SKILL.md)                         |
-| `react-best-practices` | Mejores prácticas de React    | [.github/skills/react-best-practices/SKILL.md](.github/skills/react-best-practices/SKILL.md) |
-| `senior-frontend`      | Skills avanzados de frontend  | [.github/skills/senior-frontend/SKILL.md](.github/skills/senior-frontend/SKILL.md)           |
-| `tailwind-4`           | Skills para Tailwind CSS v4   | [.github/skills/tailwind-4/SKILL.md](.github/skills/tailwind-4/SKILL.md)                     |
-| `zod-4`                | Skills para Zod v4            | [.github/skills/zod-4/SKILL.md](.github/skills/zod-4/SKILL.md)                               |
-| `zustand-5`            | Skills para Zustand v5        | [.github/skills/zustand-5/SKILL.md](.github/skills/zustand-5/SKILL.md)                       |
+| Skill                  | Descripción breve (si aplica)   | Archivo                                                                                      |
+| ---------------------- | ------------------------------- | -------------------------------------------------------------------------------------------- |
+| `skill-creator`        | Skills para crear nuevos skills | [.github/skills/skill-creator/SKILL.md](.github/skills/skill-creator/SKILL.md)               |
+| `authjs-skills`        | Skills para Auth.js             | [.github/skills/authjs-skills/SKILL.md](.github/skills/authjs-skills/SKILL.md)               |
+| `prisma-orm-v7-skills` | Skills para Prisma ORM v7       | [.github/skills/prisma-orm-v7-skills/SKILL.md](.github/skills/prisma-orm-v7-skills/SKILL.md) |
+| `react-19`             | Skills para React 19            | [.github/skills/react-19/SKILL.md](.github/skills/react-19/SKILL.md)                         |
+| `react-best-practices` | Mejores prácticas de React      | [.github/skills/react-best-practices/SKILL.md](.github/skills/react-best-practices/SKILL.md) |
+| `senior-frontend`      | Skills avanzados de frontend    | [.github/skills/senior-frontend/SKILL.md](.github/skills/senior-frontend/SKILL.md)           |
+| `tailwind-4`           | Skills para Tailwind CSS v4     | [.github/skills/tailwind-4/SKILL.md](.github/skills/tailwind-4/SKILL.md)                     |
+| `zod-4`                | Skills para Zod v4              | [.github/skills/zod-4/SKILL.md](.github/skills/zod-4/SKILL.md)                               |
+| `zustand-5`            | Skills para Zustand v5          | [.github/skills/zustand-5/SKILL.md](.github/skills/zustand-5/SKILL.md)                       |
 
 ---
 
