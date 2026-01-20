@@ -9,12 +9,14 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useDeleteZone } from '@/hooks/useDeleteZone';
+import { useMoveConfirmationModal } from '@/hooks/useMoveConfirmationModal';
 import { useDragAndDropContext } from '@/lib/drag-and-drop/DragAndDropContext';
 import { KanbanCard, KanbanColumn as KanbanColumnType, TaskStatus } from '@/lib/kanban-types';
 import { KanbanMockData, KanbanTaskMock } from '@/lib/mocks';
 import { useState } from 'react';
 import { DeleteZone } from './DeleteZone';
 import KanbanColumn from './kanban-column';
+import { MoveConfirmationModal } from './MoveConfirmationModal';
 
 // Utilidad para mapear KanbanTaskMock a KanbanCard
 function mapMockToCard(task: KanbanTaskMock): KanbanCard {
@@ -54,6 +56,9 @@ export interface KanbanBoardProps {
 }
 
 export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
+  // Confirmación visual para mover tareas desde 'done'
+  const { showMoveModal, pendingMove, requestMove, confirmMove, cancelMove } =
+    useMoveConfirmationModal();
   // Estado local para columnas y tarjetas
   const [columns, setColumns] = useState<KanbanColumnType[]>([
     {
@@ -131,7 +136,12 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
     sourceColumnId: string
   ) {
     if (targetColumnId !== sourceColumnId) {
-      moveCard(draggedItem.id, sourceColumnId, targetColumnId);
+      // Si la tarea viene de 'done', pedir confirmación
+      if (sourceColumnId === 'done') {
+        requestMove(draggedItem.id, sourceColumnId, targetColumnId);
+      } else {
+        moveCard(draggedItem.id, sourceColumnId, targetColumnId);
+      }
     }
   }
 
@@ -146,9 +156,13 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
   }
 
   // Handler para drop en zona de eliminar
-  function handleDeleteZoneDropModal(cardId: string, sourceColumnId: string) {
-    setPendingDelete({ cardId, sourceColumnId });
-    setDeleteDialogOpen(true);
+  function handleDeleteZoneDropModal(e: React.DragEvent) {
+    const cardId = e.dataTransfer.getData('kanban-card-id');
+    const sourceColumnId = e.dataTransfer.getData('kanban-source-column-id');
+    if (cardId && sourceColumnId) {
+      setPendingDelete({ cardId, sourceColumnId });
+      setDeleteDialogOpen(true);
+    }
   }
 
   return (
@@ -186,6 +200,17 @@ export function KanbanBoard({ kanbanData, onAddTask }: KanbanBoardProps) {
         onDrop={handleDeleteZoneDropModal}
       />
       {/* Modal de confirmación de borrado */}
+      {/* Modal de confirmación de mover tarea desde 'done' */}
+      <MoveConfirmationModal
+        open={showMoveModal}
+        onCancel={cancelMove}
+        onConfirm={() => {
+          if (pendingMove) {
+            moveCard(pendingMove.cardId, pendingMove.fromColumnId, pendingMove.toColumnId);
+          }
+          confirmMove(() => { }); // Limpia el estado
+        }}
+      />
       <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
