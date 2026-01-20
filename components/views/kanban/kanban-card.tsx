@@ -1,6 +1,13 @@
 import { useDraggable } from '@/lib/drag-and-drop/useDraggable';
 import { KanbanCard as KanbanCardType } from '@/lib/kanban-types';
-import { formatElapsedTime, getTimeColor, isOvertime, shouldNotifyOvertime } from '@/lib/time';
+import {
+  formatDuration,
+  formatElapsedTime,
+  getActiveTime,
+  getTimeColor,
+  isOvertime,
+  shouldNotifyOvertime,
+} from '@/lib/time';
 import * as React from 'react';
 
 export interface KanbanCardProps {
