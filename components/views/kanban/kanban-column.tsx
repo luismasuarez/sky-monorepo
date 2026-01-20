@@ -1,3 +1,4 @@
+import { useDragAndDropContext } from '@/lib/drag-and-drop/DragAndDropContext';
 import { useDroppable } from '@/lib/drag-and-drop/useDroppable';
 import {
   KanbanCard as KanbanCardType,
@@ -12,20 +13,36 @@ export interface KanbanColumnProps {
   indicatorColor: string;
   onAddTask?: (columnStatus: TaskStatus) => void;
   onEditTask?: (task: KanbanCardType, columnStatus: TaskStatus) => void;
+  onCardDrop?: (draggedItem: KanbanCardType, sourceColumnId: string) => void;
 }
 
-export function KanbanColumn({ column, indicatorColor, onAddTask, onEditTask }: KanbanColumnProps) {
+export function KanbanColumn({
+  column,
+  indicatorColor,
+  onAddTask,
+  onEditTask,
+  onCardDrop,
+}: KanbanColumnProps) {
   // Drop integration (hook debe ir dentro del cuerpo de la función)
   const droppableProps = useDroppable({
     type: 'kanban-card',
     targetId: column.id,
   });
 
+  const { draggedItem } = useDragAndDropContext();
+
   function handleDrop(e: React.DragEvent) {
     droppableProps.onDrop(e);
-    // Aquí deberías obtener el item arrastrado del contexto y actualizar el estado del board
-    // Ejemplo: mover la tarjeta al array de column.cards
-    // (La lógica real se implementa en el board para mantener el estado global)
+    // Si hay item arrastrado y callback, notificar al board
+    if (draggedItem && draggedItem.type === 'kanban-card' && onCardDrop) {
+      // Se espera que sourceId sea el id de la columna origen
+      const sourceColumnId = draggedItem.item.status
+        .replace('in-progress', 'in-progress')
+        .replace('todo', 'todo')
+        .replace('review', 'review')
+        .replace('done', 'done');
+      onCardDrop(draggedItem.item as KanbanCardType, sourceColumnId);
+    }
   }
 
   return (
