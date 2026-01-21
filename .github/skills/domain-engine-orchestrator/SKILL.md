@@ -10,37 +10,11 @@ metadata:
   version: '1.1'
 ---
 
-# Domain Engine Orchestrator — Skill Raíz
+# Domain Engine Orchestrator — Meta-Skill de Pipeline DDD
 
-Este skill coordina el flujo completo de diseño de dominio. Cada etapa se implementa como un sub-skill modular, referenciado desde la carpeta `skills/`.
+## Objetivo
 
-## Pipeline de sub-skills
-
-1. **Descubrimiento de dominio**  
-   Ver [skills/domain-discovery/SKILL.md](skills/domain-discovery/SKILL.md)
-
-2. **Lenguaje ubicuo**  
-   Ver [skills/ubiquitous-language-builder/SKILL.md](skills/ubiquitous-language-builder/SKILL.md)
-
-3. **Definición de bounded contexts**  
-   Ver [skills/bounded-context-definer/SKILL.md](skills/bounded-context-definer/SKILL.md)
-
-4. **Diseño de aggregates**  
-   Ver [skills/aggregate-designer/SKILL.md](skills/aggregate-designer/SKILL.md)
-
-5. **Diseño de domain events**  
-   Ver [skills/domain-event-designer/SKILL.md](skills/domain-event-designer/SKILL.md)
-
-6. **Diseño de casos de uso**  
-   Ver [skills/use-case-designer/SKILL.md](skills/use-case-designer/SKILL.md)
-
-7. **Definición de puertos**  
-   Ver [skills/port-definition/SKILL.md](skills/port-definition/SKILL.md)
-
-8. **Mapping de adapters**  
-   Ver [skills/adapter-mapping/SKILL.md](skills/adapter-mapping/SKILL.md)
-
----
+- Coordinar todos los skills del dominio en un flujo definido:
 
 ## Cómo usar este skill
 
@@ -48,25 +22,6 @@ Este skill coordina el flujo completo de diseño de dominio. Cada etapa se imple
 - Cada sub-skill contiene instrucciones detalladas, ejemplos y referencias para su función específica.
 - El orquestador valida y documenta la salida de cada etapa antes de avanzar.
 - Puedes iterar, refinar o extender el flujo agregando nuevos sub-skills en la carpeta `skills/`.
-
----
-
-## Referencias adicionales
-
-- Para patrones de salida, ejemplos y documentación compartida, consulta la carpeta `references/` si existe.
-
----
-
-```
-
-domain-discovery
-↓
-ubiquitous-language-builder
-↓
-bounded-context-definer
-↓
-aggregate-designer
-↓
 
 ---
 
@@ -88,17 +43,6 @@ aggregate-designer
 - ✅ Mantener trazabilidad y consistencia entre glosario, lenguaje ubicuo, contextos, aggregates, eventos, casos de uso, puertos y adapters.
 - ✅ Documentar logs de consistencia y decisiones tomadas en cada etapa.
 
----
-domain-event-designer
-↓
-use-case-designer
-↓
-port-definition
-↓
-adapter-mapping
-
-```
-
 - Garantizar **salida consistente** y lista para generación de código
 - Proporcionar **logs de consistencia** y validaciones inter-skill
 
@@ -118,37 +62,52 @@ adapter-mapping
 - Extrae conceptos clave del dominio
 - Genera glosario inicial y relaciones entre conceptos
 
+Ver [skills/domain-discovery/SKILL.md](skills/domain-discovery/SKILL.md)
+
 ### 2. Ejecutar `ubiquitous-language-builder`
 
 - Refina el glosario
 - Establece Lenguaje Ubicuo consistente
 - Valida ambigüedades y sinónimos
 
+Ver [skills/ubiquitous-language-builder/SKILL.md](skills/ubiquitous-language-builder/SKILL.md)
+
 ### 3. Ejecutar `bounded-context-definer`
 
 - Detecta contextos limitados usando el Lenguaje Ubicuo
 - Define límites, responsabilidades y relaciones
+
+Ver [skills/bounded-context-definer/SKILL.md](skills/bounded-context-definer/SKILL.md)
 
 ### 4. Ejecutar `aggregate-designer`
 
 - Modela aggregates y entities dentro de cada bounded context
 - Define invariantes y reglas de negocio
 
+Ver [skills/aggregate-designer/SKILL.md](skills/aggregate-designer/SKILL.md)
+
 ### 5. Ejecutar `domain-event-designer`
 
 - Extrae eventos del dominio
 - Define payloads y condiciones de emisión
+
+Ver [skills/domain-event-designer/SKILL.md](skills/domain-event-designer/SKILL.md)
 
 ### 6. Ejecutar `use-case-designer`
 
 - Define Application Services y comandos
 - Orquesta la interacción entre aggregates y eventos
 
+Ver [skills/use-case-designer/SKILL.md](skills/use-case-designer/SKILL.md)
+
 ### 7. Ejecutar `port-definition` y `adapter-mapping`
 
 - Define interfaces de puertos
 - Mapea a adapters de infraestructura (DB, HTTP, Messaging)
 - Prepara salida para framework específico si se desea
+
+Ver [skills/port-definition/SKILL.md](skills/port-definition/SKILL.md)
+Ver [skills/adapter-mapping/SKILL.md](skills/adapter-mapping/SKILL.md)
 
 ---
 
