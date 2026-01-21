@@ -1,21 +1,61 @@
 ---
 name: domain-engine-orchestrator
 description: >
-  Orquesta el pipeline completo de creación de dominio basado en DDD
-  y arquitectura hexagonal. Gestiona la ejecución de skills en orden,
-  pasando la salida de uno como entrada del siguiente, validando la
-  consistencia y preparando una estructura de dominio lista para
-  generar aggregates, bounded contexts, casos de uso y adapters.
+  Orquesta el pipeline completo de creación de dominio basado en DDD y arquitectura hexagonal.
+  Gestiona la ejecución de sub-skills en orden, pasando la salida de uno como entrada del siguiente,
+  validando la consistencia y preparando una estructura de dominio lista para generar aggregates,
+  bounded contexts, casos de uso y adapters.
 metadata:
   author: tu-organizacion
-  version: '1.0'
+  version: '1.1'
 ---
 
-# Domain Engine Orchestrator — Meta-Skill de Pipeline DDD
+# Domain Engine Orchestrator — Skill Raíz
 
-## Objetivo
+Este skill coordina el flujo completo de diseño de dominio. Cada etapa se implementa como un sub-skill modular, referenciado desde la carpeta `skills/`.
 
-- Coordinar todos los skills del dominio en un flujo definido:
+## Pipeline de sub-skills
+
+1. **Descubrimiento de dominio**  
+   Ver [skills/domain-discovery/SKILL.md](skills/domain-discovery/SKILL.md)
+
+2. **Lenguaje ubicuo**  
+   Ver [skills/ubiquitous-language-builder/SKILL.md](skills/ubiquitous-language-builder/SKILL.md)
+
+3. **Definición de bounded contexts**  
+   Ver [skills/bounded-context-definer/SKILL.md](skills/bounded-context-definer/SKILL.md)
+
+4. **Diseño de aggregates**  
+   Ver [skills/aggregate-designer/SKILL.md](skills/aggregate-designer/SKILL.md)
+
+5. **Diseño de domain events**  
+   Ver [skills/domain-event-designer/SKILL.md](skills/domain-event-designer/SKILL.md)
+
+6. **Diseño de casos de uso**  
+   Ver [skills/use-case-designer/SKILL.md](skills/use-case-designer/SKILL.md)
+
+7. **Definición de puertos**  
+   Ver [skills/port-definition/SKILL.md](skills/port-definition/SKILL.md)
+
+8. **Mapping de adapters**  
+   Ver [skills/adapter-mapping/SKILL.md](skills/adapter-mapping/SKILL.md)
+
+---
+
+## Cómo usar este skill
+
+- Sigue el orden del pipeline, consultando cada sub-skill según la etapa.
+- Cada sub-skill contiene instrucciones detalladas, ejemplos y referencias para su función específica.
+- El orquestador valida y documenta la salida de cada etapa antes de avanzar.
+- Puedes iterar, refinar o extender el flujo agregando nuevos sub-skills en la carpeta `skills/`.
+
+---
+
+## Referencias adicionales
+
+- Para patrones de salida, ejemplos y documentación compartida, consulta la carpeta `references/` si existe.
+
+---
 
 ```
 
