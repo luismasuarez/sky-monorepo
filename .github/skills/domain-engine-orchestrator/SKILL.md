@@ -27,6 +27,28 @@ bounded-context-definer
 ↓
 aggregate-designer
 ↓
+
+---
+
+## Flujo colaborativo y replicable
+
+- En cada etapa, el agente presenta una propuesta y solicita confirmación explícita antes de guardar o avanzar.
+- El usuario puede revisar, ajustar o aprobar cada resultado antes de persistirlo.
+- El proceso es iterativo y permite volver a etapas previas para refinar conceptos, reglas o estructuras.
+- Se recomienda guardar cada resultado en archivos estructurados (JSON) para trazabilidad y reutilización.
+- El usuario mantiene el control sobre el avance y puede solicitar cambios, resúmenes o documentación en cualquier momento.
+- El flujo es extensible y replicable para cualquier dominio o proyecto.
+
+---
+
+## Consideraciones adicionales
+
+- ❗ Validar la salida de cada skill antes de pasar al siguiente (confirmación del usuario).
+- ❗ No saltarse skills intermedios, ni contaminar el dominio con detalles de infraestructura hasta el final.
+- ✅ Mantener trazabilidad y consistencia entre glosario, lenguaje ubicuo, contextos, aggregates, eventos, casos de uso, puertos y adapters.
+- ✅ Documentar logs de consistencia y decisiones tomadas en cada etapa.
+
+---
 domain-event-designer
 ↓
 use-case-designer
@@ -106,6 +128,9 @@ adapter-mapping
 },
 "logs": [
   "domain-discovery completed successfully",
+
+- ✅ Confirmar y documentar cada paso con el usuario para asegurar alineación y calidad.
+
   "ubiquitous-language-builder: 2 ambiguous terms found and resolved",
   "bounded-context-definer: 3 contexts identified"
 ]
