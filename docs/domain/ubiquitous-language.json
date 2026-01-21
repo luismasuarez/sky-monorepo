@@ -1,4 +1,10 @@
 {
+  "meta": {
+    "version": "1.1",
+    "generatedAt": "2026-01-20",
+    "source": "domain-engine-orchestrator",
+    "description": "Lenguaje ubicuo consolidado y reglas de uso para todo el dominio."
+  },
   "ubiquitousLanguage": [
     {
       "term": "Usuario",
@@ -124,5 +130,10 @@
     "Los nombres en código deben coincidir exactamente con el Lenguaje Ubicuo.",
     "Evitar sinónimos prohibidos en documentación y comunicación técnica.",
     "El Lenguaje Ubicuo debe reflejar el vocabulario del negocio y ser usado en todo el equipo."
-  ]
+  ],
+  "consistencyChecks": {
+    "allTermsDefined": true,
+    "forbiddenSynonymsUnique": true,
+    "examplesPresent": true
+  }
 }

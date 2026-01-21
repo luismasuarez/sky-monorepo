@@ -1,4 +1,10 @@
 {
+  "meta": {
+    "version": "1.1",
+    "generatedAt": "2026-01-20",
+    "source": "domain-engine-orchestrator",
+    "description": "Glosario y relaciones extraídas del análisis de dominio inicial."
+  },
   "glossary": [
     {
       "term": "Usuario",
@@ -132,5 +138,22 @@
       "to": "Usuario",
       "type": "genera"
     }
-  ]
+  ],
+  "consistencyChecks": {
+    "termsWithRelations": [
+      "Usuario",
+      "Organización",
+      "Workspace",
+      "Proyecto",
+      "Tarea"
+    ],
+    "termsWithoutRelations": [],
+    "relationTypes": [
+      "pertenece a",
+      "contiene",
+      "asocia",
+      "genera",
+      "asignada a"
+    ]
+  }
 }
