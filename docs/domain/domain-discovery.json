@@ -1,0 +1,136 @@
+{
+  "glossary": [
+    {
+      "term": "Usuario",
+      "type": "Actor",
+      "definition": "Persona que accede a la plataforma y puede tener distintos roles y tipos de cuenta (freelancer, organización)."
+    },
+    {
+      "term": "Organización",
+      "type": "Entidad",
+      "definition": "Agrupación de usuarios con membresías, límites y planes de servicio."
+    },
+    {
+      "term": "Plan",
+      "type": "Valor",
+      "definition": "Nivel de servicio que determina límites y características para una organización."
+    },
+    {
+      "term": "Workspace",
+      "type": "Entidad",
+      "definition": "Espacio colaborativo personal o de organización, con miembros y roles definidos."
+    },
+    {
+      "term": "Equipo",
+      "type": "Entidad",
+      "definition": "Subgrupo dentro de un workspace para organizar usuarios y proyectos."
+    },
+    {
+      "term": "Proyecto",
+      "type": "Entidad",
+      "definition": "Iniciativa colaborativa con miembros, roles, estado, prioridad, fechas y etiquetas."
+    },
+    {
+      "term": "Tarea",
+      "type": "Entidad",
+      "definition": "Unidad de trabajo tipo Kanban, con estados, prioridad, asignación y seguimiento."
+    },
+    {
+      "term": "Enlace útil",
+      "type": "Valor",
+      "definition": "Recurso externo asociado a un proyecto para consulta o referencia."
+    },
+    {
+      "term": "Credencial segura",
+      "type": "Valor",
+      "definition": "Información sensible asociada a un proyecto, almacenada de forma protegida."
+    },
+    {
+      "term": "Notificación",
+      "type": "Evento",
+      "definition": "Aviso generado por cambios o acciones relevantes en el sistema."
+    }
+  ],
+  "relationships": [
+    {
+      "from": "Usuario",
+      "to": "Organización",
+      "type": "pertenece a"
+    },
+    {
+      "from": "Usuario",
+      "to": "Workspace",
+      "type": "miembro de"
+    },
+    {
+      "from": "Organización",
+      "to": "Workspace",
+      "type": "contiene"
+    },
+    {
+      "from": "Organización",
+      "to": "Plan",
+      "type": "tiene"
+    },
+    {
+      "from": "Workspace",
+      "to": "Equipo",
+      "type": "contiene"
+    },
+    {
+      "from": "Workspace",
+      "to": "Proyecto",
+      "type": "contiene"
+    },
+    {
+      "from": "Equipo",
+      "to": "Usuario",
+      "type": "agrupa"
+    },
+    {
+      "from": "Proyecto",
+      "to": "Workspace",
+      "type": "pertenece a"
+    },
+    {
+      "from": "Proyecto",
+      "to": "Tarea",
+      "type": "contiene"
+    },
+    {
+      "from": "Proyecto",
+      "to": "Enlace útil",
+      "type": "asocia"
+    },
+    {
+      "from": "Proyecto",
+      "to": "Credencial segura",
+      "type": "asocia"
+    },
+    {
+      "from": "Tarea",
+      "to": "Proyecto",
+      "type": "pertenece a"
+    },
+    {
+      "from": "Tarea",
+      "to": "Usuario",
+      "type": "asignada a"
+    },
+    {
+      "from": "Notificación",
+      "to": "Tarea",
+      "type": "genera"
+    },
+    {
+      "from": "Notificación",
+      "to": "Proyecto",
+      "type": "genera"
+    },
+    {
+      "from": "Notificación",
+      "to": "Usuario",
+      "type": "genera"
+    }
+  ]
+}
