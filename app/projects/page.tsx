@@ -2,6 +2,7 @@
 
 import { KanbanBoard } from '@/components/views/kanban/kanban-board';
 import { ViewToggle, type ViewType } from '@/components/widgets/view-toggle';
+import { KanbanDndProvider } from '@/app/kanban-dnd-provider';
 import { kanbanMockData } from '@/lib/mocks';
 import { useState } from 'react';
 
@@ -22,7 +23,11 @@ export default function ProjectsPage() {
       </div>
 
       <div className="mt-8">
-        {activeView === 'kanban' && <KanbanBoard kanbanData={kanbanMockData} />}
+        {activeView === 'kanban' && (
+          <KanbanDndProvider>
+            <KanbanBoard kanbanData={kanbanMockData} />
+          </KanbanDndProvider>
+        )}
         {/* Aquí puedes agregar otras vistas: links, credentials, metrics... */}
       </div>
     </div>

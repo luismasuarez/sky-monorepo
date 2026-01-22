@@ -13,7 +13,7 @@ export function KanbanDeleteZone({ onDropCard, isActive }: KanbanDeleteZoneProps
   });
 
   function handleDrop(e: React.DragEvent) {
-    droppableProps.onDrop(e);
+    droppableProps.onDrop();
     const cardId = e.dataTransfer.getData('kanban-card-id');
     const sourceColumnId = e.dataTransfer.getData('kanban-source-column-id');
     if (cardId && sourceColumnId) {

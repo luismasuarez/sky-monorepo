@@ -35,16 +35,17 @@ export function KanbanColumn({
   const isDropTarget = dropTarget?.type === 'kanban-card' && dropTarget?.targetId === column.id;
 
   function handleDrop(e: React.DragEvent) {
-    droppableProps.onDrop(e);
+    droppableProps.onDrop();
     // Si hay item arrastrado y callback, notificar al board
     if (draggedItem && draggedItem.type === 'kanban-card' && onCardDrop) {
+      const item = draggedItem.item as KanbanCardType;
       // Se espera que sourceId sea el id de la columna origen
-      const sourceColumnId = draggedItem.item.status
+      const sourceColumnId = item.status
         .replace('in-progress', 'in-progress')
         .replace('todo', 'todo')
         .replace('review', 'review')
         .replace('done', 'done');
-      onCardDrop(draggedItem.item as KanbanCardType, sourceColumnId);
+      onCardDrop(item, sourceColumnId);
     }
   }
 

@@ -1,7 +1,7 @@
+import { KanbanCard } from '@/lib/kanban-types';
+import { IconEdit, IconX } from '@tabler/icons-react';
 import * as React from 'react';
-import { IconX, IconEdit } from '@tabler/icons-react';
 import { z } from 'zod';
-import { KanbanCard, TaskStatus } from '@/lib/kanban-types';
 
 const TaskSchema = z.object({
   title: z.string().min(1).max(100),
@@ -35,7 +35,7 @@ export function EditTaskModal({ isOpen, onClose, onEditTask, initialData }: Edit
       ? Math.floor((initialData.estimatedTime % (60 * 60 * 1000)) / (60 * 1000))
       : 0,
     quoteAmount: initialData.quoteAmount || 0,
-    priority: initialData.priority || 'medium',
+    priority: (initialData.priority as 'low' | 'medium' | 'high') || 'medium',
     tags: initialData.tags || [],
     dueDate: initialData.dueDate || '',
     status: initialData.status,
@@ -57,8 +57,8 @@ export function EditTaskModal({ isOpen, onClose, onEditTask, initialData }: Edit
     const parsed = TaskSchema.safeParse(form);
     if (!parsed.success) {
       const fieldErrors: Record<string, string> = {};
-      parsed.error.errors.forEach(err => {
-        if (err.path[0]) fieldErrors[err.path[0]] = err.message;
+      parsed.error.issues.forEach(err => {
+        if (typeof err.path[0] === 'string') fieldErrors[err.path[0]] = err.message;
       });
       setErrors(fieldErrors);
       return;
@@ -76,7 +76,7 @@ export function EditTaskModal({ isOpen, onClose, onEditTask, initialData }: Edit
         <div className="glass-light dark:glass-dark rounded-xl shadow-2xl border border-slate-200/50 dark:border-slate-700/50 overflow-hidden">
           <div className="flex items-center justify-between p-6 border-b border-slate-200/50 dark:border-slate-700/50">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500/90 to-blue-600/90 dark:from-blue-400/90 dark:to-blue-500/90 rounded-xl flex items-center justify-center shadow-lg">
+              <div className="w-10 h-10 bg-linear-to-br from-blue-500/90 to-blue-600/90 dark:from-blue-400/90 dark:to-blue-500/90 rounded-xl flex items-center justify-center shadow-lg">
                 <IconEdit className="w-5 h-5 text-white" />
               </div>
               <div>
