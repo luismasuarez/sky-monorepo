@@ -4,11 +4,10 @@ import { AnimatedView } from '@/components/animated-view';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import HeaderLayout from '@/components/layout/header-layout';
 import { SidebarInset } from '@/components/ui/sidebar';
-import { KanbanBoard } from '@/components/views/kanban/kanban-board';
 import { KanbanBoardProvider } from '@/components/views/kanban/context/kanban-board-context';
+import { KanbanBoard } from '@/components/views/kanban/kanban-board';
 import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
-import { kanbanMockData } from '@/lib/mocks';
 
 export default function Page() {
   const { activeView, handleViewChange } = useViewToggle();
@@ -33,7 +32,7 @@ export default function Page() {
                 <div className="w-full min-h-80 relative">
                   <AnimatedView isActive={activeView === 'kanban'}>
                     <KanbanBoardProvider>
-                      <KanbanBoard kanbanData={kanbanMockData} />
+                      <KanbanBoard />
                     </KanbanBoardProvider>
                   </AnimatedView>
                   <AnimatedView isActive={activeView === 'links'}>
