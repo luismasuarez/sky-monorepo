@@ -3,7 +3,7 @@
 // KanbanCard representa un Task
 export type TaskStatus = 'todo' | 'in-progress' | 'review' | 'done';
 
-export type KanbanCard = {
+export type TKanbanCard = {
   id: string;
   projectId: string;
   workspaceId: string;

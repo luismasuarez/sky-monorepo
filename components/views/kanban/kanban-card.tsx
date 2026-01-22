@@ -1,10 +1,10 @@
-import { KanbanCard as KanbanCardType } from '@/lib/kanban-types';
+import { TKanbanCard } from '@/lib/kanban-types';
 import { useDraggable } from '@dnd-kit/core';
 import { ReactNode, useState } from 'react';
 
 export interface KanbanCardProps {
-  item: KanbanCardType;
-  onEdit?: (item: KanbanCardType) => void;
+  item: TKanbanCard;
+  onEdit?: (item: TKanbanCard) => void;
   children?: ReactNode | ReactNode[];
 }
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,27 +13,31 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { TKanbanCard } from '@/lib/kanban-types';
 import { IconPlus } from '@tabler/icons-react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-
-type Task = {
-  title: string;
-  description: string;
-};
+import { useKanbanBoardContext } from './context/kanban-board-context';
 
 export function AddTaskDialog() {
+  const [open, setOpen] = useState(false);
+
+  const { addTask } = useKanbanBoardContext();
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<Task>();
-  const onSubmit: SubmitHandler<Task> = data => console.log(data);
+  } = useForm<TKanbanCard>({
+    mode: 'onBlur',
+  });
 
-  console.log(watch('title')); // watch input value by passing the name of it
+  const onSubmit: SubmitHandler<TKanbanCard> = data => {
+    addTask('todo', data);
+    setOpen(false);
+  };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="ghost" size="icon" className="flex items-center justify-center">
           <IconPlus />
@@ -48,15 +54,21 @@ export function AddTaskDialog() {
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name-1">Título</Label>
-              <Input id="name-1" {...register('title')} defaultValue="Nueva tarea" />
+              <Input
+                id="name-1"
+                {...register('title', { required: true })}
+                defaultValue="Nueva tarea"
+              />
+              {errors.title && <span>This field is required</span>}
             </div>
             <div className="grid gap-3">
               <Label htmlFor="username-1">Descripción</Label>
               <Input
                 id="username-1"
-                {...register('description')}
+                {...register('description', { required: true })}
                 defaultValue="Descripción de la tarea"
               />
+              {errors.description && <span>This field is required</span>}
             </div>
           </div>
           <DialogFooter>

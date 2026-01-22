@@ -1,4 +1,4 @@
-import { KanbanColumn as KanbanColumnType } from '@/lib/kanban-types';
+import { KanbanColumn as KanbanColumnType, TKanbanCard } from '@/lib/kanban-types';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface KanbanBoardContextType {
@@ -6,10 +6,7 @@ interface KanbanBoardContextType {
   columns: KanbanColumnType[];
   setColumns: React.Dispatch<React.SetStateAction<KanbanColumnType[]>>;
   moveCard: (cardId: string, fromColumnId: string, toColumnId: string) => void;
-  addTask: (
-    columnStatus: KanbanColumnType['status'],
-    card: KanbanColumnType['cards'][number]
-  ) => void;
+  addTask: (columnStatus: KanbanColumnType['status'], card: TKanbanCard) => void;
 }
 
 export const KanbanBoardContext = createContext<KanbanBoardContextType | undefined>(undefined);
@@ -58,12 +55,26 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
     );
   }
 
-  function addTask(
-    columnStatus: KanbanColumnType['status'],
-    card: KanbanColumnType['cards'][number]
-  ) {
+  function addTask(columnStatus: KanbanColumnType['status'], card: TKanbanCard) {
+    const newCard = {
+      id: `card-${Date.now()}`,
+      title: card.title,
+      description: card.description,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      status: columnStatus,
+    };
+
     setColumns(prev =>
-      prev.map(col => (col.status === columnStatus ? { ...col, cards: [...col.cards, card] } : col))
+      prev.map(col => {
+        if (col.status === columnStatus) {
+          return {
+            ...col,
+            cards: [...col.cards, newCard],
+          };
+        }
+        return col;
+      })
     );
   }
 
