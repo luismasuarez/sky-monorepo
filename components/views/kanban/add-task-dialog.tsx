@@ -32,13 +32,13 @@ export function AddTaskDialog() {
 
   return (
     <Dialog>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <DialogTrigger asChild>
-          <Button variant="ghost" size="icon" className="flex items-center justify-center">
-            <IconPlus />
-          </Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-106.25">
+      <DialogTrigger asChild>
+        <Button variant="ghost" size="icon" className="flex items-center justify-center">
+          <IconPlus />
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-106.25">
+        <form onSubmit={handleSubmit(onSubmit)}>
           <DialogHeader>
             <DialogTitle>Agregar Tarea</DialogTitle>
             <DialogDescription>
@@ -65,8 +65,8 @@ export function AddTaskDialog() {
             </DialogClose>
             <Button type="submit">Guardar</Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 }
