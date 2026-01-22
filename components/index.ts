@@ -4,7 +4,7 @@ export * from './examples/component-example';
 export * from './examples/example';
 export * from './layout/app-sidebar';
 export * from './layout/dashboard-layout';
-export * from './layout/header';
+export * from '../app/dashboard/layout';
 export * from './layout/sidebar/nav-main';
 export * from './layout/sidebar/nav-projects';
 export * from './layout/sidebar/nav-user';
