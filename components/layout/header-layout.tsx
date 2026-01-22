@@ -13,21 +13,21 @@ interface HeaderProps {
 const HeaderLayout = ({ children, activeView, handleViewChange }: HeaderProps) => {
   return (
     <>
-      <header className="flex items-center w-full gap-2 mt-4 mb-6 px-2 sm:px-4 lg:px-8">
+      <header className="flex flex-wrap items-center w-full gap-2 mt-4 mb-6 px-2 sm:px-4 lg:px-8">
         {/* IZQUIERDA - Widget con Clock */}
-        <div className="flex items-center justify-start flex-none gap-3">
+        <div className="flex-1">
           <DashboardWidget className="glass-card">
             <Clock />
           </DashboardWidget>
         </div>
 
         {/* CENTRO */}
-        <div className="flex-1 flex items-center justify-center">
+        <div className="flex-4">
           <ViewToggle activeView={activeView} onViewChange={handleViewChange} />
         </div>
 
         {/* DERECHA */}
-        <div className="flex items-center justify-end flex-none gap-2">
+        <div className="flex-1">
           <HeaderMenuControls
             onBackup={() => { }}
             onRestore={() => { }}
