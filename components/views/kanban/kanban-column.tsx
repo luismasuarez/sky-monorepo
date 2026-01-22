@@ -6,7 +6,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useDroppable } from '@dnd-kit/core';
 import { ReactNode } from 'react';
-import ColumnAction from './column-action';
+import { AddTaskDialog } from './add-task-dialog';
 import ColumnTitle from './column-title';
 
 export interface KanbanColumnProps {
@@ -41,13 +41,13 @@ export function KanbanColumn({ column, onAddTask, children }: KanbanColumnProps)
         isOver && 'scale-105'
       )}
     >
-      <div className="flex justify-between items-start mb-2">
+      <div className="flex justify-between items-center mb-2 sm:mb-4">
         <ColumnTitle
           indicatorColor={indicatorColor}
           title={column.title}
           cardCount={column.cards.length}
-        />
-        <ColumnAction onAddTask={() => onAddTask && onAddTask(column.status)} />
+        />{' '}
+        <AddTaskDialog />
       </div>
       <div
         className="flex-1 space-y-2 sm:space-y-3"
