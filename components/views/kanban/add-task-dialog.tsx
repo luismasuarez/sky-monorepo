@@ -13,11 +13,15 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { TKanbanCard } from '@/lib/kanban-types';
 import { IconPlus } from '@tabler/icons-react';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useKanbanBoardContext } from './context/kanban-board-context';
+
+interface AddTaskData {
+  title: string;
+  description?: string;
+}
 
 export function AddTaskDialog() {
   const [open, setOpen] = useState(false);
@@ -27,11 +31,11 @@ export function AddTaskDialog() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<TKanbanCard>({
+  } = useForm<AddTaskData>({
     mode: 'onBlur',
   });
 
-  const onSubmit: SubmitHandler<TKanbanCard> = data => {
+  const onSubmit: SubmitHandler<AddTaskData> = data => {
     addTask('todo', data);
     setOpen(false);
   };

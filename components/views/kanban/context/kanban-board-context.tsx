@@ -1,12 +1,18 @@
+import { useProjectContext } from '@/lib/contexts/project-context';
 import { KanbanColumn as KanbanColumnType, TKanbanCard } from '@/lib/kanban-types';
 import { createContext, ReactNode, useContext, useState } from 'react';
+
+interface AddTaskData {
+  title: string;
+  description?: string;
+}
 
 interface KanbanBoardContextType {
   isLoading?: boolean;
   columns: KanbanColumnType[];
   setColumns: React.Dispatch<React.SetStateAction<KanbanColumnType[]>>;
   moveCard: (cardId: string, fromColumnId: string, toColumnId: string) => void;
-  addTask: (columnStatus: KanbanColumnType['status'], card: TKanbanCard) => void;
+  addTask: (columnStatus: KanbanColumnType['status'], card: AddTaskData) => void;
 }
 
 export const KanbanBoardContext = createContext<KanbanBoardContextType | undefined>(undefined);
@@ -24,6 +30,7 @@ interface KanbanBoardProviderProps {
 
 export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardProviderProps) {
   const [isLoading, setIsLoading] = useState(false);
+  const { activeProject } = useProjectContext();
 
   const [columns, setColumns] = useState<KanbanColumnType[]>(
     initialColumns || [
@@ -55,14 +62,36 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
     );
   }
 
-  function addTask(columnStatus: KanbanColumnType['status'], card: TKanbanCard) {
-    const newCard = {
+  function addTask(columnStatus: KanbanColumnType['status'], card: AddTaskData) {
+    if (!activeProject) return; // or throw error
+
+    const newCard: TKanbanCard = {
       id: `card-${Date.now()}`,
+      projectId: activeProject.id,
+      workspaceId: 'default-workspace', // TODO: get from context
+      teamId: undefined,
       title: card.title,
       description: card.description,
+      column: columnStatus,
+      status: columnStatus,
+      priority: 'medium', // default
+      assignedTo: undefined,
+      estimatedTime: undefined,
+      startTime: undefined,
+      completedTime: undefined,
+      totalTime: 0,
+      pausedTime: 0,
+      isPaused: false,
+      lastPauseStart: undefined,
+      isOvertime: false,
+      notificationSent: false,
+      quoteAmount: undefined,
+      tags: [],
+      dueDate: undefined,
+      order: 0, // TODO: calculate order
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      status: columnStatus,
+      createdBy: 'user', // TODO: get from auth
     };
 
     setColumns(prev =>
