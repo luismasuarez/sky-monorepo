@@ -1,6 +1,7 @@
+import { AppSidebar } from '@/components/layout/app-sidebar';
+import { QueryProvider } from '@/components/query-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { QueryProvider } from '@/components/query-provider';
 import { ProjectProvider } from '@/lib/contexts/project-context';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono, Nunito_Sans } from 'next/font/google';
@@ -39,6 +40,7 @@ export default function RootLayout({
         >
           <QueryProvider>
             <SidebarProvider>
+              <AppSidebar />
               <ProjectProvider>{children}</ProjectProvider>
             </SidebarProvider>
           </QueryProvider>

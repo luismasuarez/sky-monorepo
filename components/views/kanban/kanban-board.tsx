@@ -1,3 +1,5 @@
+'use client';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -28,7 +30,7 @@ function mapMockToCard(task: KanbanTaskMock): KanbanCard {
     teamId: task.teamId,
     title: task.title,
     description: task.description,
-    status: (task.column === "inProgress" ? "in-progress" : (task.column as TaskStatus)),
+    status: task.column === 'inProgress' ? 'in-progress' : (task.column as TaskStatus),
     priority: task.priority || 'medium',
     assignedTo: task.assignedTo,
     estimatedTime: task.estimatedTime,
@@ -204,7 +206,6 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
         onDragOver={handleDeleteZoneDragOver}
         onDragLeave={handleDeleteZoneDragLeave}
         onDrop={e => {
-          handleDeleteZoneDragLeave(); // reset visual
           handleDeleteZoneDropModal(e);
         }}
       />
