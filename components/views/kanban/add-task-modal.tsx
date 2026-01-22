@@ -56,8 +56,8 @@ export function AddTaskModal({ isOpen, onClose, onAddTask, targetColumn }: AddTa
     const parsed = TaskSchema.safeParse(form);
     if (!parsed.success) {
       const fieldErrors: Record<string, string> = {};
-      parsed.error.errors.forEach(err => {
-        if (err.path[0]) fieldErrors[err.path[0]] = err.message;
+      parsed.error.issues.forEach(err => {
+        if (typeof err.path[0] === 'string') fieldErrors[err.path[0]] = err.message;
       });
       setErrors(fieldErrors);
       return;
