@@ -1,10 +1,14 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
 import { KanbanColumn as KanbanColumnType } from '@/lib/kanban-types';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
-export interface KanbanBoardContextType {
+interface KanbanBoardContextType {
   columns: KanbanColumnType[];
   setColumns: React.Dispatch<React.SetStateAction<KanbanColumnType[]>>;
   moveCard: (cardId: string, fromColumnId: string, toColumnId: string) => void;
+  addTask: (
+    columnStatus: KanbanColumnType['status'],
+    card: KanbanColumnType['cards'][number]
+  ) => void;
 }
 
 export const KanbanBoardContext = createContext<KanbanBoardContextType | undefined>(undefined);
@@ -51,8 +55,17 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
     );
   }
 
+  function addTask(
+    columnStatus: KanbanColumnType['status'],
+    card: KanbanColumnType['cards'][number]
+  ) {
+    setColumns(prev =>
+      prev.map(col => (col.status === columnStatus ? { ...col, cards: [...col.cards, card] } : col))
+    );
+  }
+
   return (
-    <KanbanBoardContext.Provider value={{ columns, setColumns, moveCard }}>
+    <KanbanBoardContext.Provider value={{ columns, setColumns, moveCard, addTask }}>
       {children}
     </KanbanBoardContext.Provider>
   );
