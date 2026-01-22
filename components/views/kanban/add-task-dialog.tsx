@@ -12,11 +12,27 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { IconPlus } from '@tabler/icons-react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+
+type Task = {
+  title: string;
+  description: string;
+};
 
 export function AddTaskDialog() {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Task>();
+  const onSubmit: SubmitHandler<Task> = data => console.log(data);
+
+  console.log(watch('title')); // watch input value by passing the name of it
+
   return (
     <Dialog>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
           <Button variant="ghost" size="icon" className="flex items-center justify-center">
             <IconPlus />
@@ -24,26 +40,30 @@ export function AddTaskDialog() {
         </DialogTrigger>
         <DialogContent className="sm:max-w-106.25">
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Agregar Tarea</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re done.
+              Agrega una nueva tarea aquí. Haz clic en guardar cuando hayas terminado.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+              <Label htmlFor="name-1">Título</Label>
+              <Input id="name-1" {...register('title')} defaultValue="Nueva tarea" />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
+              <Label htmlFor="username-1">Descripción</Label>
+              <Input
+                id="username-1"
+                {...register('description')}
+                defaultValue="Descripción de la tarea"
+              />
             </div>
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button variant="outline">Cancelar</Button>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit">Guardar</Button>
           </DialogFooter>
         </DialogContent>
       </form>
