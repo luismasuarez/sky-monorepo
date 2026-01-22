@@ -7,11 +7,11 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
+import { IconCommand, IconPhoto, IconWaveSine } from '@tabler/icons-react';
 import { NavMain } from './sidebar/nav-main';
 import { NavProjects } from './sidebar/nav-projects';
 import { NavUser } from './sidebar/nav-user';
 import { TeamSwitcher } from './sidebar/team-switcher';
-import { IconPhoto, IconWaveSine, IconCommand } from '@tabler/icons-react';
 
 export function AppSidebar() {
   // Datos de ejemplo sidebar-07

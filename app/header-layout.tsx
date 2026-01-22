@@ -12,7 +12,7 @@ interface HeaderProps {
 
 const HeaderLayout = ({ children, activeView, handleViewChange }: HeaderProps) => {
   return (
-    <div className="flex flex-1 flex-col p-4">
+    <>
       <header className="flex items-center w-full gap-2 mt-4 mb-6 px-2 sm:px-4 lg:px-8">
         {/* IZQUIERDA - Widget con Clock */}
         <div className="flex items-center justify-start flex-none gap-3">
@@ -47,7 +47,7 @@ const HeaderLayout = ({ children, activeView, handleViewChange }: HeaderProps) =
       </header>
 
       <div>{children}</div>
-    </div>
+    </>
   );
 };
 
