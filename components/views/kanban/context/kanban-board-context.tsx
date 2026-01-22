@@ -1,6 +1,6 @@
 import { useProjectContext } from '@/lib/contexts/project-context';
 import { KanbanColumn as KanbanColumnType, TKanbanCard } from '@/lib/kanban-types';
-import { DragEndEvent } from '@dnd-kit/core';
+import { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface AddTaskData {
@@ -11,9 +11,13 @@ interface AddTaskData {
 interface KanbanBoardContextType {
   isLoading?: boolean;
   columns: KanbanColumnType[];
+  activeCard: TKanbanCard | null;
+  setActiveCard: React.Dispatch<React.SetStateAction<TKanbanCard | null>>;
   setColumns: React.Dispatch<React.SetStateAction<KanbanColumnType[]>>;
   moveCard: (cardId: string, fromColumnId: string, toColumnId: string) => void;
+  handleDragStart: (e: DragStartEvent) => void;
   handleDragEnd: (e: DragEndEvent) => void;
+  handleDragCancel: () => void;
   addTask: (columnStatus: KanbanColumnType['status'], card: AddTaskData) => void;
 }
 
@@ -31,6 +35,8 @@ interface KanbanBoardProviderProps {
 }
 
 export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardProviderProps) {
+  const [activeCard, setActiveCard] = useState<TKanbanCard | null>(null);
+
   const [isLoading, setIsLoading] = useState(false);
   const { activeProject } = useProjectContext();
 
@@ -64,6 +70,10 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
     );
   }
 
+  function handleDragStart(e: DragStartEvent) {
+    setActiveCard(e.active.data.current as TKanbanCard);
+  }
+
   function handleDragEnd(e: DragEndEvent) {
     const { active, over } = e;
 
@@ -78,6 +88,10 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
     if (sourceColumnId !== targetColumnId) {
       moveCard(cardId.toString(), sourceColumnId, targetColumnId.toString());
     }
+  }
+
+  function handleDragCancel() {
+    setActiveCard(null);
   }
 
   function addTask(columnStatus: KanbanColumnType['status'], card: AddTaskData) {
@@ -129,7 +143,18 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
 
   return (
     <KanbanBoardContext.Provider
-      value={{ isLoading, columns, setColumns, moveCard, addTask, handleDragEnd }}
+      value={{
+        isLoading,
+        columns,
+        activeCard,
+        setActiveCard,
+        setColumns,
+        moveCard,
+        addTask,
+        handleDragStart,
+        handleDragEnd,
+        handleDragCancel,
+      }}
     >
       {children}
     </KanbanBoardContext.Provider>
