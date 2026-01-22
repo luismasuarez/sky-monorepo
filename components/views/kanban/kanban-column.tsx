@@ -12,8 +12,6 @@ export interface KanbanColumnProps {
   indicatorColor: string;
   onAddTask?: (columnStatus: TaskStatus) => void;
   onEditTask?: (task: KanbanCardType, columnStatus: TaskStatus) => void;
-  onCardDrop?: (draggedItem: KanbanCardType, sourceColumnId: string) => void;
-  id: string;
   children?: ReactNode | ReactNode[];
 }
 

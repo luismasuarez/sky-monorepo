@@ -211,7 +211,6 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
             : columns.map(column => (
               <KanbanColumn
                 key={column.id}
-                id={column.id}
                 column={column}
                 indicatorColor={
                   column.status === 'todo'
@@ -223,9 +222,6 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
                         : 'bg-green-400'
                 }
                 onAddTask={onAddTask}
-                onCardDrop={(draggedItem, sourceColumnId) =>
-                  handleColumnDrop(column.id, draggedItem, sourceColumnId)
-                }
               >
                 {column.cards.map(card => {
                   if (column.id === card.column) {
