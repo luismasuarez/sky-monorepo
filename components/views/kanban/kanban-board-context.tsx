@@ -1,5 +1,5 @@
+import { createContext, useContext, useState, ReactNode } from 'react';
 import { KanbanColumn as KanbanColumnType } from '@/lib/kanban-types';
-import { createContext, ReactNode, useContext, useState } from 'react';
 
 export interface KanbanBoardContextType {
   columns: KanbanColumnType[];

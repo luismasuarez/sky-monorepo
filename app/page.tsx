@@ -5,6 +5,7 @@ import { AppSidebar } from '@/components/layout/app-sidebar';
 import HeaderLayout from '@/components/layout/header-layout';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { KanbanBoard } from '@/components/views/kanban/kanban-board';
+import { KanbanBoardProvider } from '@/components/views/kanban/kanban-board-context';
 import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
 import { kanbanMockData } from '@/lib/mocks';
@@ -31,7 +32,9 @@ export default function Page() {
               <div className="flex flex-col items-center gap-4">
                 <div className="w-full min-h-80 relative">
                   <AnimatedView isActive={activeView === 'kanban'}>
-                    <KanbanBoard kanbanData={kanbanMockData} />
+                    <KanbanBoardProvider>
+                      <KanbanBoard kanbanData={kanbanMockData} />
+                    </KanbanBoardProvider>
                   </AnimatedView>
                   <AnimatedView isActive={activeView === 'links'}>
                     <ViewContentPlaceholder view="links" />

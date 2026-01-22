@@ -1,13 +1,9 @@
 'use client';
 
-import {
-  KanbanColumn as KanbanColumnType,
-  TaskStatus,
-  type KanbanCard as TKanbanCard,
-} from '@/lib/kanban-types';
+import { TaskStatus, type KanbanCard as TKanbanCard } from '@/lib/kanban-types';
 import { KanbanMockData, KanbanTaskMock } from '@/lib/mocks';
 import { DndContext } from '@dnd-kit/core';
-import { useState } from 'react';
+import { useKanbanBoardContext } from './kanban-board-context';
 import KanbanCard from './kanban-card';
 import KanbanColumn from './kanban-column';
 import KanbanColumnSkeleton from './kanban-column-skeleton';
@@ -52,57 +48,7 @@ export interface KanbanBoardProps {
 }
 
 export function KanbanBoard({ onAddTask, isLoading = false }: KanbanBoardProps) {
-  const [columns, setColumns] = useState<KanbanColumnType[]>([
-    {
-      id: 'todo',
-      title: 'To Do',
-      status: 'todo',
-      cards: [],
-    },
-    {
-      id: 'in-progress',
-      title: 'In Progress',
-      status: 'in-progress',
-      cards: [],
-    },
-    {
-      id: 'review',
-      title: 'Review',
-      status: 'review',
-      cards: [],
-    },
-    {
-      id: 'done',
-      title: 'Done',
-      status: 'done',
-      cards: [],
-    },
-  ]);
-
-  // Mover tarjeta entre columnas
-  function moveCard(cardId: string, fromColumnId: string, toColumnId: string) {
-    setColumns(prev =>
-      prev.map(col => {
-        if (col.id === fromColumnId) {
-          return {
-            ...col,
-            cards: col.cards.filter(c => c.id !== cardId),
-          };
-        }
-
-        if (col.id === toColumnId) {
-          const card = prev.find(c => c.id === fromColumnId)!.cards.find(c => c.id === cardId)!;
-
-          return {
-            ...col,
-            cards: [...col.cards, { ...card, status: col.status }],
-          };
-        }
-
-        return col;
-      })
-    );
-  }
+  const { columns, moveCard } = useKanbanBoardContext();
 
   return (
     <DndContext
