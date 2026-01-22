@@ -2,6 +2,7 @@ import { KanbanColumn as KanbanColumnType } from '@/lib/kanban-types';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface KanbanBoardContextType {
+  isLoading?: boolean;
   columns: KanbanColumnType[];
   setColumns: React.Dispatch<React.SetStateAction<KanbanColumnType[]>>;
   moveCard: (cardId: string, fromColumnId: string, toColumnId: string) => void;
@@ -25,6 +26,8 @@ interface KanbanBoardProviderProps {
 }
 
 export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardProviderProps) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [columns, setColumns] = useState<KanbanColumnType[]>(
     initialColumns || [
       { id: 'todo', title: 'To Do', status: 'todo', cards: [] },
@@ -65,7 +68,7 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
   }
 
   return (
-    <KanbanBoardContext.Provider value={{ columns, setColumns, moveCard, addTask }}>
+    <KanbanBoardContext.Provider value={{ isLoading, columns, setColumns, moveCard, addTask }}>
       {children}
     </KanbanBoardContext.Provider>
   );
