@@ -1,7 +1,7 @@
 'use client';
 
 import { DndContext } from '@dnd-kit/core';
-import { useKanbanBoardContext } from './kanban-board-context';
+import { useKanbanBoardContext } from './context/kanban-board-context';
 import KanbanCard from './kanban-card';
 import KanbanColumn from './kanban-column';
 import KanbanColumnSkeleton from './kanban-column-skeleton';

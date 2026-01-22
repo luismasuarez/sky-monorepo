@@ -5,7 +5,7 @@ import { AppSidebar } from '@/components/layout/app-sidebar';
 import HeaderLayout from '@/components/layout/header-layout';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { KanbanBoard } from '@/components/views/kanban/kanban-board';
-import { KanbanBoardProvider } from '@/components/views/kanban/kanban-board-context';
+import { KanbanBoardProvider } from '@/components/views/kanban/context/kanban-board-context';
 import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
 import { kanbanMockData } from '@/lib/mocks';
