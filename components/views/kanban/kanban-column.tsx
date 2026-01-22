@@ -1,8 +1,4 @@
-import {
-  KanbanCard as KanbanCardType,
-  KanbanColumn as KanbanColumnType,
-  TaskStatus,
-} from '@/lib/kanban-types';
+import { KanbanColumn as KanbanColumnType, TaskStatus, TKanbanCard } from '@/lib/kanban-types';
 import { cn } from '@/lib/utils';
 import { useDroppable } from '@dnd-kit/core';
 import { ReactNode } from 'react';
@@ -12,11 +8,11 @@ import ColumnTitle from './column-title';
 export interface KanbanColumnProps {
   column: KanbanColumnType;
   onAddTask?: (columnStatus: TaskStatus) => void;
-  onEditTask?: (task: KanbanCardType, columnStatus: TaskStatus) => void;
+  onEditTask?: (task: TKanbanCard, columnStatus: TaskStatus) => void;
   children?: ReactNode | ReactNode[];
 }
 
-export function KanbanColumn({ column, onAddTask, children }: KanbanColumnProps) {
+export function KanbanColumn({ column, children }: KanbanColumnProps) {
   const { isOver, setNodeRef } = useDroppable({
     id: column.id,
   });

@@ -37,7 +37,7 @@ export type KanbanColumn = {
   id: string;
   title: string;
   status: TaskStatus;
-  cards: KanbanCard[];
+  cards: TKanbanCard[];
 };
 
 // KanbanBoard puede estar asociado a un proyecto
