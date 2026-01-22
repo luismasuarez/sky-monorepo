@@ -1,5 +1,6 @@
 import { useProjectContext } from '@/lib/contexts/project-context';
 import { KanbanColumn as KanbanColumnType, TKanbanCard } from '@/lib/kanban-types';
+import { DragEndEvent } from '@dnd-kit/core';
 import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface AddTaskData {
@@ -12,6 +13,7 @@ interface KanbanBoardContextType {
   columns: KanbanColumnType[];
   setColumns: React.Dispatch<React.SetStateAction<KanbanColumnType[]>>;
   moveCard: (cardId: string, fromColumnId: string, toColumnId: string) => void;
+  handleDragEnd: (e: DragEndEvent) => void;
   addTask: (columnStatus: KanbanColumnType['status'], card: AddTaskData) => void;
 }
 
@@ -62,13 +64,30 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
     );
   }
 
+  function handleDragEnd(e: DragEndEvent) {
+    const { active, over } = e;
+
+    if (!over) return;
+
+    const cardId = active.id;
+    const targetColumnId = over.id;
+    const sourceColumnId = columns.find(col => col.cards.some(card => card.id === cardId))?.id;
+
+    if (!sourceColumnId) return;
+
+    if (sourceColumnId !== targetColumnId) {
+      moveCard(cardId.toString(), sourceColumnId, targetColumnId.toString());
+    }
+  }
+
   function addTask(columnStatus: KanbanColumnType['status'], card: AddTaskData) {
-    if (!activeProject) return; // or throw error
+    // if (!activeProject) return; // or throw error
+    setIsLoading(true); // Simulate loading state during task addition
 
     const newCard: TKanbanCard = {
       id: `card-${Date.now()}`,
-      projectId: activeProject.id,
-      workspaceId: 'default-workspace', // TODO: get from context
+      projectId: activeProject?.id ?? 'default-project', // TODO: handle properly
+      workspaceId: activeProject?.workspaceId ?? 'default-workspace', // TODO: get from context
       teamId: undefined,
       title: card.title,
       description: card.description,
@@ -105,10 +124,13 @@ export function KanbanBoardProvider({ initialColumns, children }: KanbanBoardPro
         return col;
       })
     );
+    setIsLoading(false); // Simulate loading state during task addition
   }
 
   return (
-    <KanbanBoardContext.Provider value={{ isLoading, columns, setColumns, moveCard, addTask }}>
+    <KanbanBoardContext.Provider
+      value={{ isLoading, columns, setColumns, moveCard, addTask, handleDragEnd }}
+    >
       {children}
     </KanbanBoardContext.Provider>
   );
