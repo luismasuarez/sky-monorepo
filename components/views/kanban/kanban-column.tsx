@@ -1,4 +1,4 @@
-import { KanbanColumn as KanbanColumnType, TaskStatus, TKanbanCard } from '@/lib/kanban-types';
+import { KanbanColumn as KanbanColumnType, TaskStatus } from '@/lib/kanban-types';
 import { cn } from '@/lib/utils';
 import { useDroppable } from '@dnd-kit/core';
 import { ReactNode } from 'react';
@@ -7,9 +7,7 @@ import ColumnTitle from './column-title';
 
 export interface KanbanColumnProps {
   column: KanbanColumnType;
-  onAddTask?: (columnStatus: TaskStatus) => void;
-  onEditTask?: (task: TKanbanCard, columnStatus: TaskStatus) => void;
-  children?: ReactNode | ReactNode[];
+  children?: ReactNode;
 }
 
 export function KanbanColumn({ column, children }: KanbanColumnProps) {
@@ -17,24 +15,21 @@ export function KanbanColumn({ column, children }: KanbanColumnProps) {
     id: column.id,
   });
 
-  const indicatorColor =
-    column.status === 'todo'
-      ? 'bg-red-400'
-      : column.status === 'in-progress'
-        ? 'bg-yellow-400'
-        : column.status === 'review'
-          ? 'bg-blue-400'
-          : 'bg-green-400';
+  const STATUS_INDICATOR: Record<TaskStatus, string> = {
+    todo: 'bg-red-400',
+    'in-progress': 'bg-yellow-400',
+    review: 'bg-blue-400',
+    done: 'bg-green-400',
+  };
 
-  function handleDrop() { }
+  const indicatorColor = STATUS_INDICATOR[column.status];
 
   return (
     <div
       ref={setNodeRef}
-      onDrop={handleDrop}
       className={cn(
-        'glass-light dark:glass-dark rounded-xl p-3 sm:p-4 shadow-xl transition-all duration-200',
-        isOver && 'scale-105'
+        'glass-light dark:glass-dark rounded-xl p-3 sm:p-4 shadow-xl transition-transform duration-200',
+        isOver && 'bg-slate-100 dark:bg-slate-800'
       )}
     >
       <div className="flex justify-between items-center mb-2 sm:mb-4">
@@ -43,14 +38,9 @@ export function KanbanColumn({ column, children }: KanbanColumnProps) {
           title={column.title}
           cardCount={column.cards.length}
         />{' '}
-        <AddTaskDialog />
+        <AddTaskDialog columnStatus={column.status} />
       </div>
-      <div
-        className="flex-1 space-y-2 sm:space-y-3"
-        style={{ maxHeight: 'var(--kanban-col-max-h, 58vh)' }}
-      >
-        {children}
-      </div>
+      <div className="flex-1 space-y-2 sm:space-y-3 max-h-[58vh]">{children}</div>
     </div>
   );
 }

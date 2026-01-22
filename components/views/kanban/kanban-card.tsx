@@ -1,6 +1,6 @@
 import { TKanbanCard } from '@/lib/kanban-types';
 import { useDraggable } from '@dnd-kit/core';
-import { ReactNode, useState } from 'react';
+import { CSSProperties, ReactNode, useState } from 'react';
 
 export interface KanbanCardProps {
   item: TKanbanCard;
@@ -16,10 +16,8 @@ function KanbanCard({ item }: KanbanCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
   const needsExpansion = item.description && item.description.length > 100;
 
-  const style = transform
-    ? {
-      transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-    }
+  const style: CSSProperties | undefined = transform
+    ? { transform: `translate3d(${transform.x}px, ${transform.y}px, 0)` }
     : undefined;
 
   return (

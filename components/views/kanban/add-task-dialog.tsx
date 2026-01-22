@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { TaskStatus } from '@/lib/kanban-types';
 import { IconPlus } from '@tabler/icons-react';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -21,9 +22,10 @@ import { useKanbanBoardContext } from './context/kanban-board-context';
 interface AddTaskData {
   title: string;
   description?: string;
+  columnStatus: TaskStatus;
 }
 
-export function AddTaskDialog() {
+export function AddTaskDialog({ columnStatus }: { columnStatus: TaskStatus }) {
   const [open, setOpen] = useState(false);
 
   const { addTask } = useKanbanBoardContext();
@@ -36,7 +38,7 @@ export function AddTaskDialog() {
   });
 
   const onSubmit: SubmitHandler<AddTaskData> = data => {
-    addTask('todo', data);
+    addTask(columnStatus, data);
     setOpen(false);
   };
 

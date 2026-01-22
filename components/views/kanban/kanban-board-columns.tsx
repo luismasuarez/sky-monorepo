@@ -8,13 +8,10 @@ export const KanbanBoardColumns = () => {
   return (
     <>
       {columns.map(column => (
-        <KanbanColumn key={column.id} column={column} onAddTask={() => { }}>
-          {column.cards.map(card => {
-            if (column.id === card.column) {
-              return <KanbanCard key={card.id} item={card} />;
-            }
-            return <KanbanCard key={card.id} item={card} />;
-          })}
+        <KanbanColumn key={column.id} column={column}>
+          {column.cards.map(card => (
+            <KanbanCard key={card.id} item={card} />
+          ))}
         </KanbanColumn>
       ))}
     </>
