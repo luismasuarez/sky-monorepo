@@ -1,12 +1,12 @@
 'use client';
 
 import { AnimatedView } from '@/components/animated-view';
+import HeaderLayout from '@/components/layout/header-layout';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { KanbanBoard } from '@/components/views/kanban/kanban-board';
 import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
 import { kanbanMockData } from '@/lib/mocks';
-import HeaderLayout from './header-layout';
 import { KanbanDndProvider } from './kanban-dnd-provider';
 
 export default function Page() {

@@ -1,8 +1,8 @@
 import { ReactNode } from 'react';
-import { Clock } from '../components/widgets/clock';
-import { DashboardWidget } from '../components/widgets/dashboard-widget';
-import { HeaderMenuControls } from '../components/widgets/header-menu-controls';
-import { ViewToggle, ViewType } from '../components/widgets/view-toggle';
+import { Clock } from '../widgets/clock';
+import { DashboardWidget } from '../widgets/dashboard-widget';
+import { HeaderMenuControls } from '../widgets/header-menu-controls';
+import { ViewToggle, ViewType } from '../widgets/view-toggle';
 
 interface HeaderProps {
   children: ReactNode | ReactNode[];
