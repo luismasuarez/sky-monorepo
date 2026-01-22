@@ -40,7 +40,6 @@ export default function RootLayout({
         >
           <QueryProvider>
             <SidebarProvider>
-              <AppSidebar />
               <ProjectProvider>{children}</ProjectProvider>
             </SidebarProvider>
           </QueryProvider>
