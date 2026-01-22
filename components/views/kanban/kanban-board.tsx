@@ -36,6 +36,7 @@ function mapMockToCard(task: KanbanTaskMock): TKanbanCard {
     teamId: task.teamId,
     title: task.title,
     description: task.description,
+    column: task.column,
     status: task.column as TaskStatus,
     priority: task.priority || 'medium',
     assignedTo: task.assignedTo,
@@ -152,7 +153,7 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
   // Handler para drop en columna
   function handleColumnDrop(
     targetColumnId: string,
-    draggedItem: KanbanCard,
+    draggedItem: TKanbanCard,
     sourceColumnId: string
   ) {
     if (targetColumnId !== sourceColumnId) {
@@ -197,7 +198,7 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
         if (!sourceColumnId) return;
 
         if (sourceColumnId !== targetColumnId) {
-          moveCard(cardId, sourceColumnId, targetColumnId);
+          moveCard(cardId.toString(), sourceColumnId, targetColumnId.toString());
         }
       }}
     >
