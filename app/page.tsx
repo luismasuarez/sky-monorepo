@@ -8,6 +8,7 @@ import { KanbanBoard } from '@/components/views/kanban/kanban-board';
 import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
 import { kanbanMockData } from '@/lib/mocks';
+import DND from './DND';
 import { KanbanDndProvider } from './kanban-dnd-provider';
 
 export default function Page() {
