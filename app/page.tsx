@@ -8,8 +8,6 @@ import { KanbanBoard } from '@/components/views/kanban/kanban-board';
 import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
 import { kanbanMockData } from '@/lib/mocks';
-import { DndContext } from '@dnd-kit/core';
-import { KanbanDndProvider } from './kanban-dnd-provider';
 
 export default function Page() {
   const { activeView, handleViewChange } = useViewToggle();
@@ -33,9 +31,7 @@ export default function Page() {
               <div className="flex flex-col items-center gap-4">
                 <div className="w-full min-h-80 relative">
                   <AnimatedView isActive={activeView === 'kanban'}>
-                    <KanbanDndProvider>
-                      <KanbanBoard kanbanData={kanbanMockData} />
-                    </KanbanDndProvider>
+                    <KanbanBoard kanbanData={kanbanMockData} />
                   </AnimatedView>
                   <AnimatedView isActive={activeView === 'links'}>
                     <ViewContentPlaceholder view="links" />
