@@ -13,16 +13,22 @@ import {
 import { useDeleteZone } from '@/hooks/useDeleteZone';
 import { useMoveConfirmationModal } from '@/hooks/useMoveConfirmationModal';
 import { useDragAndDropContext } from '@/lib/drag-and-drop/DragAndDropContext';
-import { KanbanCard, KanbanColumn as KanbanColumnType, TaskStatus } from '@/lib/kanban-types';
+import {
+  KanbanColumn as KanbanColumnType,
+  TaskStatus,
+  type KanbanCard as TKanbanCard,
+} from '@/lib/kanban-types';
 import { KanbanMockData, KanbanTaskMock } from '@/lib/mocks';
+import { DndContext } from '@dnd-kit/core';
 import { useState } from 'react';
 import { DeleteZone } from './DeleteZone';
+import KanbanCard from './kanban-card';
 import KanbanColumn from './kanban-column';
 import KanbanColumnSkeleton from './kanban-column-skeleton';
 import { MoveConfirmationModal } from './MoveConfirmationModal';
 
 // Utilidad para mapear KanbanTaskMock a KanbanCard
-function mapMockToCard(task: KanbanTaskMock): KanbanCard {
+function mapMockToCard(task: KanbanTaskMock): TKanbanCard {
   return {
     id: task.id,
     projectId: task.projectId,
@@ -120,17 +126,27 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
 
   // Mover tarjeta entre columnas
   function moveCard(cardId: string, fromColumnId: string, toColumnId: string) {
-    setColumns(prevCols => {
-      const fromCol = prevCols.find(col => col.id === fromColumnId);
-      const toCol = prevCols.find(col => col.id === toColumnId);
-      if (!fromCol || !toCol) return prevCols;
-      const cardIdx = fromCol.cards.findIndex(c => c.id === cardId);
-      if (cardIdx === -1) return prevCols;
-      const [card] = fromCol.cards.splice(cardIdx, 1);
-      card.status = toCol.status;
-      toCol.cards.push(card);
-      return [...prevCols];
-    });
+    setColumns(prev =>
+      prev.map(col => {
+        if (col.id === fromColumnId) {
+          return {
+            ...col,
+            cards: col.cards.filter(c => c.id !== cardId),
+          };
+        }
+
+        if (col.id === toColumnId) {
+          const card = prev.find(c => c.id === fromColumnId)!.cards.find(c => c.id === cardId)!;
+
+          return {
+            ...col,
+            cards: [...col.cards, { ...card, status: col.status }],
+          };
+        }
+
+        return col;
+      })
+    );
   }
 
   // Handler para drop en columna
@@ -170,7 +186,21 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
   }
 
   return (
-    <>
+    <DndContext
+      onDragEnd={({ active, over }) => {
+        if (!over) return;
+
+        const cardId = active.id;
+        const targetColumnId = over.id;
+        const sourceColumnId = columns.find(col => col.cards.some(card => card.id === cardId))?.id;
+
+        if (!sourceColumnId) return;
+
+        if (sourceColumnId !== targetColumnId) {
+          moveCard(cardId, sourceColumnId, targetColumnId);
+        }
+      }}
+    >
       <div className="flex flex-col gap-6 pb-24">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-stretch w-full">
           {isLoading
@@ -180,6 +210,7 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
             : columns.map(column => (
               <KanbanColumn
                 key={column.id}
+                id={column.id}
                 column={column}
                 indicatorColor={
                   column.status === 'todo'
@@ -194,7 +225,14 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
                 onCardDrop={(draggedItem, sourceColumnId) =>
                   handleColumnDrop(column.id, draggedItem, sourceColumnId)
                 }
-              />
+              >
+                {column.cards.map(card => {
+                  if (column.id === card.column) {
+                    return <KanbanCard key={card.id} item={card} />;
+                  }
+                  return <KanbanCard key={card.id} item={card} />;
+                })}
+              </KanbanColumn>
             ))}
         </div>
       </div>
@@ -246,6 +284,6 @@ export function KanbanBoard({ kanbanData, onAddTask, isLoading = false }: Kanban
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-    </>
+    </DndContext>
   );
 }

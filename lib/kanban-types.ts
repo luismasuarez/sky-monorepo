@@ -10,6 +10,7 @@ export type KanbanCard = {
   teamId?: string;
   title: string;
   description?: string;
+  column: TaskStatus;
   status: TaskStatus;
   priority: string; // 'low' | 'medium' | 'high'
   assignedTo?: string;
