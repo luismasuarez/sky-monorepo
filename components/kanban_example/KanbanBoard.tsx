@@ -197,25 +197,7 @@ const KanbanBoard = () => {
                 </Button>
             </div>
 
-            {createPortal(
-                <DragOverlay>
-                    {activeColumn && (
-                        <ColumnContainer
-                            column={activeColumn}
-                            deleteColumn={deleteColumn}
-                            updateColumn={updateColumn}
-                            createTask={createTask}
-                            tasks={tasks.filter(task => task.columnId === activeColumn.id)}
-                            deleteTask={deleteTask}
-                            updateTask={updateTask}
-                        />
-                    )}
-                    {activeTask && (
-                        <TaskCard task={activeTask} deleteTask={deleteTask} updateTask={updateTask} />
-                    )}
-                </DragOverlay>,
-                document.body
-            )}
+            {/* DragOverlay is rendered inside the DndContext above (client-only). */}
         </div>
     );
 };
