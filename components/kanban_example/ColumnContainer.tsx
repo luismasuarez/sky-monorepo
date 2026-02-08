@@ -48,7 +48,7 @@ const ColumnContainer = (props: Props) => {
                 onClick={() => {
                     setEditMode(true);
                 }}
-                className="text-md font-bold h-[60px] p-3 cursor-grab flex items-center justify-between"
+                className="text-md font-bold h-[60px] cursor-grab flex items-center justify-between"
             >
                 <div className="flex gap-2">
                     <div className="flex justify-center items-center bg-muted/30 px-2.5 py-1 text-sm rounded-full">
@@ -77,7 +77,7 @@ const ColumnContainer = (props: Props) => {
             </div>
 
             {/* Column Task Container*/}
-            <div className="flex flex-grow flex-col gap-4 p-2 overflow-x-hidden overflow-y-auto">
+            <div className="flex flex-col space-y-2 sm:space-y-3 max-h-[58vh] overflow-x-hidden overflow-y-auto flex-grow">
                 <SortableContext items={tasksIds}>
                     {tasks.map(task => (
                         <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
@@ -86,7 +86,7 @@ const ColumnContainer = (props: Props) => {
             </div>
 
             {/* Column Footer*/}
-            <div className="p-2">
+            <div className="mt-2">
                 <Button variant="outline" onClick={() => createTask(column.id)}>
                     <PlusIcon />
                     Add Task

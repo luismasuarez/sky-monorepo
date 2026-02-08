@@ -143,62 +143,56 @@ const KanbanBoard = () => {
     }
 
     return (
-        <div
-            className="m-auto flex
-                min-h-screen
-                w-full items-center
-                overflow-x-auto
-                overflow-y-hidden
-                px-[40px]
-        "
-        >
-            <DndContext
-                sensors={sensors}
-                onDragStart={onDragStart}
-                onDragEnd={onDragEnd}
-                onDragOver={onDragOver}
-            >
-                <div className="m-auto flex gap-4">
-                    <div className="flex gap-4">
-                        <SortableContext items={columnsId}>
-                            {columns.map(col => (
-                                <ColumnContainer
-                                    key={col.id}
-                                    column={col}
-                                    deleteColumn={deleteColumn}
-                                    updateColumn={updateColumn}
-                                    createTask={createTask}
-                                    tasks={tasks.filter(task => task.columnId === col.id)}
-                                    deleteTask={deleteTask}
-                                    updateTask={updateTask}
-                                />
-                            ))}
-                        </SortableContext>
-                    </div>
-                    <Button variant="default" onClick={createNewColumn}>
-                        <IconPlus />
-                    </Button>
-                </div>
-                {createPortal(
-                    <DragOverlay>
-                        {activeColumn && (
+        <div className="flex flex-col gap-6 w-full px-[40px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 w-full">
+                <DndContext
+                    sensors={sensors}
+                    onDragStart={onDragStart}
+                    onDragEnd={onDragEnd}
+                    onDragOver={onDragOver}
+                >
+                    <SortableContext items={columnsId}>
+                        {columns.map(col => (
                             <ColumnContainer
-                                column={activeColumn}
+                                key={col.id}
+                                column={col}
                                 deleteColumn={deleteColumn}
                                 updateColumn={updateColumn}
                                 createTask={createTask}
-                                tasks={tasks.filter(task => task.columnId === activeColumn.id)}
+                                tasks={tasks.filter(task => task.columnId === col.id)}
                                 deleteTask={deleteTask}
                                 updateTask={updateTask}
                             />
-                        )}
-                        {activeTask && (
-                            <TaskCard task={activeTask} deleteTask={deleteTask} updateTask={updateTask} />
-                        )}
-                    </DragOverlay>,
-                    document.body
-                )}
-            </DndContext>
+                        ))}
+                    </SortableContext>
+                </DndContext>
+            </div>
+
+            <div className="flex">
+                <Button variant="default" onClick={createNewColumn}>
+                    <IconPlus />
+                </Button>
+            </div>
+
+            {createPortal(
+                <DragOverlay>
+                    {activeColumn && (
+                        <ColumnContainer
+                            column={activeColumn}
+                            deleteColumn={deleteColumn}
+                            updateColumn={updateColumn}
+                            createTask={createTask}
+                            tasks={tasks.filter(task => task.columnId === activeColumn.id)}
+                            deleteTask={deleteTask}
+                            updateTask={updateTask}
+                        />
+                    )}
+                    {activeTask && (
+                        <TaskCard task={activeTask} deleteTask={deleteTask} updateTask={updateTask} />
+                    )}
+                </DragOverlay>,
+                document.body
+            )}
         </div>
     );
 };
