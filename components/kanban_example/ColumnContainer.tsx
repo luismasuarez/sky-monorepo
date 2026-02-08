@@ -17,11 +17,21 @@ interface Props {
     createTask: (columnId: Id) => void;
     deleteTask: (id: Id) => void;
     updateTask: (id: Id, content: string) => void;
+    isOverlay?: boolean;
 }
 
 const ColumnContainer = (props: Props) => {
     const [editMode, setEditMode] = useState(false);
-    const { column, deleteColumn, updateColumn, createTask, tasks, deleteTask, updateTask } = props;
+    const {
+        column,
+        deleteColumn,
+        updateColumn,
+        createTask,
+        tasks,
+        deleteTask,
+        updateTask,
+        isOverlay = false,
+    } = props;
     const tasksIds = useMemo(() => {
         return tasks.map(task => task.id);
     }, [tasks]);
@@ -81,10 +91,12 @@ const ColumnContainer = (props: Props) => {
             {/* Column Task Container*/}
             <div className="flex flex-col space-y-3 max-h-[58vh] overflow-x-hidden overflow-y-auto flex-grow px-1 pr-2">
                 <SortableContext items={tasksIds}>
-                    {tasks.map(task => (
-                        <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
-                    ))}
+                    {!isOverlay &&
+                        tasks.map(task => (
+                            <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
+                        ))}
                 </SortableContext>
+                {isOverlay && <div className="h-6" aria-hidden />}
             </div>
 
             {/* Column Footer*/}

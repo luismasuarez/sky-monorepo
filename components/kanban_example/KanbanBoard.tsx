@@ -165,6 +165,27 @@ const KanbanBoard = () => {
                             />
                         ))}
                     </SortableContext>
+
+                    {createPortal(
+                        <DragOverlay>
+                            {activeColumn && (
+                                <ColumnContainer
+                                    column={activeColumn}
+                                    deleteColumn={deleteColumn}
+                                    updateColumn={updateColumn}
+                                    createTask={createTask}
+                                    tasks={tasks.filter(task => task.columnId === activeColumn.id)}
+                                    deleteTask={deleteTask}
+                                    updateTask={updateTask}
+                                    isOverlay={true}
+                                />
+                            )}
+                            {activeTask && (
+                                <TaskCard task={activeTask} deleteTask={deleteTask} updateTask={updateTask} />
+                            )}
+                        </DragOverlay>,
+                        document.body
+                    )}
                 </DndContext>
             </div>
 
