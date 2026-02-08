@@ -48,28 +48,30 @@ const ColumnContainer = (props: Props) => {
                 onClick={() => {
                     setEditMode(true);
                 }}
-                className="text-md font-bold h-[60px] cursor-grab flex items-center justify-between"
+                className="text-md font-semibold h-[60px] cursor-grab flex items-center justify-between px-2"
             >
-                <div className="flex gap-2">
-                    <div className="flex justify-center items-center bg-muted/30 px-2.5 py-1 text-sm rounded-full">
+                <div className="flex gap-3 items-center">
+                    <div className="flex justify-center items-center bg-indigo-100 text-indigo-700 px-2.5 py-1 text-sm rounded-full dark:bg-indigo-900/40 dark:text-indigo-300">
                         1
                     </div>
-                    {!editMode && column.title}
-                    {editMode && (
-                        <Input
-                            autoFocus
-                            className="min-w-0"
-                            value={column.title}
-                            onChange={e => updateColumn(column.id, e.target.value)}
-                            onBlur={() => {
-                                setEditMode(false);
-                            }}
-                            onKeyDown={e => {
-                                if (e.key !== 'Enter') return;
-                                setEditMode(false);
-                            }}
-                        />
-                    )}
+                    <div className="min-w-0 truncate">
+                        {!editMode && <span className="truncate">{column.title}</span>}
+                        {editMode && (
+                            <Input
+                                autoFocus
+                                className="min-w-0"
+                                value={column.title}
+                                onChange={e => updateColumn(column.id, e.target.value)}
+                                onBlur={() => {
+                                    setEditMode(false);
+                                }}
+                                onKeyDown={e => {
+                                    if (e.key !== 'Enter') return;
+                                    setEditMode(false);
+                                }}
+                            />
+                        )}
+                    </div>
                 </div>
                 <Button variant="ghost" onClick={() => deleteColumn(column.id)}>
                     <TrashIcon />
@@ -77,7 +79,7 @@ const ColumnContainer = (props: Props) => {
             </div>
 
             {/* Column Task Container*/}
-            <div className="flex flex-col space-y-2 sm:space-y-3 max-h-[58vh] overflow-x-hidden overflow-y-auto flex-grow">
+            <div className="flex flex-col space-y-3 max-h-[58vh] overflow-x-hidden overflow-y-auto flex-grow px-1 pr-2">
                 <SortableContext items={tasksIds}>
                     {tasks.map(task => (
                         <TaskCard key={task.id} task={task} deleteTask={deleteTask} updateTask={updateTask} />
@@ -87,7 +89,11 @@ const ColumnContainer = (props: Props) => {
 
             {/* Column Footer*/}
             <div className="mt-2">
-                <Button variant="outline" onClick={() => createTask(column.id)}>
+                <Button
+                    variant="outline"
+                    onClick={() => createTask(column.id)}
+                    className="w-full justify-center gap-2"
+                >
                     <PlusIcon />
                     Add Task
                 </Button>

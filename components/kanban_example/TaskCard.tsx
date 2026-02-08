@@ -35,7 +35,7 @@ const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
             <KanbanCard
                 ref={setNodeRef}
                 style={style}
-                className="opacity-30 h-[100px] min-h-[100px] flex"
+                className="opacity-30 h-[100px] min-h-[100px] flex items-center"
             />
         );
     }
@@ -47,7 +47,7 @@ const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
                 {...listeners}
                 ref={setNodeRef}
                 style={style}
-                className="p-2.5 h-[100px] min-h-[100px] flex cursor-grab relative"
+                className="p-2.5 h-[100px] min-h-[100px] flex cursor-grab relative ring-1 ring-indigo-100 dark:ring-indigo-900/40 rounded-lg"
             >
                 <Textarea
                     className="h-[90%] w-full resize-none"
@@ -73,9 +73,9 @@ const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
             {...listeners}
             ref={setNodeRef}
             style={style}
-            className="p-2.5 h-[100px] min-h-[100px] items-center flex cursor-grab relative transition hover:shadow-lg"
+            className="p-3 h-[100px] min-h-[100px] items-center flex cursor-grab relative transition shadow-sm hover:shadow-lg bg-white/50 dark:bg-slate-800/60 border border-white/5 dark:border-slate-700/40 rounded-lg"
         >
-            <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
+            <p className="my-auto h-[90%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap text-sm leading-relaxed text-slate-800 dark:text-slate-200 break-words">
                 {task.content}
             </p>
             {mouseIsOver && (

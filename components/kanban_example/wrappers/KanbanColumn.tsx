@@ -10,7 +10,7 @@ const KanbanColumn = React.forwardRef<HTMLDivElement, Props>(
       <div
         ref={ref}
         style={style}
-        className={`glass-light dark:glass-dark rounded-xl p-3 sm:p-4 shadow-xl transition-colors duration-200 ${className}`}
+        className={`glass-light dark:glass-dark rounded-xl p-3 sm:p-4 shadow-xl transition-colors duration-200 flex flex-col h-full ${className}`}
         {...rest}
       >
         {children}

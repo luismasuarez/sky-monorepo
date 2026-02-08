@@ -10,7 +10,7 @@ const KanbanCard = React.forwardRef<HTMLDivElement, Props>(
       <div
         ref={ref}
         style={style}
-        className={`glass-panel p-2.5 min-h-[100px] rounded-xl ${className}`}
+        className={`glass-panel bg-white/60 dark:bg-slate-900/60 border border-white/10 dark:border-slate-700/40 backdrop-blur-sm p-2.5 min-h-[100px] rounded-xl ${className}`}
         {...rest}
       >
         {children}
