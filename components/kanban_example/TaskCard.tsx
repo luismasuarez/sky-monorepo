@@ -4,6 +4,7 @@ import { useState } from 'react';
 import TrashIcon from './icons/TrashIcon';
 import { Id, Task } from './types';
 import { Button } from '../ui/button';
+import { Textarea } from '../ui/textarea';
 import KanbanCard from './wrappers/KanbanCard';
 
 interface Props {
@@ -48,8 +49,8 @@ const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
                 style={style}
                 className="p-2.5 h-[100px] min-h-[100px] flex cursor-grab relative"
             >
-                <textarea
-                    className="h-[90%] w-full resize-none border-none rounded bg-transparent text-foreground focus:outline-none"
+                <Textarea
+                    className="h-[90%] w-full resize-none"
                     value={task.content}
                     autoFocus
                     placeholder="Task content here"
@@ -58,7 +59,7 @@ const TaskCard = ({ task, deleteTask, updateTask }: Props) => {
                         if (e.shiftKey && e.key == 'Enter') toggleEditMode();
                     }}
                     onChange={e => updateTask(task.id, e.target.value)}
-                ></textarea>
+                />
             </KanbanCard>
         );
     }

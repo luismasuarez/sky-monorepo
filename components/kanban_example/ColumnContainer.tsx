@@ -7,6 +7,7 @@ import TaskCard from './TaskCard';
 import KanbanColumn from './wrappers/KanbanColumn';
 import { Column, Id, Task } from './types';
 import { Button } from '../ui/button';
+import { Input } from '../ui/input';
 
 interface Props {
     column: Column;
@@ -55,9 +56,9 @@ const ColumnContainer = (props: Props) => {
                     </div>
                     {!editMode && column.title}
                     {editMode && (
-                        <input
+                        <Input
                             autoFocus
-                            className="bg-black focus:border-rose-500 border rounded outline-none px-2"
+                            className="min-w-0"
                             value={column.title}
                             onChange={e => updateColumn(column.id, e.target.value)}
                             onBlur={() => {
