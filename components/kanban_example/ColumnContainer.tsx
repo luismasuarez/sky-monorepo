@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import PlusIcon from './icons/PlusIcon';
 import TrashIcon from './icons/TrashIcon';
 import TaskCard from './TaskCard';
+import KanbanColumn from './wrappers/KanbanColumn';
 import { Column, Id, Task } from './types';
 import { Button } from '../ui/button';
 
@@ -34,21 +35,11 @@ const ColumnContainer = (props: Props) => {
     };
 
     if (isDragging) {
-        return (
-            <div
-                ref={setNodeRef}
-                style={style}
-                className="glass-light opacity-30 w-[350px] h-[500px] max-h-[500px] rounded-xl flex flex-col"
-            ></div>
-        );
+        return <KanbanColumn ref={setNodeRef} style={style} className="opacity-30" />;
     }
 
     return (
-        <div
-            ref={setNodeRef}
-            style={style}
-            className="glass-light dark:glass-dark w-[350px] h-[500px] max-h-[500px] rounded-xl flex flex-col"
-        >
+        <KanbanColumn ref={setNodeRef} style={style}>
             {/* Column Title*/}
             <div
                 {...attributes}
@@ -100,7 +91,7 @@ const ColumnContainer = (props: Props) => {
                     Add Task
                 </Button>
             </div>
-        </div>
+        </KanbanColumn>
     );
 };
 
