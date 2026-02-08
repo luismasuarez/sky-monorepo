@@ -9,10 +9,11 @@ import {
     useSensors,
 } from '@dnd-kit/core';
 import { SortableContext, arrayMove } from '@dnd-kit/sortable';
+import { IconPlus } from '@tabler/icons-react';
 import { useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { Button } from '../ui/button';
 import ColumnContainer from './ColumnContainer';
-import PlusIcon from './icons/PlusIcon';
 import TaskCard from './TaskCard';
 import { Column, Id, Task } from './types';
 
@@ -174,21 +175,9 @@ const KanbanBoard = () => {
                             ))}
                         </SortableContext>
                     </div>
-                    <button
-                        onClick={() => {
-                            createNewColumn();
-                        }}
-                        className="-[60px] w-[350px] min-w-[350px]
-                                    cursor-pointer rounded-lg
-                                  bg-mainBackgroundColor
-                                   border-2
-                                 border-columnBackgroundColor
-                                   p-4 ring-rose-500 hover:ring-2
-                                  flex gap-2"
-                    >
-                        <PlusIcon />
-                        Add Column
-                    </button>
+                    <Button variant="default" onClick={createNewColumn}>
+                        <IconPlus />
+                    </Button>
                 </div>
                 {createPortal(
                     <DragOverlay>

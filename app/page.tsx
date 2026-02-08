@@ -1,11 +1,11 @@
 'use client';
 
 import { AnimatedView } from '@/components/animated-view';
+import KanbanBoard from '@/components/kanban_example/KanbanBoard';
 import { AppSidebar } from '@/components/layout/app-sidebar';
 import HeaderLayout from '@/components/layout/header-layout';
 import { SidebarInset } from '@/components/ui/sidebar';
 import { KanbanBoardProvider } from '@/components/views/kanban/context/kanban-board-context';
-import { KanbanBoard } from '@/components/views/kanban/kanban-board';
 import { ViewContentPlaceholder } from '@/components/views/ViewContentPlaceholder';
 import useViewToggle from '@/hooks/useViewToggle';
 
