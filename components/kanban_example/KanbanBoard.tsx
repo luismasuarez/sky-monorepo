@@ -150,6 +150,7 @@ const KanbanBoard = () => {
                 overflow-x-auto
                 overflow-y-hidden
                 px-[40px]
+                glass-light dark:glass-dark rounded-xl p-6
         "
         >
             <DndContext

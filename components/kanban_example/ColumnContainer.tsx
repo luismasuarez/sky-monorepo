@@ -5,6 +5,7 @@ import PlusIcon from './icons/PlusIcon';
 import TrashIcon from './icons/TrashIcon';
 import TaskCard from './TaskCard';
 import { Column, Id, Task } from './types';
+import { Button } from '../ui/button';
 
 interface Props {
     column: Column;
@@ -37,11 +38,7 @@ const ColumnContainer = (props: Props) => {
             <div
                 ref={setNodeRef}
                 style={style}
-                className="bg-columnBackgroundColor
-        w-[350px] h-[500px]
-        border-2 border-rose-500
-        max-h-[500px] rounded-md
-        flex flex-col"
+                className="glass-light opacity-30 w-[350px] h-[500px] max-h-[500px] rounded-xl flex flex-col"
             ></div>
         );
     }
@@ -50,10 +47,7 @@ const ColumnContainer = (props: Props) => {
         <div
             ref={setNodeRef}
             style={style}
-            className="bg-columnBackgroundColor
-        w-[350px] h-[500px]
-        max-h-[500px] rounded-md
-        flex flex-col"
+            className="glass-light dark:glass-dark w-[350px] h-[500px] max-h-[500px] rounded-xl flex flex-col"
         >
             {/* Column Title*/}
             <div
@@ -62,21 +56,10 @@ const ColumnContainer = (props: Props) => {
                 onClick={() => {
                     setEditMode(true);
                 }}
-                className="bg-mainBackgroundColor
-                text-md font-bold
-                h-[60px] p-3
-                cursor-grab
-                rounded-b-none
-                border-columnBackgroundColor border-4
-                flex items-center justify-between"
+                className="text-md font-bold h-[60px] p-3 cursor-grab flex items-center justify-between"
             >
                 <div className="flex gap-2">
-                    <div
-                        className="flex
-                        justify-center items-center
-                        bg-columnBackgroundColor
-                        px-2.5 py-1 text-sm rounded-full"
-                    >
+                    <div className="flex justify-center items-center bg-muted/30 px-2.5 py-1 text-sm rounded-full">
                         1
                     </div>
                     {!editMode && column.title}
@@ -96,17 +79,9 @@ const ColumnContainer = (props: Props) => {
                         />
                     )}
                 </div>
-                <button
-                    onClick={() => {
-                        deleteColumn(column.id);
-                    }}
-                    className="stroke-gray-500
-                    hover:stroke-white
-                    hover:bg-columnBackgroundColor
-                    rounded py-2 px-2"
-                >
+                <Button variant="ghost" onClick={() => deleteColumn(column.id)}>
                     <TrashIcon />
-                </button>
+                </Button>
             </div>
 
             {/* Column Task Container*/}
@@ -119,19 +94,12 @@ const ColumnContainer = (props: Props) => {
             </div>
 
             {/* Column Footer*/}
-            <button
-                onClick={() => {
-                    createTask(column.id);
-                }}
-                className="flex gap-2 items-center
-            border-columnBackgroundColor border2 rounded-md p-2
-            border-x-columnBackgroundColor
-            hover:bg-mainBackgroundColor hover:text-rose-500
-            active:bg-black"
-            >
-                <PlusIcon />
-                Add Task
-            </button>
+            <div className="p-2">
+                <Button variant="outline" onClick={() => createTask(column.id)}>
+                    <PlusIcon />
+                    Add Task
+                </Button>
+            </div>
         </div>
     );
 };
