@@ -1,0 +1,70 @@
+.
+├── apps
+│   └── gateway
+│       ├── bun.lock
+│       ├── eslint.config.mjs
+│       ├── nest-cli.json
+│       ├── package.json
+│       ├── prisma.config.ts
+│       ├── README.md
+│       ├── src
+│       │   ├── app.module.ts
+│       │   ├── main.ts
+│       │   ├── modules
+│       │   │   ├── auth
+│       │   │   └── payments
+│       │   └── shared
+│       │       ├── config
+│       │       ├── constants
+│       │       ├── guards
+│       │       ├── prisma
+│       │       ├── scripts
+│       │       ├── services
+│       │       ├── shared.module.ts
+│       │       ├── strategies
+│       │       └── utils
+│       ├── tsconfig.build.json
+│       └── tsconfig.json
+├── bun.lock
+├── docs
+│   └── add-repos.md
+├── estructura_actual.txt
+├── package.json
+├── packages
+│   └── contracts
+│       └── package.json
+├── services
+│   └── ms_nestjs-template
+│       ├── bun.lock
+│       ├── docker-compose.local-services.yml
+│       ├── docker-compose.yml
+│       ├── Dockerfile
+│       ├── docs
+│       │   └── MINIO_USAGE_EXAMPLE.md
+│       ├── eslint.config.mjs
+│       ├── init.sh
+│       ├── LICENSE
+│       ├── nest-cli.json
+│       ├── package.json
+│       ├── prisma.config.ts
+│       ├── README.md
+│       ├── src
+│       │   ├── app.module.ts
+│       │   ├── main.ts
+│       │   ├── modules
+│       │   │   ├── example
+│       │   │   └── health
+│       │   ├── shared
+│       │   │   ├── config
+│       │   │   ├── constants
+│       │   │   ├── decorators
+│       │   │   ├── lib
+│       │   │   ├── prisma
+│       │   │   ├── services
+│       │   │   └── validation
+│       │   └── shared.module.ts
+│       ├── tsconfig.build.json
+│       └── tsconfig.json
+└── turbo.json
+
+34 directories, 34 files
