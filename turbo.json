@@ -15,6 +15,14 @@
       "cache": false,
       "persistent": true
     },
+    "services:up": {
+      "cache": false,
+      "outputs": []
+    },
+    "services:down": {
+      "cache": false,
+      "outputs": []
+    },
     "prisma:generate": {
       "dependsOn": [
         "^prisma:generate"
