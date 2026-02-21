@@ -12,7 +12,8 @@
     "lint:all": "turbo run lint",
     "typecheck:all": "turbo run typecheck",
     "backend": "bunx turbo run dev --filter=@repo/gateway",
-    "template": "bunx turbo run dev --filter=@repo/ms-nestjs-template"
+    "template": "bunx turbo run dev --filter=@repo/ms-nestjs-template",
+    "prisma:generate": "bunx turbo run prisma:generate"
   },
   "devDependencies": {
     "turbo": "^2.8.10"
