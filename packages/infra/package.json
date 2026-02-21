@@ -1,13 +1,16 @@
 {
-  "name": "infra",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "@repo/infra",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=18"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "scripts": {
+    "services:up": "docker compose -f docker-compose.yml up -d",
+    "services:down": "docker compose -f docker-compose.yml down",
+    "services:build": "docker compose -f docker-compose.yml build",
+    "services:restart": "docker compose -f docker-compose.yml restart",
+    "services:logs": "docker compose -f docker-compose.yml logs -f --tail=200",
+    "services:ps": "docker compose -f docker-compose.yml ps"
+  }
 }
