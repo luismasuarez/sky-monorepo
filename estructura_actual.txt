@@ -1,0 +1,10 @@
+.
+├── apps
+│   ├── backend
+│   └── frontend
+├── estructura_actual.txt
+├── package.json
+└── packages
+    └── contracts
+
+6 directories, 2 files
