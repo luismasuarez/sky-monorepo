@@ -1,5 +1,7 @@
 services:
   rabbitmq:
+    env_file:
+      - .env
     image: rabbitmq:4.1-management
     container_name: rabbitmq
     hostname: rabbitmq
@@ -14,40 +16,23 @@ services:
       - rabbitmq-data:/var/lib/rabbitmq
 
   postgres:
+    env_file:
+      - .env
     image: postgres:16-alpine
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d ${POSTGRES_DB}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
-
-  minio:
-    image: minio/minio:latest
-    container_name: minio
-    restart: always
-    ports:
-      - "9000:9000"  # API port
-      - "9001:9001"  # Console port
-    environment:
-      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
-    command: server /data --console-address ":9001"
-    volumes:
-      - minio_data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3
 
 volumes:
   postgres_data:

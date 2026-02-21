@@ -1,10 +1,21 @@
 # Infra — Servicios locales
 
+
 Breve guía para levantar los servicios compartidos del monorepo (DB, RabbitMQ, MinIO, etc.).
 
 Requisitos
 - Tener Docker y Docker Compose instalados.
-- Variables de entorno en un `.env` en la raíz del monorepo o en `packages/infra/.env`.
+- Copiar el archivo de ejemplo de variables y ajustar valores:
+
+```bash
+cp ../../.env.example .env
+```
+
+También puedes copiar el ejemplo a la raíz del repo si prefieres centralizar las variables:
+
+```bash
+cp .env.example ../.env
+```
 
 Comandos (desde la raíz del repo)
 
