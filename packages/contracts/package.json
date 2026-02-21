@@ -4,6 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "echo contracts build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "echo contracts lint",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -23,6 +23,7 @@
     "prisma:seed": "prisma db seed",
     "db:compose:up": "docker compose -f docker-compose.local-services.yml up -d"
   },
+  "typecheck": "tsc -p tsconfig.json --noEmit",
   "dependencies": {
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",

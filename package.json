@@ -7,10 +7,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev:all": "turbo run dev",
-    "build:all": "turbo run build",
-    "lint:all": "turbo run lint",
-    "typecheck:all": "turbo run typecheck",
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
     "backend": "bunx turbo run dev --filter=@repo/gateway",
     "template": "bunx turbo run dev --filter=@repo/ms-nestjs-template",
     "prisma:generate": "bunx turbo run prisma:generate"
