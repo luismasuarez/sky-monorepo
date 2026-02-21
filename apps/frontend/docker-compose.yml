@@ -1,0 +1,48 @@
+services:
+  dokkao:
+    image: postgres:16
+    container_name: dokkao-app-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - dokkao-app-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dokkao-app-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        DATABASE_URL: ${POSTGRES_DB_URL}
+    container_name: dokkao-app
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${POSTGRES_DB_URL}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+    depends_on:
+      dokkao:
+        condition: service_healthy
+    command: >
+      sh -c "
+        npx prisma migrate deploy &&
+        node server.js
+      "
+    networks:
+      - dokkao-app-network
+
+volumes:
+  dokkao-app-postgres-data:
+
+networks:
+  dokkao-app-network:
+    driver: bridge

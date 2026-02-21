@@ -1,0 +1,85 @@
+{
+  "meta": {
+    "version": "1.0",
+    "generatedAt": "2026-01-20",
+    "source": "aggregate-designer",
+    "description": "Aggregates, Entities y Value Objects definidos por bounded context."
+  },
+  "aggregates": [
+    {
+      "boundedContext": "Identidad y Membresía",
+      "aggregateRoot": "Usuario",
+      "entities": [
+        "Organización",
+        "Plan"
+      ],
+      "valueObjects": [
+        "Rol",
+        "TipoCuenta"
+      ],
+      "invariants": [
+        "Un Usuario debe tener al menos un rol.",
+        "Una Organización debe tener un Plan activo."
+      ],
+      "businessRules": [
+        "Un Usuario puede pertenecer a varias Organizaciones.",
+        "El Plan define los límites de la Organización."
+      ]
+    },
+    {
+      "boundedContext": "Colaboración y Espacios",
+      "aggregateRoot": "Workspace",
+      "entities": [
+        "Equipo"
+      ],
+      "valueObjects": [
+        "RolMiembro"
+      ],
+      "invariants": [
+        "Un Workspace debe tener al menos un miembro.",
+        "Un Equipo pertenece a un Workspace."
+      ],
+      "businessRules": [
+        "Un Usuario puede ser miembro de varios Workspaces.",
+        "Un Equipo agrupa Usuarios dentro de un Workspace."
+      ]
+    },
+    {
+      "boundedContext": "Proyectos y Tareas",
+      "aggregateRoot": "Proyecto",
+      "entities": [
+        "Tarea",
+        "Enlace útil",
+        "Credencial segura"
+      ],
+      "valueObjects": [
+        "EstadoTarea",
+        "PrioridadTarea",
+        "EtiquetaProyecto"
+      ],
+      "invariants": [
+        "Un Proyecto debe tener al menos una Tarea.",
+        "Una Tarea debe estar asociada a un Proyecto."
+      ],
+      "businessRules": [
+        "Las Tareas se gestionan en formato Kanban.",
+        "Un Proyecto puede tener enlaces y credenciales asociadas."
+      ]
+    },
+    {
+      "boundedContext": "Notificaciones y Seguimiento",
+      "aggregateRoot": "Notificación",
+      "entities": [],
+      "valueObjects": [
+        "TipoEvento",
+        "EstadoNotificación"
+      ],
+      "invariants": [
+        "Una Notificación debe estar asociada a un evento relevante."
+      ],
+      "businessRules": [
+        "Las Notificaciones se generan por cambios en Tareas, Proyectos o membresías."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "meta": {
+    "version": "1.0",
+    "generatedAt": "2026-01-20",
+    "source": "adapter-mapping",
+    "description": "Adapters concretos para cada puerto/interface, con tipo de infraestructura y dependencias."
+  },
+  "adapters": [
+    {
+      "port": "UsuarioPort",
+      "adapters": [
+        {
+          "type": "Database",
+          "technology": "PostgreSQL",
+          "description": "Persistencia y consulta de usuarios."
+        },
+        {
+          "type": "Messaging",
+          "technology": "RabbitMQ",
+          "description": "Emisión de eventos de usuario registrado."
+        }
+      ]
+    },
+    {
+      "port": "OrganizacionPort",
+      "adapters": [
+        {
+          "type": "Database",
+          "technology": "PostgreSQL",
+          "description": "Persistencia y consulta de organizaciones y planes."
+        }
+      ]
+    },
+    {
+      "port": "WorkspacePort",
+      "adapters": [
+        {
+          "type": "Database",
+          "technology": "PostgreSQL",
+          "description": "Persistencia y consulta de workspaces."
+        }
+      ]
+    },
+    {
+      "port": "EquipoPort",
+      "adapters": [
+        {
+          "type": "Database",
+          "technology": "PostgreSQL",
+          "description": "Persistencia y consulta de equipos."
+        }
+      ]
+    },
+    {
+      "port": "ProyectoPort",
+      "adapters": [
+        {
+          "type": "Database",
+          "technology": "PostgreSQL",
+          "description": "Persistencia y consulta de proyectos."
+        }
+      ]
+    },
+    {
+      "port": "TareaPort",
+      "adapters": [
+        {
+          "type": "Database",
+          "technology": "PostgreSQL",
+          "description": "Persistencia y consulta de tareas."
+        },
+        {
+          "type": "Messaging",
+          "technology": "RabbitMQ",
+          "description": "Emisión de eventos de tarea creada/actualizada."
+        }
+      ]
+    },
+    {
+      "port": "NotificacionPort",
+      "adapters": [
+        {
+          "type": "Email",
+          "technology": "SendGrid",
+          "description": "Envío de notificaciones por correo electrónico."
+        },
+        {
+          "type": "Database",
+          "technology": "PostgreSQL",
+          "description": "Persistencia y consulta de notificaciones."
+        }
+      ]
+    }
+  ]
+}
