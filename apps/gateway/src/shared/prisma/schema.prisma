@@ -19,7 +19,76 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  properties Property[] @relation("HostProperties")
+  bookings   Booking[]  @relation("GuestBookings")
+  reviews    Review[]   @relation("GuestReviews")
+  favorites  Favorite[]
+
   @@map("users")
+}
+
+// ==================== PROPERTY SCHEMA ====================
+model Property {
+  id           String @id @default(cuid())
+  title        String
+  description  String
+  price        Float
+  currency     String @default("USD")
+  maxGuests    Int
+  bedrooms     Int
+  bathrooms    Int
+  propertyType String
+  status       String @default("DRAFT")
+
+  address   String
+  city      String
+  state     String?
+  country   String
+  zipCode   String?
+  latitude  Float
+  longitude Float
+
+  hostId    String
+  host      User   @relation("HostProperties", fields: [hostId], references: [id], onDelete: Cascade)
+  amenities String
+  images    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  bookings  Booking[]
+  reviews   Review[]
+  favorites Favorite[]
+
+  @@index([hostId])
+  @@index([city, country])
+  @@index([propertyType])
+  @@map("properties")
+}
+
+// ==================== BOOKING SCHEMA ====================
+model Booking {
+  id         String   @id @default(cuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  guestId    String
+  guest      User     @relation("GuestBookings", fields: [guestId], references: [id], onDelete: Cascade)
+  checkIn    DateTime
+  checkOut   DateTime
+  guests     Int
+  totalPrice Float
+  status     String   @default("PENDING")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  payment Payment?
+  review  Review?
+
+  @@index([propertyId])
+  @@index([guestId])
+  @@index([status])
+  @@index([checkIn, checkOut])
+  @@map("bookings")
 }
 
 // ==================== PAYMENT SCHEMA ====================
@@ -34,5 +103,40 @@ model Payment {
   createdAt             DateTime  @default(now())
   updatedAt             DateTime  @updatedAt
 
+  booking Booking @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+
   @@map("payments")
+}
+
+// ==================== REVIEW SCHEMA ====================
+model Review {
+  id         String   @id @default(cuid())
+  bookingId  String   @unique
+  booking    Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  guestId    String
+  guest      User     @relation("GuestReviews", fields: [guestId], references: [id], onDelete: Cascade)
+  rating     Int
+  comment    String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([propertyId])
+  @@index([guestId])
+  @@map("reviews")
+}
+
+// ==================== FAVORITE SCHEMA ====================
+model Favorite {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+
+  @@unique([userId, propertyId])
+  @@index([userId])
+  @@map("favorites")
 }
