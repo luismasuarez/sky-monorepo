@@ -1,5 +1,5 @@
 {
-  "name": "ms-nestjs-template",
+  "name": "@repo/ms-nestjs-template",
   "version": "1.0.0",
   "description": "Microservice template for NestJS, using RabbitMQ and Prisma with PostgreSQL",
   "author": "Luisma Suárez",

@@ -11,8 +11,8 @@
     "build:all": "turbo run build",
     "lint:all": "turbo run lint",
     "typecheck:all": "turbo run typecheck",
-    "frontend": "bunx turbo run dev --filter=@repo/frontend",
-    "backend": "bunx turbo run dev --filter=@repo/backend"
+    "backend": "bunx turbo run dev --filter=@repo/gateway",
+    "template": "bunx turbo run dev --filter=@repo/ms-nestjs-template"
   },
   "devDependencies": {
     "turbo": "^2.8.10"
