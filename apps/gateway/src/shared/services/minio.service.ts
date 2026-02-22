@@ -1,6 +1,13 @@
 import { Injectable, Logger, OnModuleInit } from "@nestjs/common";
 import * as Minio from "minio";
 import { getMinioConfig } from "../config/minio.config";
+import {
+  MinioConnectionException,
+  MinioUploadException,
+  MinioNotFoundException,
+  MinioDeleteException,
+  MinioInvalidUrlException,
+} from "../exceptions/minio.exceptions";
 
 @Injectable()
 export class MinioService implements OnModuleInit {
@@ -152,8 +159,10 @@ export class MinioService implements OnModuleInit {
     if (!this.minioAvailable) {
       const isConnected = await this.checkMinIOConnection();
       if (!isConnected) {
-        throw new Error(
-          `MinIO no está disponible. Verifica que el servicio esté corriendo en ${this.MINIO_ENDPOINT}:${this.MINIO_PORT}`
+        throw new MinioConnectionException(
+          this.MINIO_ENDPOINT,
+          this.MINIO_PORT,
+          'MinIO no está disponible'
         );
       }
       this.minioAvailable = true;
@@ -177,12 +186,14 @@ export class MinioService implements OnModuleInit {
 
       // Proporcionar mensaje de error más útil
       if (errorMessage.includes("ECONNRESET") || errorMessage.includes("ECONNREFUSED")) {
-        throw new Error(
-          `No se pudo conectar a MinIO en ${this.MINIO_ENDPOINT}:${this.MINIO_PORT}. Verifica que el servicio esté corriendo y accesible.`
+        throw new MinioConnectionException(
+          this.MINIO_ENDPOINT,
+          this.MINIO_PORT,
+          errorMessage
         );
       }
 
-      throw error;
+      throw new MinioUploadException(bucket, objectName, errorMessage);
     }
   }
 
@@ -193,8 +204,15 @@ export class MinioService implements OnModuleInit {
     try {
       await this.minioClient.removeObject(bucket, objectName);
     } catch (error) {
-      this.logger.error("Error deleting file from MinIO:", error);
-      throw error;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error("Error deleting file from MinIO:", errorMessage);
+
+      // Si el archivo no existe, lanzar excepción específica
+      if (errorMessage.includes('NoSuchKey') || errorMessage.includes('404') || errorMessage.includes('Not Found')) {
+        throw new MinioNotFoundException(bucket, objectName);
+      }
+
+      throw new MinioDeleteException(bucket, objectName, errorMessage);
     }
   }
 
@@ -212,8 +230,15 @@ export class MinioService implements OnModuleInit {
         dataStream.on("error", reject);
       });
     } catch (error) {
-      this.logger.error("Error getting file from MinIO:", error);
-      throw error;
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      this.logger.error("Error getting file from MinIO:", errorMessage);
+
+      // Si el archivo no existe, lanzar excepción específica
+      if (errorMessage.includes('NoSuchKey') || errorMessage.includes('404') || errorMessage.includes('Not Found')) {
+        throw new MinioNotFoundException(bucket, objectName);
+      }
+
+      throw new MinioUploadException(bucket, objectName, errorMessage);
     }
   }
 
@@ -237,7 +262,7 @@ export class MinioService implements OnModuleInit {
     const apiFilesMatch = fileUrl.match(/\/api\/files\/events\/(.+)$/);
 
     if (!apiFilesMatch || !apiFilesMatch[1]) {
-      throw new Error(`URL inválida para eliminar material: ${fileUrl}. Se espera formato /api/files/events/...`);
+      throw new MinioInvalidUrlException(fileUrl, '/api/files/events/...');
     }
 
     const objectName = apiFilesMatch[1];
@@ -299,7 +324,7 @@ export class MinioService implements OnModuleInit {
   async deleteProfileImage(fileUrl: string): Promise<void> {
     const objectName = this.extractObjectNameFromUrl(fileUrl, this.STATIC_BUCKET);
     if (!objectName) {
-      throw new Error(`URL inválida para eliminar imagen de perfil: ${fileUrl}`);
+      throw new MinioInvalidUrlException(fileUrl, '/api/files/{bucket}/{objectName}');
     }
     await this.deleteFile(this.STATIC_BUCKET, objectName);
   }
