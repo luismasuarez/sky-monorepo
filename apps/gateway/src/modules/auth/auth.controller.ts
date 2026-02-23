@@ -3,9 +3,11 @@ import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagg
 import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 import { AuthService } from './auth.service';
+import { Roles } from './decorators/roles.decorator';
 import { LoginDto } from './dto/login.dto';
 import { MeResponse } from './dto/me.response.dto';
 import { RegisterDto } from './dto/register.dto';
+import { Role } from './enums/role.enum';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -39,6 +41,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Obtener perfil del usuario autenticado' })
   @ApiResponse({ status: 200, description: 'Perfil obtenido exitosamente' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
+  @Roles(Role.OWNER, Role.ADMIN) // Permitir acceso a usuarios con rol ADMIN o USER
   getProfile(@Request() req): Promise<MeResponse> {
     const authHeader = req.headers?.authorization as string | undefined;
     return this.authService.getProfile(req.user.userId, authHeader);
