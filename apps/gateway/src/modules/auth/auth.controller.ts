@@ -44,7 +44,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Obtener perfil del usuario autenticado' })
   @ApiResponse({ status: 200, description: 'Perfil obtenido exitosamente' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
-  @Roles(Role.OWNER, Role.ADMIN) // Roles requeridos antes de validar permisos
+  @Roles(Role.OWNER, Role.ADMIN, Role.USER) // Roles requeridos antes de validar permisos
   @CheckPolicies((ability) => ability.can(Action.Read, 'Profile'))
   getProfile(@Request() req): Promise<MeResponse> {
     const authHeader = req.headers?.authorization as string | undefined;
