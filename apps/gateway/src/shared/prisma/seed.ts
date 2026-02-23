@@ -12,28 +12,28 @@ const prisma = new PrismaClient({
 
 async function main() {
 
-  // Crear usuario host
-  const host = await prisma.user.create({
+  // Crear usuario owner
+  const owner = await prisma.user.create({
     data: {
-      email: 'admin@gateway.com',
+      email: 'owner@gateway.com',
       password: '$2a$10$abcdefghijklmnopqrstuvwxyz',
-      name: 'John Host',
-      role: 'HOST',
+      name: 'John Owner',
+      role: 'OWNER',
     },
   });
 
-  // Crear usuario guest
-  const guest = await prisma.user.create({
+  // Crear usuario user
+  const user = await prisma.user.create({
     data: {
-      email: 'guest@gateway.com',
+      email: 'user@gateway.com',
       password: '$2a$10$abcdefghijklmnopqrstuvwxyz',
-      name: 'Jane Guest',
-      role: 'GUEST',
+      name: 'Jane User',
+      role: 'USER',
     },
   });
 
   console.log('Seed completed!');
-  console.log({ host, guest });
+  console.log({ owner, user });
 }
 
 main()
