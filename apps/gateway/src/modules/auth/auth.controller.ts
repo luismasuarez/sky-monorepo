@@ -8,6 +8,7 @@ import { LoginDto } from './dto/login.dto';
 import { MeResponse } from './dto/me.response.dto';
 import { RegisterDto } from './dto/register.dto';
 import { Role } from './enums/role.enum';
+import { RolesGuard } from './guards/roles.guard';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -36,7 +37,7 @@ export class AuthController {
   }
 
   @Get('me')
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener perfil del usuario autenticado' })
   @ApiResponse({ status: 200, description: 'Perfil obtenido exitosamente' })
