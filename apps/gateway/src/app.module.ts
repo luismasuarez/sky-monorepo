@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
-import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './modules/auth/auth.module';
-import { PaymentsModule } from './modules/payments/payments.module';
 import { SharedModule } from './shared/shared.module';
 
 @Module({
@@ -31,7 +30,6 @@ import { SharedModule } from './shared/shared.module';
     ]),
     SharedModule,
     AuthModule,
-    PaymentsModule,
   ],
   providers: [
     {
