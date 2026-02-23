@@ -22,6 +22,16 @@ async function main() {
     },
   });
 
+  // Crear usuario admin
+  const admin = await prisma.user.create({
+    data: {
+      email: 'admin@gateway.com',
+      password: '$2a$10$abcdefghijklmnopqrstuvwxyz',
+      name: 'Alice Admin',
+      roles: ['ADMIN'],
+    },
+  });
+
   // Crear usuario user
   const user = await prisma.user.create({
     data: {
@@ -33,7 +43,7 @@ async function main() {
   });
 
   console.log('Seed completed!');
-  console.log({ owner, user });
+  console.log({ owner, admin, user });
 }
 
 main()

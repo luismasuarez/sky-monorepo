@@ -145,7 +145,7 @@ export class AuthService {
       username: user.username || null,
       isActive: user.isActive,
       isVerified: user.isVerified,
-      createdAt: user.createdAt,
+      createdAt: user.createdAt.toISOString(),
       roles: (user.roles || []).map((r) => String(r).toLowerCase()),
       permissions: user.permissions || [],
       profile,

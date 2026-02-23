@@ -74,7 +74,7 @@ describe('AuthService', () => {
         email: registerDto.email,
         name: registerDto.name,
         password: hashedPassword,
-        roles: ['GUEST'],
+        roles: ['USER'],
         createdAt: new Date(),
       };
 
@@ -92,7 +92,7 @@ describe('AuthService', () => {
           id: mockUser.id,
           email: mockUser.email,
           name: mockUser.name,
-          roles: mockUser.roles,
+          roles: mockUser.roles.map((r: string) => r.toLowerCase()),
         },
         token: mockToken,
       });
@@ -106,7 +106,7 @@ describe('AuthService', () => {
           email: registerDto.email,
           password: hashedPassword,
           name: registerDto.name,
-          roles: ['GUEST'],
+          roles: ['USER'],
         },
       });
       expect(jwtService.sign).toHaveBeenCalledWith({
@@ -162,7 +162,7 @@ describe('AuthService', () => {
           id: mockUser.id,
           email: mockUser.email,
           name: mockUser.name,
-            roles: mockUser.roles,
+          roles: mockUser.roles.map((r: string) => r.toLowerCase()),
         },
         token: mockToken,
       });
@@ -242,8 +242,8 @@ describe('AuthService', () => {
         username: null,
         isActive: true,
         isVerified: false,
-        createdAt: mockUser.createdAt,
-        roles: mockUser.roles,
+        createdAt: mockUser.createdAt.toISOString(),
+        roles: mockUser.roles.map((r: string) => r.toLowerCase()),
         permissions: [],
         profile: {
           avatar: mockUser.avatar,

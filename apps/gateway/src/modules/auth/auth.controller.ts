@@ -3,7 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagg
 import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 import { AuthService } from './auth.service';
-import { MeResponse } from './dto/me.response.dto';
+import { MeResponse } from './dto/me.response';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 
