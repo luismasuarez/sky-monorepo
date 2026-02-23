@@ -8,6 +8,7 @@ import { PrismaService } from '../../shared/services/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import { Role } from './enums/role.enum';
+import { Permission } from 'src/shared/casl/permission.enum';
 
 jest.mock('bcrypt');
 
@@ -76,6 +77,7 @@ describe('AuthService', () => {
         name: registerDto.name,
         password: hashedPassword,
         roles: [Role.USER],
+        permissions: [],
         createdAt: new Date(),
       };
 
@@ -94,6 +96,7 @@ describe('AuthService', () => {
           email: mockUser.email,
           name: mockUser.name,
           roles: mockUser.roles,
+          permissions: mockUser.permissions,
         },
         token: mockToken,
       });
@@ -145,6 +148,7 @@ describe('AuthService', () => {
         name: 'Test User',
         password: hashedPassword,
         roles: [Role.ADMIN],
+        permissions: [Permission.AuthMeRead],
       };
 
       const mockToken = 'jwt_token_123';
@@ -161,6 +165,7 @@ describe('AuthService', () => {
           email: mockUser.email,
           name: mockUser.name,
           roles: mockUser.roles,
+          permissions: mockUser.permissions,
         },
         token: mockToken,
       });
@@ -215,13 +220,13 @@ describe('AuthService', () => {
         email: 'test@example.com',
         name: 'Test User',
         roles: [Role.OWNER],
+        permissions: [],
         avatar: 'https://example.com/avatar.jpg',
         preferences: null,
         phone: null,
         username: null,
         isActive: true,
         isVerified: false,
-        permissions: [],
         createdAt: new Date(),
       };
 
@@ -239,7 +244,7 @@ describe('AuthService', () => {
         isVerified: false,
         createdAt: mockUser.createdAt.toISOString(),
         roles: mockUser.roles,
-        permissions: [],
+        permissions: mockUser.permissions,
         profile: {
           avatar: mockUser.avatar,
           locale: null,

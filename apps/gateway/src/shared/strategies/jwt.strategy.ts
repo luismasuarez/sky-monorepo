@@ -26,11 +26,15 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const roles = Array.isArray(payload.roles)
       ? payload.roles.map((role) => String(role).toUpperCase())
       : [];
+    const permissions = Array.isArray(payload.permissions)
+      ? payload.permissions.map((permission) => String(permission))
+      : [];
 
     return {
       userId: payload.sub,
       email: payload.email,
       roles,
+      permissions,
     };
   }
 }

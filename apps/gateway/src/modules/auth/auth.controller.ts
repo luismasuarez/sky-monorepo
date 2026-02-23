@@ -2,6 +2,9 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Request, UseGuards }
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
+import { CheckPolicies } from 'src/shared/decorators/check-policies.decorator';
+import { PoliciesGuard } from 'src/shared/guards/policies.guard';
+import { Action } from 'src/shared/casl/action.enum';
 import { AuthService } from './auth.service';
 import { Roles } from './decorators/roles.decorator';
 import { LoginDto } from './dto/login.dto';
@@ -37,12 +40,13 @@ export class AuthController {
   }
 
   @Get('me')
-  @UseGuards(JwtAuthGuard, RolesGuard)
+  @UseGuards(JwtAuthGuard, RolesGuard, PoliciesGuard)
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Obtener perfil del usuario autenticado' })
   @ApiResponse({ status: 200, description: 'Perfil obtenido exitosamente' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
-  @Roles(Role.OWNER, Role.ADMIN) // Permitir acceso a usuarios con rol ADMIN u OWNER
+  @Roles(Role.OWNER, Role.ADMIN, Role.USER) // Roles requeridos antes de validar permisos
+  @CheckPolicies((ability) => ability.can(Action.Read, 'Profile'))
   getProfile(@Request() req): Promise<MeResponse> {
     const authHeader = req.headers?.authorization as string | undefined;
     return this.authService.getProfile(req.user.userId, authHeader);

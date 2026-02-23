@@ -37,8 +37,9 @@ export class AuthService {
     });
 
     const roles = user.roles || [];
+    const permissions = user.permissions || [];
     const jti = randomUUID();
-    const payload = { email: user.email, sub: user.id, jti, roles };
+    const payload = { email: user.email, sub: user.id, jti, roles, permissions };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -47,6 +48,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
         roles,
+        permissions,
       },
       token,
     };
@@ -70,8 +72,9 @@ export class AuthService {
     }
 
     const roles = user.roles || [];
+    const permissions = user.permissions || [];
     const jti = randomUUID();
-    const payload = { email: user.email, sub: user.id, jti, roles };
+    const payload = { email: user.email, sub: user.id, jti, roles, permissions };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -80,6 +83,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
         roles,
+        permissions,
       },
       token,
     };
