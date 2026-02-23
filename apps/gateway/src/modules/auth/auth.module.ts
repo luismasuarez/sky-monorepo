@@ -7,8 +7,8 @@ import { JwtStrategy } from 'src/shared/strategies/jwt.strategy';
 import { CaslModule } from 'src/shared/casl/casl.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { RolesGuard } from './guards/roles.guard';
 import { PoliciesGuard } from 'src/shared/guards/policies.guard';
+import { RolesGuard } from 'src/shared/guards/roles.guard';
 
 @Module({
   imports: [
