@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
-import { Role } from './enums/role.enum';
+import { Role } from 'src/shared/enums/role.enum';
 import { Permission } from 'src/shared/casl/permission.enum';
 
 jest.mock('bcrypt');

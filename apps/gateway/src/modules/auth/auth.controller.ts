@@ -10,7 +10,7 @@ import { Roles } from './decorators/roles.decorator';
 import { LoginDto } from './dto/login.dto';
 import { MeResponse } from './dto/me.response.dto';
 import { RegisterDto } from './dto/register.dto';
-import { Role } from './enums/role.enum';
+import { Role } from 'src/shared/enums/role.enum';
 import { RolesGuard } from './guards/roles.guard';
 
 @ApiTags('auth')
