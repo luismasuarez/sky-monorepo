@@ -41,7 +41,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Obtener perfil del usuario autenticado' })
   @ApiResponse({ status: 200, description: 'Perfil obtenido exitosamente' })
   @ApiResponse({ status: 401, description: 'No autorizado' })
-  @Roles(Role.OWNER, Role.ADMIN) // Permitir acceso a usuarios con rol ADMIN o USER
+  @Roles(Role.OWNER, Role.ADMIN) // Permitir acceso a usuarios con rol ADMIN u OWNER
   getProfile(@Request() req): Promise<MeResponse> {
     const authHeader = req.headers?.authorization as string | undefined;
     return this.authService.getProfile(req.user.userId, authHeader);

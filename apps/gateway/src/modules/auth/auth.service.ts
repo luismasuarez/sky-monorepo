@@ -35,8 +35,9 @@ export class AuthService {
       },
     });
 
+    const roles = (user.roles || []).map((r) => String(r).toLowerCase());
     const jti = randomUUID();
-    const payload = { email: user.email, sub: user.id, jti };
+    const payload = { email: user.email, sub: user.id, jti, roles };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -44,7 +45,7 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
-        roles: (user.roles || []).map((r) => String(r).toLowerCase()),
+        roles,
       },
       token,
     };
@@ -67,8 +68,9 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
+    const roles = (user.roles || []).map((r) => String(r).toLowerCase());
     const jti = randomUUID();
-    const payload = { email: user.email, sub: user.id, jti };
+    const payload = { email: user.email, sub: user.id, jti, roles };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -76,7 +78,7 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
-        roles: (user.roles || []).map((r) => String(r).toLowerCase()),
+        roles,
       },
       token,
     };
