@@ -32,7 +32,7 @@ export class AuthService {
         email,
         password: hashedPassword,
         name,
-        role: 'GUEST',
+        role: 'USER', // Default role, can be changed based on your requirements
       },
     });
 
