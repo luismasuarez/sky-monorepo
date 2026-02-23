@@ -18,7 +18,7 @@ async function main() {
       email: 'owner@gateway.com',
       password: '$2a$10$abcdefghijklmnopqrstuvwxyz',
       name: 'John Owner',
-      role: 'OWNER',
+      roles: ['OWNER'],
     },
   });
 
@@ -28,7 +28,7 @@ async function main() {
       email: 'user@gateway.com',
       password: '$2a$10$abcdefghijklmnopqrstuvwxyz',
       name: 'Jane User',
-      role: 'USER',
+      roles: ['USER'],
     },
   });
 

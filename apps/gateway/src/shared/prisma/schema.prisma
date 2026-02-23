@@ -23,7 +23,7 @@ model User {
   username    String?  @unique
   phone       String?
   avatar      String?
-  role        Role     @default(USER)
+  roles       Role[]   @default([])
   permissions String[] @default([])
   preferences Json?
   isActive    Boolean  @default(true)

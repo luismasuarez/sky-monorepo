@@ -18,7 +18,7 @@ async function main() {
 
   const user = await prisma.user.update({
     where: { email },
-    data: { role: 'HOST' },
+    data: { roles: ['HOST'] },
   });
 
   console.log('User updated to HOST:', user);

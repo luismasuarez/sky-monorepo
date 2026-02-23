@@ -74,7 +74,7 @@ describe('AuthService', () => {
         email: registerDto.email,
         name: registerDto.name,
         password: hashedPassword,
-        role: 'GUEST',
+        roles: ['GUEST'],
         createdAt: new Date(),
       };
 
@@ -92,7 +92,7 @@ describe('AuthService', () => {
           id: mockUser.id,
           email: mockUser.email,
           name: mockUser.name,
-          role: mockUser.role,
+          roles: mockUser.roles,
         },
         token: mockToken,
       });
@@ -106,7 +106,7 @@ describe('AuthService', () => {
           email: registerDto.email,
           password: hashedPassword,
           name: registerDto.name,
-          role: 'GUEST',
+          roles: ['GUEST'],
         },
       });
       expect(jwtService.sign).toHaveBeenCalledWith({
@@ -146,7 +146,7 @@ describe('AuthService', () => {
         email: loginDto.email,
         name: 'Test User',
         password: hashedPassword,
-        role: 'GUEST',
+        roles: ['GUEST'],
       };
 
       const mockToken = 'jwt_token_123';
@@ -162,7 +162,7 @@ describe('AuthService', () => {
           id: mockUser.id,
           email: mockUser.email,
           name: mockUser.name,
-          role: mockUser.role,
+            roles: mockUser.roles,
         },
         token: mockToken,
       });
@@ -219,8 +219,14 @@ describe('AuthService', () => {
         id: userId,
         email: 'test@example.com',
         name: 'Test User',
-        role: 'GUEST',
+        roles: ['GUEST'],
         avatar: 'https://example.com/avatar.jpg',
+        preferences: null,
+        phone: null,
+        username: null,
+        isActive: true,
+        isVerified: false,
+        permissions: [],
         createdAt: new Date(),
       };
 
@@ -228,15 +234,39 @@ describe('AuthService', () => {
 
       const result = await service.getProfile(userId);
 
-      expect(result).toEqual(mockUser);
+      expect(result).toEqual({
+        id: mockUser.id,
+        email: mockUser.email,
+        phone: null,
+        name: mockUser.name,
+        username: null,
+        isActive: true,
+        isVerified: false,
+        createdAt: mockUser.createdAt,
+        roles: mockUser.roles,
+        permissions: [],
+        profile: {
+          avatar: mockUser.avatar,
+          locale: null,
+          preferences: null,
+        },
+        session: undefined,
+      });
+
       expect(prisma.user.findUnique).toHaveBeenCalledWith({
         where: { id: userId },
         select: {
           id: true,
           email: true,
+          phone: true,
           name: true,
-          role: true,
+          username: true,
+          roles: true,
+          permissions: true,
           avatar: true,
+          preferences: true,
+          isActive: true,
+          isVerified: true,
           createdAt: true,
         },
       });
@@ -253,9 +283,15 @@ describe('AuthService', () => {
         select: {
           id: true,
           email: true,
+          phone: true,
           name: true,
-          role: true,
+          username: true,
+          roles: true,
+          permissions: true,
           avatar: true,
+          preferences: true,
+          isActive: true,
+          isVerified: true,
           createdAt: true,
         },
       });

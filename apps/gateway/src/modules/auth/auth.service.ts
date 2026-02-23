@@ -32,7 +32,7 @@ export class AuthService {
         email,
         password: hashedPassword,
         name,
-        role: 'USER', // Default role, can be changed based on your requirements
+        roles: ['USER'], // Default role as array
       },
     });
 
@@ -44,7 +44,7 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
+        roles: user.roles,
       },
       token,
     };
@@ -75,21 +75,27 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
-        role: user.role,
+        roles: user.roles,
       },
       token,
     };
   }
 
-  async getProfile(userId: string) {
+  async getProfile(userId: string, authHeader?: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
       select: {
         id: true,
         email: true,
+        phone: true,
         name: true,
-        role: true,
+        username: true,
+        roles: true,
+        permissions: true,
         avatar: true,
+        preferences: true,
+        isActive: true,
+        isVerified: true,
         createdAt: true,
       },
     });
@@ -98,6 +104,47 @@ export class AuthService {
       throw new UnauthorizedException('User not found');
     }
 
-    return user;
+    const prefs = (user.preferences || null) as any;
+
+    const profile = {
+      avatar: user.avatar || null,
+      locale: prefs?.locale || null,
+      preferences: prefs || null,
+    };
+
+    let session: { sessionId?: string; tokenExpiresAt?: string } | undefined;
+    try {
+      const header = authHeader || '';
+      if (header.startsWith('Bearer ')) {
+        const token = header.split(' ')[1];
+        const decoded = this.jwtService.decode(token) as any | null;
+        if (decoded) {
+          session = {};
+          if (decoded.jti) {
+            session.sessionId = decoded.jti;
+          }
+          if (decoded.exp) {
+            session.tokenExpiresAt = new Date(decoded.exp * 1000).toISOString();
+          }
+        }
+      }
+    } catch (e) {
+      // ignore decoding errors
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      phone: user.phone || null,
+      name: user.name || null,
+      username: user.username || null,
+      isActive: user.isActive,
+      isVerified: user.isVerified,
+      createdAt: user.createdAt,
+      roles: user.roles || [],
+      permissions: user.permissions || [],
+      profile,
+      session,
+    };
   }
 }
