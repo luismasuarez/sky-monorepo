@@ -37,10 +37,12 @@ export class AuthService {
       },
     });
 
-    const payload = { email: user.email, sub: user.id };
-    const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN') || '1h';
     const jti = randomUUID();
-    const token = this.jwtService.sign(payload, { expiresIn, jwtid: jti });
+    const expiresInRaw = this.configService.get<string>('JWT_EXPIRES_IN') || '3600';
+    const expiresInSec = Number.parseInt(expiresInRaw, 10) || 3600;
+    const exp = Math.floor(Date.now() / 1000) + expiresInSec;
+    const payload = { email: user.email, sub: user.id, jti, exp };
+    const token = this.jwtService.sign(payload);
 
     return {
       user: {
@@ -70,10 +72,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { email: user.email, sub: user.id };
-    const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN') || '1h';
     const jti = randomUUID();
-    const token = this.jwtService.sign(payload, { expiresIn, jwtid: jti });
+    const expiresInRaw = this.configService.get<string>('JWT_EXPIRES_IN') || '3600';
+    const expiresInSec = Number.parseInt(expiresInRaw, 10) || 3600;
+    const exp = Math.floor(Date.now() / 1000) + expiresInSec;
+    const payload = { email: user.email, sub: user.id, jti, exp };
+    const token = this.jwtService.sign(payload);
 
     return {
       user: {

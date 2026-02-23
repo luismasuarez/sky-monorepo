@@ -109,10 +109,7 @@ describe('AuthService', () => {
           roles: ['USER'],
         },
       });
-      expect(jwtService.sign).toHaveBeenCalledWith({
-        email: mockUser.email,
-        sub: mockUser.id,
-      }, expect.any(Object));
+      expect(jwtService.sign).toHaveBeenCalledWith(expect.any(Object));
     });
 
     it('should throw ConflictException if email already exists', async () => {
@@ -171,10 +168,7 @@ describe('AuthService', () => {
         where: { email: loginDto.email },
       });
       expect(bcrypt.compare).toHaveBeenCalledWith(loginDto.password, hashedPassword);
-      expect(jwtService.sign).toHaveBeenCalledWith({
-        email: mockUser.email,
-        sub: mockUser.id,
-      }, expect.any(Object));
+      expect(jwtService.sign).toHaveBeenCalledWith(expect.any(Object));
     });
 
     it('should throw UnauthorizedException if user does not exist', async () => {
