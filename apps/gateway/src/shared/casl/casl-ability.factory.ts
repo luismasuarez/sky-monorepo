@@ -1,7 +1,6 @@
 import { AbilityBuilder, createMongoAbility, MongoAbility } from '@casl/ability';
 import { Injectable } from '@nestjs/common';
-import { Action } from './action.enum';
-import { Permission } from './permission.enum';
+import { Action, Permission } from 'src/shared/enums/auth.enums';
 
 export type Subjects = 'Profile' | 'all';
 export type AppAbility = MongoAbility<[Action, Subjects]>;

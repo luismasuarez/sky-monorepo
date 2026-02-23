@@ -4,14 +4,13 @@ import { Throttle } from '@nestjs/throttler';
 import { JwtAuthGuard } from 'src/shared/guards/jwt-auth.guard';
 import { CheckPolicies } from 'src/shared/decorators/check-policies.decorator';
 import { PoliciesGuard } from 'src/shared/guards/policies.guard';
-import { Action } from 'src/shared/casl/action.enum';
+import { Action, Role } from 'src/shared/enums/auth.enums';
 import { Roles } from 'src/shared/decorators/roles.decorator';
 import { RolesGuard } from 'src/shared/guards/roles.guard';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { MeResponse } from './dto/me.response.dto';
 import { RegisterDto } from './dto/register.dto';
-import { Role } from 'src/shared/enums/role.enum';
 
 @ApiTags('auth')
 @Controller('auth')
