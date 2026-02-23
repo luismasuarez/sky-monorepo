@@ -112,7 +112,7 @@ describe('AuthService', () => {
       expect(jwtService.sign).toHaveBeenCalledWith({
         email: mockUser.email,
         sub: mockUser.id,
-      });
+      }, expect.any(Object));
     });
 
     it('should throw ConflictException if email already exists', async () => {
@@ -174,7 +174,7 @@ describe('AuthService', () => {
       expect(jwtService.sign).toHaveBeenCalledWith({
         email: mockUser.email,
         sub: mockUser.id,
-      });
+      }, expect.any(Object));
     });
 
     it('should throw UnauthorizedException if user does not exist', async () => {

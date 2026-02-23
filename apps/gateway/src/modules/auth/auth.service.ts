@@ -2,6 +2,7 @@ import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/co
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { randomUUID } from 'crypto';
 import { PrismaService } from 'src/shared/services/prisma.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -37,14 +38,16 @@ export class AuthService {
     });
 
     const payload = { email: user.email, sub: user.id };
-    const token = this.jwtService.sign(payload);
+    const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN') || '1h';
+    const jti = randomUUID();
+    const token = this.jwtService.sign(payload, { expiresIn, jwtid: jti });
 
     return {
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
-        roles: user.roles,
+        roles: (user.roles || []).map((r) => String(r).toLowerCase()),
       },
       token,
     };
@@ -68,14 +71,16 @@ export class AuthService {
     }
 
     const payload = { email: user.email, sub: user.id };
-    const token = this.jwtService.sign(payload);
+    const expiresIn = this.configService.get<string>('JWT_EXPIRES_IN') || '1h';
+    const jti = randomUUID();
+    const token = this.jwtService.sign(payload, { expiresIn, jwtid: jti });
 
     return {
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
-        roles: user.roles,
+        roles: (user.roles || []).map((r) => String(r).toLowerCase()),
       },
       token,
     };
@@ -141,7 +146,7 @@ export class AuthService {
       isActive: user.isActive,
       isVerified: user.isVerified,
       createdAt: user.createdAt,
-      roles: user.roles || [],
+      roles: (user.roles || []).map((r) => String(r).toLowerCase()),
       permissions: user.permissions || [],
       profile,
       session,
