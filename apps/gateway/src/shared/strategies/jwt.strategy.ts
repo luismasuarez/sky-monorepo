@@ -23,7 +23,9 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Invalid token payload');
     }
 
-    const roles = Array.isArray(payload.roles) ? payload.roles : [];
+    const roles = Array.isArray(payload.roles)
+      ? payload.roles.map((role) => String(role).toUpperCase())
+      : [];
 
     return {
       userId: payload.sub,

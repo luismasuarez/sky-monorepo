@@ -7,6 +7,7 @@ import { AuthService } from './auth.service';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
+import { Role } from './enums/role.enum';
 
 jest.mock('bcrypt');
 
@@ -74,7 +75,7 @@ describe('AuthService', () => {
         email: registerDto.email,
         name: registerDto.name,
         password: hashedPassword,
-        roles: ['USER'],
+        roles: [Role.USER],
         createdAt: new Date(),
       };
 
@@ -92,7 +93,7 @@ describe('AuthService', () => {
           id: mockUser.id,
           email: mockUser.email,
           name: mockUser.name,
-          roles: mockUser.roles.map((r: string) => r.toLowerCase()),
+          roles: mockUser.roles,
         },
         token: mockToken,
       });
@@ -106,7 +107,7 @@ describe('AuthService', () => {
           email: registerDto.email,
           password: hashedPassword,
           name: registerDto.name,
-          roles: ['USER'],
+          roles: [Role.USER],
         },
       });
       expect(jwtService.sign).toHaveBeenCalledWith(expect.any(Object));
@@ -143,7 +144,7 @@ describe('AuthService', () => {
         email: loginDto.email,
         name: 'Test User',
         password: hashedPassword,
-        roles: ['GUEST'],
+        roles: [Role.ADMIN],
       };
 
       const mockToken = 'jwt_token_123';
@@ -159,7 +160,7 @@ describe('AuthService', () => {
           id: mockUser.id,
           email: mockUser.email,
           name: mockUser.name,
-          roles: mockUser.roles.map((r: string) => r.toLowerCase()),
+          roles: mockUser.roles,
         },
         token: mockToken,
       });
@@ -213,7 +214,7 @@ describe('AuthService', () => {
         id: userId,
         email: 'test@example.com',
         name: 'Test User',
-        roles: ['GUEST'],
+        roles: [Role.OWNER],
         avatar: 'https://example.com/avatar.jpg',
         preferences: null,
         phone: null,
@@ -237,7 +238,7 @@ describe('AuthService', () => {
         isActive: true,
         isVerified: false,
         createdAt: mockUser.createdAt.toISOString(),
-        roles: mockUser.roles.map((r: string) => r.toLowerCase()),
+        roles: mockUser.roles,
         permissions: [],
         profile: {
           avatar: mockUser.avatar,

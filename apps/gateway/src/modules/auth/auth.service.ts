@@ -5,6 +5,7 @@ import { randomUUID } from 'crypto';
 import { PrismaService } from '../../shared/services/prisma.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { Role } from './enums/role.enum';
 
 @Injectable()
 export class AuthService {
@@ -31,11 +32,11 @@ export class AuthService {
         email,
         password: hashedPassword,
         name,
-        roles: ['USER'], // Default role as array
+        roles: [Role.USER], // Default role as array
       },
     });
 
-    const roles = (user.roles || []).map((r) => String(r).toLowerCase());
+    const roles = user.roles || [];
     const jti = randomUUID();
     const payload = { email: user.email, sub: user.id, jti, roles };
     const token = this.jwtService.sign(payload);
@@ -68,7 +69,7 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const roles = (user.roles || []).map((r) => String(r).toLowerCase());
+    const roles = user.roles || [];
     const jti = randomUUID();
     const payload = { email: user.email, sub: user.id, jti, roles };
     const token = this.jwtService.sign(payload);
@@ -144,7 +145,7 @@ export class AuthService {
       isActive: user.isActive,
       isVerified: user.isVerified,
       createdAt: user.createdAt.toISOString(),
-      roles: (user.roles || []).map((r) => String(r).toLowerCase()),
+      roles: user.roles || [],
       permissions: user.permissions || [],
       profile,
       session,
