@@ -16,14 +16,20 @@ enum Role {
 
 // ==================== AUTH SCHEMA ====================
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String
-  avatar    String?
-  role      Role     @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  email       String   @unique
+  password    String
+  name        String
+  username    String?  @unique
+  phone       String?
+  avatar      String?
+  role        Role     @default(USER)
+  permissions String[] @default([])
+  preferences Json?
+  isActive    Boolean  @default(true)
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("users")
 }
