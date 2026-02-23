@@ -1,5 +1,4 @@
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { randomUUID } from 'crypto';
@@ -12,7 +11,6 @@ export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
-    private configService: ConfigService,
   ) { }
 
   async register(registerDto: RegisterDto) {
@@ -38,10 +36,7 @@ export class AuthService {
     });
 
     const jti = randomUUID();
-    const expiresInRaw = this.configService.get<string>('JWT_EXPIRES_IN') || '3600';
-    const expiresInSec = Number.parseInt(expiresInRaw, 10) || 3600;
-    const exp = Math.floor(Date.now() / 1000) + expiresInSec;
-    const payload = { email: user.email, sub: user.id, jti, exp };
+    const payload = { email: user.email, sub: user.id, jti };
     const token = this.jwtService.sign(payload);
 
     return {
@@ -73,10 +68,7 @@ export class AuthService {
     }
 
     const jti = randomUUID();
-    const expiresInRaw = this.configService.get<string>('JWT_EXPIRES_IN') || '3600';
-    const expiresInSec = Number.parseInt(expiresInRaw, 10) || 3600;
-    const exp = Math.floor(Date.now() / 1000) + expiresInSec;
-    const payload = { email: user.email, sub: user.id, jti, exp };
+    const payload = { email: user.email, sub: user.id, jti };
     const token = this.jwtService.sign(payload);
 
     return {
