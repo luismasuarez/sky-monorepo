@@ -11,17 +11,16 @@ ARG RABBITMQ_URL
 ENV DATABASE_URL=${DATABASE_URL}
 ENV RABBITMQ_URL=${RABBITMQ_URL}
 
-# Install pnpm globally
-RUN npm install -g pnpm
+# Use npm for installs inside the image
 
 # Set working directory
 WORKDIR /app
 
-# Copy package files first to leverage caching
-COPY package.json package-lock.json ./
+# Copy package files first to leverage caching (package-lock optional)
+COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# Install dependencies with npm
+RUN npm install
 
 # Copy all source code
 COPY . .
@@ -29,8 +28,8 @@ COPY . .
 # Generate Prisma client
 RUN npx prisma generate
 
-# Build NestJS app
-RUN pnpm build
+# Build NestJS app using npm
+RUN npm run build
 
 # ---------------------------
 # Production Stage
