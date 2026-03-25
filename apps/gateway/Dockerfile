@@ -18,10 +18,10 @@ RUN npm install -g pnpm
 WORKDIR /app
 
 # Copy package files first to leverage caching
-COPY package.json pnpm-lock.yaml ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN pnpm install --no-frozen-lockfile
+RUN npm ci
 
 # Copy all source code
 COPY . .
@@ -38,7 +38,7 @@ RUN pnpm build
 FROM node:20-alpine AS production
 
 # Install dependencies needed for bootstrap
-RUN apk add --no-cache bash wget postgresql-client && npm install -g pnpm
+RUN apk add --no-cache bash wget postgresql-client
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && adduser -S nestjs -u 1001
