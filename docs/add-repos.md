@@ -1,4 +1,4 @@
-Aquí va una **mini-guía práctica** para **agregar más repos** a tu monorepo (Bun workspaces + Turborepo), con **dos formas**: con historial (recomendada) o sin historial. Incluye comandos listos para copiar.
+# Aquí va una **mini-guía práctica** para **agregar más repos** a tu monorepo (Bun workspaces + Turborepo), con **dos formas**: con historial (recomendada) o sin historial. Incluye comandos listos para copiar
 
 ---
 
@@ -11,7 +11,7 @@ Aquí va una **mini-guía práctica** para **agregar más repos** a tu monorepo 
 
 ---
 
-# Opción 1 (recomendada): agregar repos con historial usando `git subtree`
+## Opción 1 (recomendada): agregar repos con historial usando `git subtree`
 
 ### 1) Decide dónde va
 
@@ -101,7 +101,7 @@ git subtree pull --prefix=apps/ms-users ms_users main
 
 ---
 
-# Opción 2 (más simple): agregar repos sin historial (copiar/pegar)
+## Opción 2 (más simple): agregar repos sin historial (copiar/pegar)
 
 Si no te importa mantener historial:
 
@@ -113,7 +113,7 @@ mkdir -p apps/ms-users
 cp -R /ruta/al/repo-ms-users/* apps/ms-users/
 ```
 
-3. Borra lockfiles viejos y reinstala:
+3.Borra lockfiles viejos y reinstala:
 
 ```bash
 rm -f apps/ms-users/package-lock.json apps/ms-users/pnpm-lock.yaml apps/ms-users/yarn.lock
@@ -122,7 +122,7 @@ bun install
 
 ---
 
-# ¿Cómo decide Turborepo qué “apps” existen?
+## ¿Cómo decide Turborepo qué “apps” existen?
 
 No por el nombre de la carpeta.
 Turbo se entera por:
@@ -133,7 +133,7 @@ Turbo se entera por:
 
 ---
 
-# Patrón recomendado para un repo nuevo
+## Patrón recomendado para un repo nuevo
 
 ### Si es un microservicio / api
 
@@ -149,7 +149,7 @@ Turbo se entera por:
 
 ---
 
-# Checklist rápido cuando agregas repos (para que no explote)
+## Checklist rápido cuando agregas repos (para que no explote)
 
 * [ ] Está dentro de `apps/*` o `packages/*` (o actualizaste `workspaces`)
 * [ ] Tiene `package.json`
